@@ -39,6 +39,7 @@ app.set('view engine', 'ejs')
  */ 
 var index = require('./routes/index')
 var users = require('./routes/users')
+var rooms = require('./routes/rooms')
 
 
 /**
@@ -108,6 +109,7 @@ app.use(flash())
 
 app.use('/', index)
 app.use('/users', users)
+app.use('/rooms',rooms)
 
 app.listen(3000, function(){
 	console.log('Server running at port 3000: http://127.0.0.1:3000')
