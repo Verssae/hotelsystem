@@ -226,20 +226,20 @@ app.put('/edit/(:code)', function(req, res, next) {
 })
 
 
-app.delete('/delete/(:number)', function(req, res, next) {
-	var room = { number: req.params.number }
+app.delete('/delete/(:code)', function(req, res, next) {
+	var reserve = { code: req.params.code }
 	
 	req.getConnection(function(error, conn) {
-		conn.query('DELETE FROM room WHERE number = ' + req.params.number, room, function(err, result) {
+		conn.query('DELETE FROM reservation WHERE code = ' + req.params.code, function(err, result) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)
 				// redirect to users list page
-				res.redirect('/rooms')
+				res.redirect('/reservations')
 			} else {
-				req.flash('success', 'Room deleted successfully! number = ' + req.params.number)
+				req.flash('success', 'Reservation deleted successfully! code = ' + req.params.code)
 				// redirect to users list page
-				res.redirect('/rooms')
+				res.redirect('/reservations')
 			}
 		})
 	})
