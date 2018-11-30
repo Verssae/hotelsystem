@@ -38,7 +38,7 @@ app.set('view engine', 'ejs')
  * import routes/users.js
  */ 
 var index = require('./routes/index')
-var users = require('./routes/users')
+var customers = require('./routes/customers')
 var rooms = require('./routes/rooms')
 
 
@@ -108,7 +108,7 @@ app.use(flash())
 
 
 app.use('/', index)
-app.use('/users', users)
+app.use('/customers', customers)
 app.use('/rooms',rooms)
 
 app.listen(3000, function(){

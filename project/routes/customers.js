@@ -8,13 +8,13 @@ app.get('/', function(req, res, next) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)
-				res.render('user/list', {
+				res.render('customers/list', {
 					title: 'Customer List', 
 					data: ''
 				})
 			} else {
 				// render to views/user/list.ejs template file
-				res.render('user/list', {
+				res.render('customers/list', {
 					title: 'Customer List', 
 					data: rows
 				})
@@ -26,7 +26,7 @@ app.get('/', function(req, res, next) {
 // SHOW ADD USER FORM
 app.get('/add', function(req, res, next){	
 	// render to views/user/add.ejs
-	res.render('user/add', {
+	res.render('customers/add', {
 		title: 'Add New Customer',
 		name: '',
 		car: '',
@@ -69,7 +69,7 @@ app.post('/add', function(req, res, next){
 					req.flash('error', err)
 					
 					// render to views/user/add.ejs
-					res.render('user/add', {
+					res.render('customers/add', {
 						title: 'Add New Customer',
 						name: user.name,
 						car: user.car,
@@ -81,7 +81,7 @@ app.post('/add', function(req, res, next){
 					req.flash('success', 'Data added successfully!')
 					
 					// render to views/user/add.ejs
-					res.render('user/add', {
+					res.render('customers/add', {
 						title: 'Add New Customer',
 						name: '',
 						car: '',
@@ -104,7 +104,7 @@ app.post('/add', function(req, res, next){
 		 * Using req.body.name 
 		 * because req.param('name') is deprecated
 		 */ 
-        res.render('user/add', { 
+        res.render('customers/add', { 
             title: 'Add New Customer',
 			name: user.name,
 			car: user.car,
@@ -124,12 +124,12 @@ app.get('/edit/(:id)', function(req, res, next){
 			// if user not found
 			if (rows.length <= 0) {
 				req.flash('error', 'User not found with id = ' + req.params.id)
-				res.redirect('/users')
+				res.redirect('/customers')
 			}
 			else { // if user found
 				// render to views/user/edit.ejs template file
-				res.render('user/edit', {
-					title: 'Edit User', 
+				res.render('customers/edit', {
+					title: 'Edit customer', 
 					//data: rows[0],
 					id: rows[0].id,
 					name: rows[0].name,
@@ -177,7 +177,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 					req.flash('error', err)
 					
 					// render to views/user/add.ejs
-					res.render('user/edit', {
+					res.render('customers/edit', {
 						title: 'EDIT Customer',
 						name: user.name,
 						car: user.car,
@@ -189,7 +189,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 					req.flash('success', 'Data updated successfully!')
 					
 					// render to views/user/add.ejs
-					res.render('user/edit', {
+					res.render('customers/edit', {
 						title: 'Edit Customer',
 						id: req.params.id,
 						name: req.body.name,
@@ -213,7 +213,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 		 * Using req.body.name 
 		 * because req.param('name') is deprecated
 		 */ 
-        res.render('user/edit', { 
+        res.render('customers/edit', { 
             title: 'Edit Customer',
 			id: req.params.id,
 			name: req.body.name,
@@ -235,11 +235,11 @@ app.delete('/delete/(:id)', function(req, res, next) {
 			if (err) {
 				req.flash('error', err)
 				// redirect to users list page
-				res.redirect('/users')
+				res.redirect('/customers')
 			} else {
 				req.flash('success', 'User deleted successfully! id = ' + req.params.id)
 				// redirect to users list page
-				res.redirect('/users')
+				res.redirect('/customers')
 			}
 		})
 	})
