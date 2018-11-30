@@ -29,17 +29,17 @@ including header content which is common for all pages
 		});
 	-->
 	<% if (data) { %>
-	<% data.forEach(function(user){ %>
+	<% data.forEach(function(customer){ %>
 		<tr>
-			<td><%= user.name %></td>
-			<td><%= user.car %></td>
-			<td><%= user.nation %></td>
-			<td><%= user.phone %></td>
-			<td><%= user.email %></td>
+			<td><%= customer.name %></td>
+			<td><%= customer.car %></td>
+			<td><%= customer.nation %></td>
+			<td><%= customer.phone %></td>
+			<td><%= customer.email %></td>
 			<td>
 				<div style="float:left">
-					<a href='/users/edit/<%= user.id %>'>Edit</a> &nbsp;							
-					<form method="post" action="/users/delete/<%= user.id %>" style="float:right">
+					<a href='/customers/edit/<%= customer.id %>'>Edit</a> &nbsp;							
+					<form method="post" action="/customers/delete/<%= customer.id %>" style="float:right">
 						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
 						<input type="hidden" name="_method" value="DELETE" />
 					</form>

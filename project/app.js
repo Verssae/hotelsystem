@@ -18,7 +18,9 @@ var dbOptions = {
 	user: 	  config.database.user,
 	password: config.database.password,
 	port: 	  config.database.port, 
-	database: config.database.db
+	database: config.database.db,
+	dateStrings: 'date',
+	timezone: 'utc'
 }
 /**
  * 3 strategies can be used
@@ -40,6 +42,7 @@ app.set('view engine', 'ejs')
 var index = require('./routes/index')
 var customers = require('./routes/customers')
 var rooms = require('./routes/rooms')
+var reservations = require('./routes/reservations')
 
 
 /**
@@ -110,6 +113,7 @@ app.use(flash())
 app.use('/', index)
 app.use('/customers', customers)
 app.use('/rooms',rooms)
+app.use('/reservations',reservations)
 
 app.listen(3000, function(){
 	console.log('Server running at port 3000: http://127.0.0.1:3000')

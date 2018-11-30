@@ -40,14 +40,14 @@ app.get('/add', function(req, res, next){
 app.post('/add', function(req, res, next){	
 	req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()     
-	console.log(req.body.hour)      
+	   
     
     var errors = req.validationErrors()
     
     if( !errors ) {
 		var room = {
 			number: req.sanitize('number').escape().trim(),
-			type: req.sanitize('type').escape().trim(),
+			type: req.sanitize('type1').escape().trim(),
 		}
 		// console.log(req.sanitize('hour').escape().trim());
 		// console.log(req)
