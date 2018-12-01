@@ -1,0 +1,37 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>	
+
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+
+<form action="/rooms/add" method="post" name="form1">
+	
+		Room Number
+		<input type="text" name="number" value="<%= number %>" />
+		<br/>
+		Room Types
+		<select name="type1">
+				<% if (data) { %>
+					<% data.forEach(function(room_type){ %>
+						<option value='<%= room_type.type %>'><%= room_type.type %></option>
+					<% }) %>
+				<% } %>	
+		</select>
+		<br/>
+		<input type="submit" name="Submit" value="Add" />
+		
+</form>
+
+
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>
