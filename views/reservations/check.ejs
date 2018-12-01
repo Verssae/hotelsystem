@@ -1,0 +1,32 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>	
+
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+
+<form action="/reservations/check" method="post" name="form1">
+
+	In Date
+	<input type="datetime-local" name="indate" value="<%= indate %>" />
+	<br/>
+	Out Date
+	<input type="datetime-local" name="outdate" value="<%= outdate %>" />
+</br>
+	<input type="submit" name="Submit" value="check" />
+
+</form>
+
+
+
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>
