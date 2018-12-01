@@ -11,46 +11,52 @@ including header content which is common for all pages
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
 
-<form action="/reservations/add" method="post" name="form1">
+<form action="/reservations/check" method="post" name="form1">
+
+	In Date
+	<input type="datetime-local" name="indate" value="<%= indate %>" />
+	<br/>
+	Out Date
+	<input type="datetime-local" name="outdate" value="<%= outdate %>" />
+	<input type="submit" name="Submit" value="check" />
+
+</form>
+<form action="/reservations/add" method="post" name="form2">
+
+	Room Number
+	<select name="number">
+			<% if (numbers) { %>
+				<% numbers.forEach(function(room_number){ %>
+					<option value='<%= room_number.number %>'><%= room_number.number %></option>
+				<% }) %>
+			<% } %>	
+	</select>
 	
-		Room Number
-		<select name="number">
-				<% if (numbers) { %>
-					<% numbers.forEach(function(room_number){ %>
-						<option value='<%= room_number.number %>'><%= room_number.number %></option>
-					<% }) %>
-				<% } %>	
-		</select>
-		
-		<br/>
-		Customer Name
-		
-		<select name="customer" >
-				<% if (customers) { %>
-					<% customers.forEach(function(customer){ %>
-						<option value='<%= customer.id %>'>id:<%= customer.id%> name: <%= customer.name %></option>
-						
-					<% }) %>
-				<% } %>	
-		</select>
-		
+	<br/>
+	Customer Name
+	
+	<select name="customer" >
+			<% if (customers) { %>
+				<% customers.forEach(function(customer){ %>
+					<option value='<%= customer.id %>'>id:<%= customer.id%> name: <%= customer.name %></option>
+					
+				<% }) %>
+			<% } %>	
+	</select>
+	
 
-		
-		
-		<br/>
+	
+	
+	<br/>
 
-		In Date
-		<input type="datetime-local" name="indate" value="<%= indate %>" />
-		<br/>
-		Out Date
-		<input type="datetime-local" name="outdate" value="<%= outdate %>" />
-		<br/>
-		Check In
-		<input type="checkbox" name="checkIn" value="true"/>
-		Check Out
-		<input type="checkbox" name="checkOut" value="true"/>
-		
-		<input type="submit" name="Submit" value="Add" />
+	
+	<br/>
+	Check In
+	<input type="checkbox" name="checkIn" value="true"/>
+	Check Out
+	<input type="checkbox" name="checkOut" value="true"/>
+	
+	<input type="submit" name="Submit" value="Add" />
 		
 </form>
 
