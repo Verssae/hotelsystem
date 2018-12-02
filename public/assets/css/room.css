@@ -1,0 +1,100 @@
+.floor {
+    box-sizing: border-box !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgb(255, 255, 255) !important;
+    border-image: initial !important;
+    background: rgb(255, 255, 255) !important;
+}
+.c_done {
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    color: rgb(255, 255, 255) !important;
+    background: rgb(0, 166, 153) !important;
+    border-width: 1px !important;
+    border-style: double !important;
+    border-color: rgb(0, 166, 153) !important;
+    border-image: initial !important;
+}
+
+.c_n {
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    color: rgb(255, 255, 255) !important;
+    background: rgb(222, 165, 164) !important;
+    border-width: 1px !important;
+    border-style: double !important;
+    border-color: rgb(222, 165, 164) !important;
+    border-image: initial !important;
+}
+
+
+
+.booked {
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    color: rgb(72, 72, 72) !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgb(228, 231, 231) !important;
+    border-image: initial !important;
+    background: rgb(228, 231, 231) !important;
+}
+
+.type_name {
+    padding: 0px;
+    box-sizing: border-box !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    border-width: 3px !important;
+    border-style: solid !important;
+    border-left-color: rgb(255,255,255) !important;
+    border-right-color: rgb(228, 231, 231) !important;
+    border-top-color: rgb(255,255,255)!important;
+    border-bottom-color: rgb(255,255,255)!important;
+    border-image: initial !important;
+    background: rgb(255, 255, 255) !important;
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
