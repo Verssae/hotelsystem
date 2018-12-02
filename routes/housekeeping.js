@@ -24,12 +24,16 @@ app.get('/', function(req, res, next) {
 app.get('/add', function(req, res, next){
 
 	req.getConnection(function(error, conn) {
-		res.render('housekeeping/add', {
-			title: 'New Housekeeping',
-			clean: req.body.cleaned,
-			amenity: req.body.amenity,
-			linen: req.body.linen,
-			ordertake: req.body.ordertake
+		conn.query('select * from room order by number',function(err, numbers, fields) {
+			if (err) throw err;
+			res.render('housekeeping/add', {
+				title: 'New Housekeeping',
+				numbers: numbers,
+				clean: req.body.clean,
+				amenity: req.body.amenity,
+				linen: req.body.linen,
+				order_take: req.body.order_take
+			})
 		})
 	})
 })
@@ -43,11 +47,12 @@ app.post('/add', function(req, res, next){
 
     if( !errors ) {
 		var housekeep = {
-			clean: req.body.cleaned,
-			amenity: req.sanitize('amenity').escape().trim(),
-			linen: req.sanitize('linen').escape().trim(),
-			ordertake: req.sanitize('ordertake').escape().trim()
-		};
+			number: req.body.number,
+			clean: req.body.clean,
+			amenity: req.body.amenity,
+			linen: req.body.linen,
+			order_take: req.body.order_take
+		}
 		// console.log(req.sanitize('hour').escape().trim());
 		// console.log(req)
 		req.getConnection(function(error, conn) {
@@ -55,23 +60,21 @@ app.post('/add', function(req, res, next){
 				if (err) {
 					req.flash('error', err)
 					console.log(err);
-					res.render('housekeeping/add', {
-						title: 'New Housekeeping',
-						clean: req.body.cleaned,
-						amenity: req.body.amenity,
-						linen: req.body.linen,
-						ordertake: req.body.ordertake
+					conn.query('select * from room order by number',function(err, numbers, fields) {
+						if (err) throw err;
+						res.render('housekeeping/add', {
+							title: 'New Housekeeping',
+							numbers: numbers,
+							clean: housekeep.clean,
+							amenity: housekeep.amenity,
+							linen: housekeep.linen,
+							order_take: housekeep.order_take
+						})
 					})
 				} else {
 					req.flash('success', 'Data added successfully!')
 
-					res.render('housekeeping/add', {
-						title: 'New Housekeeping',
-						clean: req.body.cleaned,
-						amenity: req.body.amenity,
-						linen: req.body.linen,
-						ordertake: req.body.ordertake
-					})
+					res.redirect("/housekeeping")
 				}
 			})
 		})
@@ -96,20 +99,23 @@ app.post('/add', function(req, res, next){
 app.get('/edit/(:number)', function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM housekeeping WHERE number = ' + req.params.number, function(err, rows, fields) {
-			if(err) throw err
+			if(err) throw err;
 
 			if (rows.length <= 0) {
 				req.flash('error', 'housekeeping not found with number = ' + req.params.number)
 				res.redirect('/housekeeping')
 			}
 			else {
-				res.render('housekeeping/edit', {
-					title: 'Edit Housekeeping',
-					number: rows[0].number,
-					clean: req.body.cleaned,
-					amenity: req.body.amenity,
-					linen: req.body.linen,
-					ordertake: req.body.ordertake
+				conn.query('select * from room order by number',function(err, numbers, fields) {
+					if (err) throw err;
+					res.render('housekeeping/edit', {
+						title: 'Edit Housekeeping',
+						numbers: numbers,
+						clean: rows[0].clean,
+						amenity: rows[0].amenity,
+						linen: rows[0].linen,
+						order_take: rows[0].order_take
+					})
 				})
 			}
 		})
@@ -125,36 +131,36 @@ app.put('/edit/(:number)', function(req, res, next) {
 
     if( !errors ) {
 			var housekeep = {
-				clean: req.sanitize('clean').escape().trim(),
-				amenity: req.sanitize('amenity').escape().trim(),
-				linen: req.sanitize('linen').escape().trim(),
-				ordertake: req.sanitize('ordertake').escape().trim()
-			};
+				number: req.body.number,
+				clean: req.body.clean,
+				amenity: req.body.amenity,
+				linen: req.body.linen,
+				order_take: req.body.order_take
+			}
 
 		req.getConnection(function(error, conn) {
-			conn.query('UPDATE housekeeping SET ? WHERE number = ' + req.params.number, housekeep, function(err, result) {
+			conn.query('UPDATE housekeeping SET ? WHERE number = ' + housekeep.number, housekeep, function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
 
-					res.render('housekeeping/edit', {
-						title: 'Edit Housekeeping',
-						clean: housekeep.clean,
-						amenity: housekeep.amenity,
-						linen: housekeep.linen,
-						ordertake: housekeep.ordertake
-					})
+					res.redirect("/housekeeping")
 				} else {
 					req.flash('success', 'Data updated successfully!')
-
-					res.render('housekeeping/edit', {
-						title: 'Edit Housekeeping',
-						number: rows[0].number,
-						clean: req.body.cleaned,
-						amenity: req.body.amenity,
-						linen: req.body.linen,
-						ordertake: req.body.ordertake
+					/*
+					conn.query('select * from room order by number',function(err, numbers, fields) {
+						if (err) throw err;
+						res.render('housekeeping/edit', {
+							title: 'Edit Housekeeping',
+							numbers: numbers,
+							clean: req.body.clean,
+							amenity: req.body.amenity,
+							linen: req.body.linen,
+							order_take: req.body.order_take
+						})
 					})
+					*/
+					res.redirect("/housekeeping")
 				}
 			})
 		})
@@ -171,14 +177,7 @@ app.put('/edit/(:number)', function(req, res, next) {
 		// 	number: req.params.number, //or req.body.number
 		// 	type: req.body.type
 		// })
-		res.render('housekeeping/edit', {
-			title: 'Edit Housekeeping',
-			number: rows[0].number,
-			clean: req.body.cleaned,
-			amenity: req.body.amenity,
-			linen: req.body.linen,
-			ordertake: req.body.ordertake
-		})
+		res.redirect("/housekeeping")
   }
 })
 
@@ -187,7 +186,7 @@ app.delete('/delete/(:number)', function(req, res, next) {
 	var housekeeping = { number: req.params.number }
 
 	req.getConnection(function(error, conn) {
-		conn.query('DELETE FROM housekeeping WHERE number = ' + req.params.number, housekeep, function(err, result) {
+		conn.query('DELETE FROM housekeeping WHERE number = ' + req.params.number, function(err, result) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)

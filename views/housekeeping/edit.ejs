@@ -11,41 +11,36 @@ including header content which is common for all pages
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
 
-<form action="/housekeeping/edit/<%= number %>" method="post" name="form1">
+<form action="/housekeeping/edit/<%= numbers %>" method="post" name="form1">
 	Room Number
-		<select name="number">
-				<% if (numbers) { %>
-					<% numbers.forEach(function(room_number){ %>
-						<option value='<%= room_number.number %>' <% if (room_number.number == numbered) { %>selected
-							<% } %> ><%= room_number.number %></option>
-					<% }) %>
-				<% } %>
-		</select>
-
-		<br/>
-	Customer Name
-	<select name="customer">
-		<% if (customers) { %>
-			<% customers.forEach(function(customer){ %>
-				<option value='<%= customer.id %>' <% if (customer.id == ided) { %>selected
-				<% } %>> id:<%= customer.id%> name: <%= customer.name %></option>
-			<% }) %>
-		<% } %>
+	<select name="number">
+			<% if (numbers) { %>
+				<% numbers.forEach(function(room_number){ %>
+					<option value='<%= room_number.number %>'><%= room_number.number %></option>
+				<% }) %>
+			<% } %>
 	</select>
-	<br/>
-
-	In Date
-	<input type="datetime-local" name="indate" value="<%= indate %>" />
-	<br/>
-	Out Date
-	<input type="datetime-local" name="outdate" value="<%= outdate %>" />
-	<br/>
-	Check In
-	<input type="checkbox" name="checkIn" value="true" <%= checkIned ? "checked" : "" %>/>
-	Check Out
-	<input type="checkbox" name="checkOut" value="true" <%= checkOuted ? "checked" : "" %>/>
-
-	<input type="submit" name="Submit" value="Edit" /></td>
+	<table width="25%" border="0">
+		<tr>
+			<td>Clean status</td>
+			<td><input type="text" name="clean" value="<%= clean %>" /></td>
+		</tr>
+		<tr>
+			<td>amenity</td>
+			<td><input type="text" name="amenity" value="<%= amenity %>" /></td>
+		</tr>
+		<tr>
+			<td>linen</td>
+			<td><input type="text" name="linen" value="<%= linen %>" /></td>
+		</tr>
+		<tr>
+			<td>ordertake</td>
+			<td><input type="text" name="order_take" value="<%= order_take %>" /></td>
+		</tr>
+		<tr>
+			<td><input type="submit" name="Submit" value="Edit" /></td>
+		</tr>
+	</table>
 	<input type="hidden" name="_method" value="PUT" />
 </form>
 

@@ -22,18 +22,18 @@ including header content which is common for all pages
 	</tr>
 
 	<% if (data) { %>
-	<% data.forEach(function(reserve){ %>
+	<% data.forEach(function(housekeep){ %>
 		<tr>
-			<td><%= reserve.number %></td>
-			<!--<td><a href='/housekeeping/edit/<%=reserve.number %>'></a></td>-->
-			<td><%= reserve.clean %></td>
-			<td><%= reserve.linen %></td>
-			<td><%= reserve.amenity %></td>
-			<td><%= reserve.ordertake %></td>
+			<td><%= housekeep.number %></td>
+			<!--<td><a href='/housekeeping/edit/<%=housekeep.number %>'></a></td>-->
+			<td><%= housekeep.clean %></td>
+			<td><%= housekeep.linen %></td>
+			<td><%= housekeep.amenity %></td>
+			<td><%= housekeep.order_take %></td>
 			<td>
 				<div style="float:left">
-					<a href='/housekeeping/edit/<%= reserve.number %>'>Edit</a> &nbsp;
-					<form method="post" action="/housekeeping/delete/<%= reserve.number %>" style="float:right">
+					<a href='/housekeeping/edit/<%= housekeep.number %>'>Edit</a> &nbsp;
+					<form method="post" action="/housekeeping/delete/<%= housekeep.number %>" style="float:right">
 						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
 						<input type="hidden" name="_method" value="DELETE" />
 					</form>
@@ -45,7 +45,7 @@ including header content which is common for all pages
 
 </table>
 
-
+<a href="/housekeeping/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
 
 <!--
 including footer content which is common for all pages

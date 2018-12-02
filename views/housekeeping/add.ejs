@@ -12,31 +12,35 @@ including header content which is common for all pages
 <% } %>
 
 <form action="/housekeeping/add" method="post" name="form1">
-
-		Room Number
-		<select name="number">
-				<% if (numbers) { %>
-					<% numbers.forEach(function(room_number){ %>
-						<option value='<%= room_number.number %>'><%= room_number.number %></option>
-					<% }) %>
-				<% } %>
-		</select>
-
-		<br/>
-		Clean status
-		<input type="text" name="clean" value="<%= amenity %>" />
-		<br/>
-		amenity
-		<input type="text" name="amenity" value="<%= amenity %>" />
-		<br/>
-		linen
-		<input type="text" name="linen" value="<%= linen %>" />
-		<br/>
-		ordertake
-		<input type="text" name="ordertake" value="<%= ordertake %>" />
-
-		<input type="submit" name="Submit" value="Add" />
-
+	Room Number
+	<select name="number">
+			<% if (numbers) { %>
+				<% numbers.forEach(function(room_number){ %>
+					<option value='<%= room_number.number %>'><%= room_number.number %></option>
+				<% }) %>
+			<% } %>
+	</select>
+	<table width="25%" border="0">
+		<tr>
+			<td>Clean status</td>
+			<td><input type="text" name="clean" value="<%= clean %>" /></td>
+		</tr>
+		<tr>
+			<td>amenity</td>
+			<td><input type="text" name="amenity" value="<%= amenity %>" /></td>
+		</tr>
+		<tr>
+			<td>linen</td>
+			<td><input type="text" name="linen" value="<%= linen %>" /></td>
+		</tr>
+		<tr>
+			<td>ordertake</td>
+			<td><input type="text" name="order_take" value="<%= order_take %>" /></td>
+		</tr>
+		<tr>
+			<td><input type="submit" name="Submit" value="Add" /></td>
+		</tr>
+	</table>
 </form>
 
 
