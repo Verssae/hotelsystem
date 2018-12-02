@@ -9,12 +9,12 @@ app.get('/', function(req, res, next) {
 			if (err) {
 				req.flash('error', err)
 				res.render('reservations/list', {
-					title: 'reservations', 
+					title: 'reservations',
 					data: ''
 				})
 			} else {
 				res.render('reservations/list', {
-					title: 'reservations', 
+					title: 'reservations',
 					data: rows
 				})
 			}
@@ -23,8 +23,8 @@ app.get('/', function(req, res, next) {
 })
 
 
-app.get('/add', function(req, res, next){	
-	
+app.get('/add', function(req, res, next){
+
 	req.getConnection(function(error, conn) {
 		conn.query('select * from room order by number',function(err, numbers, fields) {
 			if (err) throw err;
@@ -43,8 +43,8 @@ app.get('/add', function(req, res, next){
 	})
 })
 
-app.get('/check', function(req, res, next){	
-	
+app.get('/check', function(req, res, next){
+
 	req.getConnection(function(error, conn) {
 		conn.query('select * from room order by number',function(err, numbers, fields) {
 			if (err) throw err;
@@ -63,13 +63,13 @@ app.get('/check', function(req, res, next){
 
 app.post('/check', function(req, res, next) {
 	// req.assert('number', 'Room number is required').notEmpty()
-	// req.assert('type', 'Room type is required').notEmpty()     
-	  
-	
+	// req.assert('type', 'Room type is required').notEmpty()
+
+
     var errors = false;
-    
+
     if( !errors ) {
-		
+
 		var indate = moment(req.body.indate).format('YYYY-MM-DD HH:mm:ss');
 		var outdate = moment(req.body.outdate).format('YYYY-MM-DD HH:mm:ss');
 		var sql = "select number from room where number not in (select number from reservation where indate <= '" + outdate + "' and outdate >= '" + indate +"') order by number";
@@ -96,13 +96,13 @@ app.post('/check', function(req, res, next) {
 		var error_msg = ''
 		errors.forEach(function(error) {
 			error_msg += error.msg + '<br>'
-		})				
-		req.flash('error', error_msg)		
-		
+		})
+		req.flash('error', error_msg)
+
         // res.render('rooms/add', {
 		// 	title: 'Add New Room',
 		// 	number: room.number,
-		// 	type: room.type			
+		// 	type: room.type
 		// })
 		res.redirect('/reservations')
     }
@@ -110,33 +110,33 @@ app.post('/check', function(req, res, next) {
 
 
 
-app.post('/add', function(req, res, next){	
+app.post('/add', function(req, res, next){
 	req.assert('number', 'Room number is required').notEmpty()
-	// req.assert('type', 'Room type is required').notEmpty()     
-	  
-    
+	// req.assert('type', 'Room type is required').notEmpty()
+
+
     var errors = req.validationErrors()
-    
+
     if( !errors ) {
-		
-	
+
+
 		var sql = "insert into reservation set ?";
 		var params = {
-			id:req.body.customer, 
-			number: req.body.number, 
-			indate: moment(req.body.indate).format('YYYY-MM-DD HH:mm:ss'), 
-			outdate: moment(req.body.outdate).format('YYYY-MM-DD HH:mm:ss'), 
-			checkIn: req.body.checkIn ? true: false, 
+			id:req.body.customer,
+			number: req.body.number,
+			indate: moment(req.body.indate).format('YYYY-MM-DD HH:mm:ss'),
+			outdate: moment(req.body.outdate).format('YYYY-MM-DD HH:mm:ss'),
+			checkIn: req.body.checkIn ? true: false,
 			checkOut: req.body.checkOut ? true : false
 		};
 
 		console.log("post add")
 		console.log(req.body.indate)
 		console.log(req.body.outdate)
-		
+
 		req.getConnection(function(error, conn) {
 			conn.query(sql, params, function(err, result) {
-				var now = new Date(); 
+				var now = new Date();
 				if (err) {
 					req.flash('error', err)
 					console.log(err);
@@ -154,8 +154,8 @@ app.post('/add', function(req, res, next){
 						})
 					})
 
-				} else {			
-						
+				} else {
+
 					req.flash('success', 'Data added successfully!')
 
 					// conn.query('select * from room order by number',function(err, numbers, fields) {
@@ -180,13 +180,13 @@ app.post('/add', function(req, res, next){
 		var error_msg = ''
 		errors.forEach(function(error) {
 			error_msg += error.msg + '<br>'
-		})				
-		req.flash('error', error_msg)		
-		
+		})
+		req.flash('error', error_msg)
+
         // res.render('rooms/add', {
 		// 	title: 'Add New Room',
 		// 	number: room.number,
-		// 	type: room.type			
+		// 	type: room.type
 		// })
 		res.redirect('/reservations')
     }
@@ -196,13 +196,13 @@ app.post('/add', function(req, res, next){
 app.get('/edit/(:code)', function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM reservation WHERE code = ' + req.params.code, function(err, rows, fields) {
-			if(err) throw err
-			
+			if(err) throw err;
+
 			if (rows.length <= 0) {
 				req.flash('error', 'Reservation not found with code = ' + req.params.code)
 				res.redirect('/reservations')
 			}
-			else { 
+			else {
 				conn.query('select * from room_type ',function(err, roomtypes, fields) {
 					if (err) throw err;
 
@@ -225,7 +225,7 @@ app.get('/edit/(:code)', function(req, res, next){
 						})
 					})
 				})
-			}			
+			}
 		})
 	})
 })
@@ -233,32 +233,32 @@ app.get('/edit/(:code)', function(req, res, next){
 
 app.put('/edit/(:code)', function(req, res, next) {
 	req.assert('number', 'Room number is required').notEmpty()
-	// req.assert('type', 'Room type is required').notEmpty()  
+	// req.assert('type', 'Room type is required').notEmpty()
 
     var errors = req.validationErrors()
-    
+
     if( !errors ) {
 		var sql = "update reservation set ? where code = ";
 		var params = {
-			id:req.body.customer, 
-			number: req.body.number, 
-			indate: moment(req.body.indate).format('YYYY-MM-DD HH:mm:ss'), 
-			outdate: moment(req.body.outdate).format('YYYY-MM-DD HH:mm:ss'), 
-			checkIn: req.body.checkIn ? true: false, 
+			id:req.body.customer,
+			number: req.body.number,
+			indate: moment(req.body.indate).format('YYYY-MM-DD HH:mm:ss'),
+			outdate: moment(req.body.outdate).format('YYYY-MM-DD HH:mm:ss'),
+			checkIn: req.body.checkIn ? true: false,
 			checkOut: req.body.checkOut ? true : false
 		};
-		
+
 		req.getConnection(function(error, conn) {
 			conn.query(sql + req.params.code, params, function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
-					
+
 					res.redirect('/reservations')
 				} else {
 
 					req.flash('success', 'Data updated successfully!')
-										
+
 					conn.query('select * from room order by number',function(err, numbers, fields) {
 						if (err) throw err;
 						conn.query('select * from customer ',function(err, customers, fields) {
@@ -287,11 +287,11 @@ app.put('/edit/(:code)', function(req, res, next) {
 			error_msg += error.msg + '<br>'
 		})
 		req.flash('error', error_msg)
-				
+
         // res.render('rooms/edit', {
 		// 	title: 'Edit Room',
 		// 	number: req.params.number, //or req.body.number
-		// 	type: req.body.type					
+		// 	type: req.body.type
 		// })
 		res.redirect('/rooms')
     }
@@ -300,7 +300,7 @@ app.put('/edit/(:code)', function(req, res, next) {
 
 app.delete('/delete/(:code)', function(req, res, next) {
 	var reserve = { code: req.params.code }
-	
+
 	req.getConnection(function(error, conn) {
 		conn.query('DELETE FROM reservation WHERE code = ' + req.params.code, function(err, result) {
 			//if(err) throw err
