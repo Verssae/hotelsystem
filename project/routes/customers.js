@@ -106,11 +106,11 @@ app.post('/add', function(req, res, next){
 		 */
         res.render('customers/add', {
             title: 'Add New Customer',
-			name: user.name,
-			car: user.car,
-			nation: user.nation,
-			phone: user.phone,
-			email: user.email
+						name: user.name,
+						car: user.car,
+						nation: user.nation,
+						phone: user.phone,
+						email: user.email
         })
     }
 })
@@ -215,12 +215,12 @@ app.put('/edit/(:id)', function(req, res, next) {
 		 */
         res.render('customers/edit', {
             title: 'Edit Customer',
-			id: req.params.id,
-			name: req.body.name,
-			car: req.body.car,
-			nation: req.body.nation,
-			phone: req.body.phone,
-			email: req.body.email
+						id: req.params.id,
+						name: req.body.name,
+						car: req.body.car,
+						nation: req.body.nation,
+						phone: req.body.phone,
+						email: req.body.email
         })
     }
 })

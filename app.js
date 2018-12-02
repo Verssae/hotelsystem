@@ -44,6 +44,8 @@ var customers = require('./routes/customers')
 var rooms = require('./routes/rooms')
 var reservations = require('./routes/reservations')
 var staffs = require('./routes/staffs')
+var housekeeping = require('./routes/housekeeping')
+
 
 /**
  * Express Validator Middleware for Form Validation
@@ -63,8 +65,11 @@ var bodyParser = require('body-parser')
  * (which is how browsers tend to send form data from regular forms set to POST)
  * and exposes the resulting object (containing the keys and values) on req.body.
  */
+
 app.use(bodyParser.urlencoded({ extended: false }))
 // app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 
 /**
@@ -117,6 +122,7 @@ app.use('/reservations',reservations)
 app.use('/staffs',staffs)
 
 app.use(express.static('public'));
+app.use('/housekeeping', housekeeping)
 
 app.listen(3000, function(){
 	console.log('Server running at port 3000: http://127.0.0.1:3000')
