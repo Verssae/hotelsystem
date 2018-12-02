@@ -43,6 +43,24 @@ app.get('/add', function(req, res, next){
 	})
 })
 
+app.get('/check', function(req, res, next){	
+	
+	req.getConnection(function(error, conn) {
+		conn.query('select * from room order by number',function(err, numbers, fields) {
+			if (err) throw err;
+			conn.query('select * from customer ',function(err, customers, fields) {
+				if (err) throw err;
+				var now = new Date();
+				res.render('reservations/check', {
+					title: 'New Reservation',
+					indate: datetime.format(now, 'YYYY-MM-DDTHH:mm:ss'),
+					outdate: datetime.format(datetime.addDays(now, 1), 'YYYY-MM-DDTHH:mm:ss')
+				})
+			})
+		})
+	})
+})
+
 app.post('/check', function(req, res, next) {
 	// req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()     
@@ -55,7 +73,10 @@ app.post('/check', function(req, res, next) {
 		var indate = moment(req.body.indate).format('YYYY-MM-DD HH:mm:ss');
 		var outdate = moment(req.body.outdate).format('YYYY-MM-DD HH:mm:ss');
 		var sql = "select number from room where number not in (select number from reservation where indate <= '" + outdate + "' and outdate >= '" + indate +"') order by number";
-		
+		console.log("post check")
+		console.log(indate)
+		console.log(outdate)
+
 		req.getConnection(function(error, conn) {
 			conn.query(sql, function(err, numbers) {
 				if (err) throw err;
@@ -65,8 +86,8 @@ app.post('/check', function(req, res, next) {
 							title: 'New Reservation',
 							numbers: numbers,
 							customers: customers,
-							indate: moment(indate).format('YYYY-MM-DDTHH:mm:ss'),
-							outdate: moment(outdate).format('YYYY-MM-DDTHH:mm:ss')
+							indate: req.body.indate,
+							outdate: req.body.outdate
 						})
 					})
 			})
@@ -108,6 +129,10 @@ app.post('/add', function(req, res, next){
 			checkIn: req.body.checkIn ? true: false, 
 			checkOut: req.body.checkOut ? true : false
 		};
+
+		console.log("post add")
+		console.log(req.body.customer)
+		console.log(req.body.outdate)
 		
 		req.getConnection(function(error, conn) {
 			conn.query(sql, params, function(err, result) {
@@ -133,19 +158,20 @@ app.post('/add', function(req, res, next){
 						
 					req.flash('success', 'Data added successfully!')
 
-					conn.query('select * from room order by number',function(err, numbers, fields) {
-						if (err) throw err;
-						conn.query('select * from customer ',function(err, customers, fields) {
-							if (err) throw err;
-							res.render('reservations/add', {
-								title: 'New Reservation',
-								numbers: numbers,
-								customers: customers,
-								indate: datetime.format(now, 'YYYY-MM-DDTHH:mm:ss'),
-								outdate: datetime.format(datetime.addDays(now, 1), 'YYYY-MM-DDTHH:mm:ss')
-							})
-						})
-					})
+					// conn.query('select * from room order by number',function(err, numbers, fields) {
+					// 	if (err) throw err;
+					// 	conn.query('select * from customer ',function(err, customers, fields) {
+					// 		if (err) throw err;
+					// 		res.render('reservations/add', {
+					// 			title: 'New Reservation',
+					// 			numbers: numbers,
+					// 			customers: customers,
+					// 			indate: datetime.format(now, 'YYYY-MM-DDTHH:mm:ss'),
+					// 			outdate: datetime.format(datetime.addDays(now, 1), 'YYYY-MM-DDTHH:mm:ss')
+					// 		})
+					// 	})
+					// })
+					res.redirect("/reservations")
 				}
 			})
 		})

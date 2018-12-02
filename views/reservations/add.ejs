@@ -11,18 +11,14 @@ including header content which is common for all pages
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
 
-<form action="/reservations/check" method="post" name="form1">
-
-	In Date
-	<input type="datetime-local" name="indate" value="<%= indate %>" />
-	<br/>
-	Out Date
-	<input type="datetime-local" name="outdate" value="<%= outdate %>" />
-	<input type="submit" name="Submit" value="check" />
-
-</form>
 <form action="/reservations/add" method="post" name="form2">
 
+	In Date
+	<input type="datetime-local" name="indate" value="<%= indate %>" disabled/>
+	<br/>
+	Out Date
+	<input type="datetime-local" name="outdate" value="<%= outdate %>" disabled/>
+	<br/>
 	Room Number
 	<select name="number">
 			<% if (numbers) { %>
@@ -43,12 +39,7 @@ including header content which is common for all pages
 				<% }) %>
 			<% } %>	
 	</select>
-	
-
-	
-	
 	<br/>
-
 	
 	<br/>
 	Check In
