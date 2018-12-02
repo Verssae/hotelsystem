@@ -11,37 +11,105 @@ including header content which is common for all pages
 	<p style="color:green"><%- messages.success %></p>
 <% } %>	
 
-<table width='80%' border=0>
+<h1>Current Room States</h1>
 
-	<tr style='text-align:left; background-color:#CCC'>
-		<th>Room Number</th>
-		<th>Room Type</th>
-		<th>Room Price</th>
-	</tr>
-	
-	<% if (data) { %>
-	<% data.forEach(function(room){ %>
-		<tr>
-			<td><%= room.number %></td>
-			<td><%= room.type %></td>
-			<td><%= room.price %>$</td>
-	
-			<td>
-				<div style="float:left">
-					<a href='/rooms/edit/<%= room.number %>'>Edit</a> &nbsp;							
-					<form method="post" action="/rooms/delete/<%= room.number %>" style="float:right">
-						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-						<input type="hidden" name="_method" value="DELETE" />
-					</form>
-				</div>
-			</td>
-		</tr>
-	<% }) %>
-	<% } %>
 
-</table>
 
-<a href="/rooms/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
+<div class="container-fluid" >
+		<input type="datetime-local" name="indate" value="<%= date %>" disabled/>
+		<br/>
+		<span class="badge badge-secondary">Empty</span>
+		<span class="badge badge-success">Reserved</span>
+		
+		<table class="room_type">
+				<tr>
+					<td class ="type_name" style="width:70px;"></td>
+					<td class="table-light" style="width:280px;">
+						<small>스탠다드</small>
+					</td>
+					<td class="table-warning" style="width:140px;">
+						<small>이그제큐티브</small>
+					</td>
+					<td class="table-info" style="width:140px;">
+						<small>스위트</small>
+					</td>
+				</tr>
+		</table>
+		
+		<table  class="table table-bordered">
+			<tbody >
+		
+			<% var i = 0; %>
+			<% if (data) { %>
+			<% data.forEach(function(room){ %>
+				
+				<% if (i % 8 == 0) { %>
+					<tr >
+						<th class="floor" style="width:70px;height:70px;"><%= i / 8 + 1 %>F</th>
+		
+					
+				<% } %>
+				<% var color = "table-secondary"; %>
+				<% reserved.forEach(function(reserve) { %>
+					<% if (room.number == reserve.number) {%>
+						<% color = "table-success"; %>
+					
+						<% } %>
+					<% }) %>
+				
+					<td class="<%=color%>" role="button" tabindex="0" style="width:70px; height:70px;" data-toggle="modal" data-target="#Modal<%=room.number%>">
+							<div id = '+roomnum.toString()+'> <%= room.number %> 호 </div>
+					</td>	
+		
+					<!-- Modal -->
+					<div class="modal fade" id="Modal<%=room.number%>" tabindex="-1" role="dialog" aria-labelledby="label<%=room.number%>" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="label<%=room.number%>"><%=room.number%>호</h5>
+								  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								  </button>
+								</div>
+								<div class="modal-body">
+										<p>TYPE: <%= room.type %></p>
+										<p>PRICE: <%= room.price %></p>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								  <a class="btn btn-primary" href="/rooms/edit/<%= room.number %>" role="button">Edit</a>
+								  
+									<!-- <a href='/rooms/edit/<%= room.number %>'>Edit</a> &nbsp;							 -->
+									<form method="post" action="/rooms/delete/<%= room.number %>" style="float:right">
+										<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+										<input type="hidden" name="_method" value="DELETE" />
+									</form>
+									
+								</div>
+							  </div>
+							</div>
+						  </div>			
+					<% if (i % 8 == 7) { %>
+					</tr>				
+					<% } %>
+					<% i += 1; %>
+			<% }) %>
+			<% } %>
+		</tbody>
+		</table>
+
+		<a href="/rooms/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
+		
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+
 
 
 <!--
