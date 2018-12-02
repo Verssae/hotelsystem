@@ -9,13 +9,13 @@ app.get('/', function(req, res, next) {
 			if (err) {
 				req.flash('error', err)
 				res.render('staffs/list', {
-					title: 'Staff List', 
+					title: 'Staff List',
 					staffs: ''
 				})
 			} else {
 				// render to views/user/list.ejs template file
 				res.render('staffs/list', {
-					title: 'Staff List', 
+					title: 'Staff List',
 					staffs: rows
 				})
 			}
@@ -24,28 +24,28 @@ app.get('/', function(req, res, next) {
 })
 
 // SHOW ADD USER FORM
-app.get('/add', function(req, res, next){	
+app.get('/add', function(req, res, next){
 	// render to views/user/add.ejs
 	res.render('staffs/add', {
 		title: 'Add New Staff',
 		name: '',
 		gender: '',
-		birth: ''	
+		birth: ''
 	})
 })
 
 // ADD NEW USER POST ACTION
-app.post('/add', function(req, res, next){	
+app.post('/add', function(req, res, next){
 	req.assert('name', 'Name is required').notEmpty()           //Validate name
     // req.assert('email', 'A valid email is required').isEmail()  //Validate email
 
     var errors = req.validationErrors()
-    
+
     if( !errors ) {   //No errors were found.  Passed Validation!
-		
+
 		/********************************************
 		 * Express-validator module
-		 
+
 		req.body.comment = 'a <span>comment</span>';
 		req.body.username = '   a user    ';
 
@@ -57,30 +57,30 @@ app.post('/add', function(req, res, next){
 			gender: req.body.gender,
 			birth: req.body.birth
 		}
-		
+
 		req.getConnection(function(error, conn) {
 			conn.query('INSERT INTO staff SET ?', staff, function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
-					
+
 					// render to views/user/add.ejs
 					res.render('staffs/add', {
 						title: 'Add New Staff',
 						name: staff.name,
 						gender: staff.gender,
-						birth: staff.birth					
+						birth: staff.birth
 					})
-				} else {				
+				} else {
 					req.flash('success', 'Data added successfully!')
-					
+
 					// render to views/user/add.ejs
 					res.render('staffs/add', {
 						title: 'Add New Staff',
 						name: '',
 						gender: '',
 						birth: ''
-									
+
 					})
 				}
 			})
@@ -90,13 +90,13 @@ app.post('/add', function(req, res, next){
 		var error_msg = ''
 		errors.forEach(function(error) {
 			error_msg += error.msg + '<br>'
-		})				
-		req.flash('error', error_msg)		
-		
+		})
+		req.flash('error', error_msg)
+
 		/**
-		 * Using req.body.name 
+		 * Using req.body.name
 		 * because req.param('name') is deprecated
-		 */ 
+		 */
         res.redirect("/staffs");
     }
 })
@@ -106,7 +106,7 @@ app.get('/edit/(:id)', function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM staff WHERE id = ' + req.params.id, function(err, rows, fields) {
 			if(err) throw err
-			
+
 			// if user not found
 			if (rows.length <= 0) {
 				req.flash('error', 'Staff not found with id = ' + req.params.id)
@@ -115,14 +115,14 @@ app.get('/edit/(:id)', function(req, res, next){
 			else { // if user found
 				// render to views/user/edit.ejs template file
 				res.render('staffs/edit', {
-					title: 'Edit staff', 
+					title: 'Edit staff',
 					//data: rows[0],
 					id: rows[0].id,
 					name: rows[0].name,
 					gender: rows[0].gender,
 					birth: rows[0].birth
 				})
-			}			
+			}
 		})
 	})
 })
@@ -130,16 +130,16 @@ app.get('/edit/(:id)', function(req, res, next){
 // EDIT USER POST ACTION
 app.put('/edit/(:id)', function(req, res, next) {
 	req.assert('name', 'Name is required').notEmpty()           //Validate name
-	
+
     // req.assert('email', 'A valid email is required').isEmail()  //Validate email
 
     var errors = req.validationErrors()
-    
+
     if( !errors ) {   //No errors were found.  Passed Validation!
-		
+
 		/********************************************
 		 * Express-validator module
-		 
+
 		req.body.comment = 'a <span>comment</span>';
 		req.body.username = '   a user    ';
 
@@ -151,18 +151,18 @@ app.put('/edit/(:id)', function(req, res, next) {
 			gender: req.body.gender,
 			birth: req.body.birth
 		}
-		
+
 		req.getConnection(function(error, conn) {
 			conn.query('UPDATE staff SET ? WHERE id = ' + req.params.id, staff, function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
-					
+
 					// render to views/user/add.ejs
 					res.redirect("/staffs")
 				} else {
 					req.flash('success', 'Data updated successfully!')
-					
+
 					// render to views/user/add.ejs
 					res.render('staffs/edit', {
 						title: 'Edit staff',
@@ -181,11 +181,11 @@ app.put('/edit/(:id)', function(req, res, next) {
 			error_msg += error.msg + '<br>'
 		})
 		req.flash('error', error_msg)
-		
+
 		/**
-		 * Using req.body.name 
+		 * Using req.body.name
 		 * because req.param('name') is deprecated
-		 */ 
+		 */
         res.redirect("/staffs")
     }
 })
@@ -193,7 +193,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 // DELETE USER
 app.delete('/delete/(:id)', function(req, res, next) {
 	var staff = { id: req.params.id }
-	
+
 	req.getConnection(function(error, conn) {
 		conn.query('DELETE FROM staff WHERE id = ' + req.params.id, staff, function(err, result) {
 			//if(err) throw err
