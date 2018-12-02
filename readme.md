@@ -1,11 +1,11 @@
 # 설치법
-- config.js 에서 자기 mysql 설정 하기 (이름, 비번, 디비이름 등)
+- 1. 루트 디렉토리에 config.js 생성하기
 
 ```javascript
 var config = {
 	database: {
 		host:	  'localhost', 	// database host
-		user: 	  'root', 		// your database username
+		user: 	  'username', 		// your database username
 		password: 'password', 		// your database password
 		port: 	  3306, 		// default MySQL port
 		db: 	  'hotel' 		// your database name
