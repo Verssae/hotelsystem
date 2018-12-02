@@ -1,0 +1,51 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>
+
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+
+<form action="/housekeeping/add" method="post" name="form1">
+	Room Number
+	<select name="number">
+			<% if (numbers) { %>
+				<% numbers.forEach(function(room_number){ %>
+					<option value='<%= room_number.number %>'><%= room_number.number %></option>
+				<% }) %>
+			<% } %>
+	</select>
+	<table width="25%" border="0">
+		<tr>
+			<td>Clean status</td>
+			<td><input type="text" name="clean" value="<%= clean %>" /></td>
+		</tr>
+		<tr>
+			<td>amenity</td>
+			<td><input type="text" name="amenity" value="<%= amenity %>" /></td>
+		</tr>
+		<tr>
+			<td>linen</td>
+			<td><input type="text" name="linen" value="<%= linen %>" /></td>
+		</tr>
+		<tr>
+			<td>ordertake</td>
+			<td><input type="text" name="order_take" value="<%= order_take %>" /></td>
+		</tr>
+		<tr>
+			<td><input type="submit" name="Submit" value="Add" /></td>
+		</tr>
+	</table>
+</form>
+
+
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>

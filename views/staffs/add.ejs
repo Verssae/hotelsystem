@@ -1,7 +1,7 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts/header.ejs %>	
+<%- include ../layouts/header.ejs %>
 
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
@@ -13,18 +13,19 @@ including header content which is common for all pages
 
 <form action="/staffs/add" method="post" name="form1">
 	<table width="25%" border="0">
-		<tr> 
+		<tr>
 			<td>Name</td>
 			<td><input type="text" name="name" id="name" value="<%= name %>" /></td>
 		</tr>
-		<tr> 
+		<tr>
 			<td>Gender</td>
 			<td><input type="text" name="gender" value="<%= gender %>" /></td>
 		</tr>
-		<tr> 
+		<tr>
 			<td>Birth</td>
 			<td><input type="date" name="birth" value="<%= birth %>" /></td>
 		</tr>
+		<tr>
 			<td><input type="submit" name="Submit" value="Add" /></td>
 		</tr>
 	</table>
