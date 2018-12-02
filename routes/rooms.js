@@ -1,5 +1,7 @@
 var express = require('express')
 var app = express()
+var datetime = require('date-and-time')
+var moment = require('moment')
 
 app.get('/', function(req, res, next) {
 	req.getConnection(function(error, conn) {
@@ -11,13 +13,33 @@ app.get('/', function(req, res, next) {
 					data: ''
 				})
 			} else {
-				res.render('rooms/list', {
-					title: 'Room List', 
-					data: rows
+				var now = new Date();
+				var indate = moment(now).format('YYYY-MM-DD HH:mm:ss');
+				var outdate = indate;
+				var sql = "select number from reservation where indate <= '" +indate+ "' and outdate >= '" + indate +"' order by number";
+				
+				conn.query(sql, function(err, reserved) {
+					if (err) {
+						req.flash('error', err)
+						console.log(err)
+						res.redirect('/')
+						
+					} else {
+						res.render('rooms/list', {
+							title: 'Room List', 
+							data: rows,
+							reserved: reserved,
+							date: datetime.format(now, 'YYYY-MM-DDTHH:mm:ss')
+						})
+					}
+
 				})
 			}
 		})
 	})
+	
+
+	
 })
 
 
@@ -33,9 +55,9 @@ app.get('/add', function(req, res, next){
 			})
 		})
 	})
-
 	
 })
+
 
 app.post('/add', function(req, res, next){	
 	req.assert('number', 'Room number is required').notEmpty()
