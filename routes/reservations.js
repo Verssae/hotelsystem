@@ -131,7 +131,7 @@ app.post('/add', function(req, res, next){
 		};
 
 		console.log("post add")
-		console.log(req.body.customer)
+		console.log(req.body.indate)
 		console.log(req.body.outdate)
 		
 		req.getConnection(function(error, conn) {

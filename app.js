@@ -34,7 +34,7 @@ app.use(myConnection(mysql, dbOptions, 'pool'))
  * setting up the templating view engine
  */ 
 app.set('view engine', 'ejs')
-
+app.set('views', __dirname + '/views');
 /**
  * import routes/index.js
  * import routes/users.js
@@ -43,7 +43,7 @@ var index = require('./routes/index')
 var customers = require('./routes/customers')
 var rooms = require('./routes/rooms')
 var reservations = require('./routes/reservations')
-
+var staffs = require('./routes/staffs')
 
 /**
  * Express Validator Middleware for Form Validation
@@ -114,6 +114,9 @@ app.use('/', index)
 app.use('/customers', customers)
 app.use('/rooms',rooms)
 app.use('/reservations',reservations)
+app.use('/staffs',staffs)
+
+app.use(express.static('public'));
 
 app.listen(3000, function(){
 	console.log('Server running at port 3000: http://127.0.0.1:3000')
