@@ -19,7 +19,7 @@ var config = {
 module.exports = config
 ```
 
-* mysql에 테이블 생성
+* mysql에 테이블 생성 (mysql 5.7 버전)
 
 ```mysql
 # 복붙해서 만드세요
