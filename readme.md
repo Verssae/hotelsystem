@@ -95,8 +95,9 @@ i
 
 ```mysql
 $ sudo mysql
-mysql> create user 'team'@'localhost' identified by 'paris';
-mysql> grant all privileges on *.* to 'team'@'localhost';
+mysql> grant all privileges on *.* to 'root'@'%' identified by 'root의 패스워드'
+
+
 mysql> 
 ```
 
