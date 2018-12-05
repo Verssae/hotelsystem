@@ -9,98 +9,125 @@ including header content which is common for all pages
 
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
-<% } %>	
+<% } %>			
 
-<h1>Current Room States</h1>
+<!-- Main -->
+<section id="main" class="wrapper">
+	<div class="inner">
+		<div class="content">
+			<div class="current_room">
+				<div role="application" aria-label="호텔룸현황" class="hotel_room">
+					<div>
+						<div class="room_info" style="padding:0px 13px;">
+							<table class="room_type">
+								<tr>
+									<th class ="type_name" style="width:70px;"></th>
+									<td class="type_name" style="width:280px;">
+										<small>스탠다드</small>
+									</td>
+									<td class="type_name" style="width:140px;">
+										<small>이그제큐티브</small>
+									</td>
+									<td class="type_name" style="width:140px;">
+										<small>스위트</small>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="_box1" role="region" tableindex="-1">
+							<div class="_box2">
+								<div class="_box3" data-visible="true" style="padding:0px 13px;">
+									<table class="_room" role="presentation">
+										<tbody id="_tableBody">
+											<% var i = 0; %>
+											
+											<% if (data) {%>
+											<% data.forEach(function(room) { %>
+												
+											<%  if(i % 8 == 0) { %>
+											<tr >
+												<th class="floor" style="width:70px;height:70px;"><%= room.floor %>F</th>
+											<% }  %>
+													<% var color = "bookable";%>
+													<% reserved.forEach(function(reserve) { %>
+													<% if (room.number == reserve.number) { %>
+														<% if (room.clean && room.linen && room.amenity) { %>
+														<%     color = "c_done"; %>
+														<% } else { %>
+														<%     color = "c_n" %>
+														<% } %>
+													<%  } %>
+												<% }); %>
+												<td class="<%=color%>" id="<%=room.number%>" role="button" tabindex="0" style="width:70px;height:70px;" >
+												<%=room.number%>호</br></td>
+												
+									<div id="<%= room.number %>" class="modal">
+										<div class="modal-content">
+											<div class="modal-title">
+
+												<span class="close">&times;</span>
+												<h2>Housekeeing State</h2>
+											</div>
+											<div class="checklist">
+												<form action="/rooms/edit/<%= room.number %>" method="post" name="form1" >
+													Room Number
+													<input type="text" name="number" value="<%= room.number %>" />
+													floor
+													<input type="text" name="floor" value="<%= room.floor %>" />
+													Clean
+													<input type="text" name="clean" value="<%= room.clean %>" />
+													linen
+													<input type="text" name="linen" value="<%= room.linen %>" />
+													amenity
+													<input type="text" name="amenity" value="<%= room.amenity %>" />
+													order_take
+													<input type="text" name="order_take" value="<%= room.order_take %>" />
+													</br>
+													
+													<input type="hidden" name="_method" value="PUT" />
+													<span><button id="confirm">확인</button></span>
+												</form>
+											
+												
+
+											</div>
+											<div>
+												
+											</div>
+										</div>
+
+									</div>
 
 
+												
 
-<div class="container-fluid" >
-		<input type="datetime-local" name="indate" value="<%= date %>" disabled/>
-		<br/>
-		<span class="badge badge-secondary">Empty</span>
-		<span class="badge badge-success">Reserved</span>
-		
-		<table class="room_type">
-				<tr>
-					<td class ="type_name" style="width:70px;"></td>
-					<td class="table-light" style="width:280px;">
-						<small>스탠다드</small>
-					</td>
-					<td class="table-warning" style="width:140px;">
-						<small>이그제큐티브</small>
-					</td>
-					<td class="table-info" style="width:140px;">
-						<small>스위트</small>
-					</td>
-				</tr>
-		</table>
-		
-		<table  class="table table-bordered">
-			<tbody >
-		
-			<% var i = 0; %>
-			<% if (data) { %>
-			<% data.forEach(function(room){ %>
-				
-				<% if (i % 8 == 0) { %>
-					<tr >
-						<th class="floor" style="width:70px;height:70px;"><%= i / 8 + 1 %>F</th>
-		
-					
-				<% } %>
-				<% var color = "table-secondary"; %>
-				<% reserved.forEach(function(reserve) { %>
-					<% if (room.number == reserve.number) {%>
-						<% color = "table-success"; %>
-					
-						<% } %>
-					<% }) %>
-				
-					<td class="<%=color%>" role="button" tabindex="0" style="width:70px; height:70px;" data-toggle="modal" data-target="#Modal<%=room.number%>">
-							<div id = '+roomnum.toString()+'> <%= room.number %> 호 </div>
-					</td>	
-		
-					<!-- Modal -->
-					<div class="modal fade" id="Modal<%=room.number%>" tabindex="-1" role="dialog" aria-labelledby="label<%=room.number%>" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-							  <div class="modal-content">
-								<div class="modal-header">
-								  <h5 class="modal-title" id="label<%=room.number%>"><%=room.number%>호</h5>
-								  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								  </button>
-								</div>
-								<div class="modal-body">
-										<p>TYPE: <%= room.type %></p>
-										<p>PRICE: <%= room.price %></p>
-								</div>
-								<div class="modal-footer">
-								  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								  <a class="btn btn-primary" href="/rooms/edit/<%= room.number %>" role="button">Edit</a>
-								  
-									<!-- <a href='/rooms/edit/<%= room.number %>'>Edit</a> &nbsp;							 -->
-									<form method="post" action="/rooms/delete/<%= room.number %>" style="float:right">
-										<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-										<input type="hidden" name="_method" value="DELETE" />
-									</form>
+												
+												<% if (i % 8 == 7) { %>
+													</tr>
+												<% } %>
+												<% i = i + 1 %>
+												<%});%>
+												<% } %>
+												<script src="assets/js/makeTable.js"></script>
+												<script>$("td").click(function(event){modalSet();})</script>
+										</tbody>
+									</table>
 									
-								</div>
-							  </div>
-							</div>
-						  </div>			
-					<% if (i % 8 == 7) { %>
-					</tr>				
-					<% } %>
-					<% i += 1; %>
-			<% }) %>
-			<% } %>
-		</tbody>
-		</table>
+								
 
-		<a href="/rooms/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
-		
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+</section>
+<a href="/rooms/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
+
 
 	<!-- Scripts -->
 	<script src="assets/js/jquery.min.js"></script>

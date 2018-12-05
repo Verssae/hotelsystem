@@ -5,7 +5,7 @@ var moment = require('moment')
 
 app.get('/', function(req, res, next) {
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM room natural join room_type ORDER BY number',function(err, rows, fields) {
+		conn.query('SELECT * FROM room natural left outer join housekeeping ORDER BY floor desc, number ',function(err, rows, fields) {
 			if (err) {
 				req.flash('error', err)
 				res.render('rooms/list', {
@@ -16,7 +16,7 @@ app.get('/', function(req, res, next) {
 				var now = new Date();
 				var indate = moment(now).format('YYYY-MM-DD HH:mm:ss');
 				var outdate = indate;
-				var sql = "select number from reservation where indate <= '" +indate+ "' and outdate >= '" + indate +"' order by number";
+				var sql = "select * from reservation where indate <= '" +indate+ "' and outdate >= '" + indate +"' ";
 				
 				conn.query(sql, function(err, reserved) {
 					if (err) {
@@ -29,7 +29,7 @@ app.get('/', function(req, res, next) {
 							title: 'Room List', 
 							data: rows,
 							reserved: reserved,
-							date: datetime.format(now, 'YYYY-MM-DDTHH:mm:ss')
+							// date: datetime.format(now, 'YYYY-MM-DDTHH:mm:ss')
 						})
 					}
 
@@ -51,6 +51,7 @@ app.get('/add', function(req, res, next){
 			res.render('rooms/add', {
 				title: 'Add New Room',
 				number: '',
+				floor: '',
 				data: rows
 			})
 		})
@@ -70,6 +71,7 @@ app.post('/add', function(req, res, next){
 		var room = {
 			number: req.sanitize('number').escape().trim(),
 			type: req.sanitize('type1').escape().trim(),
+			floor: req.sanitize('floor').escape().trim()
 		}
 		// console.log(req.sanitize('hour').escape().trim());
 		// console.log(req)
@@ -79,13 +81,7 @@ app.post('/add', function(req, res, next){
 				if (err) {
 					req.flash('error', err)
 
-					res.render('rooms/add', {
-						title: 'Add New Room',
-						number: room.number,
-						data: {
-							type: room.type
-						}		
-					})
+					res.redirect('/rooms')
 				} else {				
 					req.flash('success', 'Data added successfully!')
 
@@ -94,6 +90,7 @@ app.post('/add', function(req, res, next){
 						res.render('rooms/add', {
 							title: 'Add New Room',
 							number: '',
+							floor: '',
 							data: rows
 						})
 					})
@@ -134,6 +131,7 @@ app.get('/edit/(:number)', function(req, res, next){
 						title: 'Edit User',
 						number: rows[0].number,
 						typed: rows[0].type,
+						floor: rows[0].floor,
 						data: roomtypes
 					})
 				})
@@ -152,7 +150,13 @@ app.put('/edit/(:number)', function(req, res, next) {
     if( !errors ) {
 		var room = {
 			number: req.sanitize('number').escape().trim(),
-			type: req.sanitize('type').escape().trim()
+			floor: req.sanitize('floor').escape().trim()
+		}
+		var housekeeping = {
+			clean: req.sanitize('clean').escape().trim(),
+			linen: req.sanitize('linen').escape().trim(),
+			amenity: req.sanitize('amenity').escape().trim(),
+			order_take: req.sanitize('order_take').escape().trim()
 		}
 		
 		req.getConnection(function(error, conn) {
@@ -164,11 +168,15 @@ app.put('/edit/(:number)', function(req, res, next) {
 					res.redirect('/rooms')
 				} else {
 
-					req.flash('success', 'Data updated successfully!')
-										
-					conn.query('select * from room_type ',function(err, roomtypes, fields) {
-						if (err) throw err;
-						res.redirect('/rooms')
+					conn.query('UPDATE housekeeping SET ? WHERE number = ' + req.params.number, housekeeping, function(err, result) {
+						//if(err) throw err
+						if (err) {
+							req.flash('error', err)
+							res.redirect('/rooms')
+						} else {
+							req.flash('success', 'Data updated successfully!')
+							res.redirect('/rooms')
+						}
 					})
 				}
 			})
@@ -209,5 +217,7 @@ app.delete('/delete/(:number)', function(req, res, next) {
 		})
 	})
 })
+
+
 
 module.exports = app
