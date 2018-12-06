@@ -11,13 +11,97 @@ including header content which is common for all pages
 	<p style="color:green"><%- messages.success %></p>
 <% } %>	
 
-<table width='80%' border=0>
+<!-- Main -->
+	<section id="main" class="wrapper">
+		<div class="inner">
+			<div class="content" style="TEXT-ALIGN: center">
+				<header >
+					<h10>
+					
 
-	<tr style='text-align:left; background-color:#CCC'>
+
+						<style>
+							.green_window {
+								display: inline-block;
+								width: 366px; height: 34px;
+								border: 3px solid #200400;
+								background: white;
+							}
+							.input_text10 {
+								width: 348px; height: 21px;
+								margin: 6px 0 0 9px;
+								border: 0;
+								line-height: 21px;
+								font-weight: bold;
+								font-size: 16px;
+								outline: none;
+							}
+							.sch_smit {
+								width: 54px; height: 40px;
+								margin: 0; border: 0;
+								vertical-align: top;
+								background: #200400;
+								color: white;
+								font-weight: bold;
+								border-radius: 1px;
+								cursor: pointer;
+							}
+							.sch_smit2 {
+								width: 120px; height: 40px;
+								margin: 0; border: 0;
+								vertical-align: top;
+								background: #200400;
+								color: white;
+								font-weight: bold;
+								border-radius: 1px;
+								cursor: pointer;
+							}
+							.sch_smit:hover {
+								background: #56C82C;
+							}
+						</style>
+
+
+						<!-- HTML -->
+						<span class='green_window'>
+						<input id=text10 type="text10" class='input_text10' name="search" onkeydown="enterSearch()"/></span>
+						<input type="button" class='sch_smit' value="검색" onclick="myFunction()"/>
+						<!-- JAVASCRIPT -->
+						<script type="text/javascript">
+							function enterSearch() {
+								if(event.keyCode == 13){
+							        myFunction();  // 실행할 이벤트
+							    }
+							}
+							function myFunction() {
+								var x = document.getElementById("text10").value;
+								var y = document.getElementById("selectBox");
+							    alert('선택된 옵션 value 값=' + y.options[y.selectedIndex].value + x);   
+							    
+
+							}
+						</script>
+						
+
+
+
+
+						<div id="container">
+
+							<div id="input-form">
+								
+
+
+							
+							</div>
+							<table id="user-table">
+	<thead>
+	<tr >
 		<th>Name</th>
 		<th>Gender</th>
 		<th>Birthday</th>
 	</tr>
+	</thead>
 	
 	<!--
 		Using FOREACH LOOP for the users array
@@ -26,6 +110,7 @@ including header content which is common for all pages
 			// el - current element, i - index
 		});
 	-->
+	<tbody>
 	<% if (staffs) { %>
 	<% staffs.forEach(function(staff){ %>
 		<tr>
@@ -36,17 +121,34 @@ including header content which is common for all pages
 			<td>
 				<div style="float:left">
 					<a href='/staffs/edit/<%= staff.id %>'>Edit</a> &nbsp;							
-					<form method="post" action="/staffs/delete/<%= staff.id %>" style="float:right">
-						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-						<input type="hidden" name="_method" value="DELETE" />
-					</form>
+					
 				</div>
 			</td>
 		</tr>
 	<% }) %>
 	<% } %>
+	</tbody>
 
 </table>
+							
+						</div>
+
+
+
+
+
+
+				</h10>
+			</header>
+			<p>
+
+			</p>
+		</div>
+	</div>
+</section>
+
+
+
 
 <a href="/staffs/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
 

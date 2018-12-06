@@ -32,6 +32,11 @@ including header content which is common for all pages
 	<input type="hidden" name="_method" value="PUT" />
 </form>
 
+<form method="post" action="/staffs/delete/<%= id %>" >
+						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+						<input type="hidden" name="_method" value="DELETE" />
+</form>
+
 <!--
 including footer content which is common for all pages
 -->
