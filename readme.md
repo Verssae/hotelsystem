@@ -1,5 +1,5 @@
-# 설치법
-- 1. 루트 디렉토리에 config.js 생성하기
+# 설치법(수정됨:12/6)
+- 루트 디렉토리에 config.js 생성하기
 
 ```javascript
 var config = {
@@ -19,23 +19,25 @@ var config = {
 module.exports = config
 ```
 
-* mysql에 테이블 생성 (mysql 5.7 버전)
+* mysql에 테이블 생성 (mysql 5.7 버전) (수정됨)
 
 ```mysql
 # 복붙해서 만드세요
+# 모두 drop table 하시고 새로 만드는게 편합니다
+
 create table customer (
-	id int(10) not null auto_increment,
+	id varchar(20) not null ,
+	password varchar(20) not null,
 	name varchar(20) not null,
 	car boolean,
 	nation varchar(20),
 	phone varchar(20) not null,
 	email varchar(30),
 	primary key (id)
-);
+)
 
 create table room_type (
 	type varchar(10) not null primary key,
-	bed int(10),
 	price int(10)
 );
 
@@ -43,13 +45,14 @@ create table room_type (
 create table room (
     number int(10) not null primary key,
     type varchar(10),
+	floor int(10) not null,
     foreign key (type) references room_type (type)
 );
 
 
 create table reservation (
     code int(10) not null auto_increment,
-    id int(10) not null,
+    id varchar(20) not null,
     number int(10) not null,
     indate datetime not null,
 	outdate datetime not null,
@@ -61,7 +64,8 @@ create table reservation (
 );
 
 create table staff (
-    id int(10) not null auto_increment,
+    id varchar(20) not null ,
+	password varchar(20) not null,
     name varchar(10) not null,
     gender varchar(10),
     birth date,
@@ -81,13 +85,13 @@ create table housekeeping (
 
 create table task (
     number int(10),
-    id int(10),
+    id varchar(20),
     foreign key (number) references room (number),
     foreign key (id) references staff (id),
     primary key (number, id)
 );
 
-i
+
 
 ```
 
