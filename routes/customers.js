@@ -28,6 +28,8 @@ app.get('/add', function(req, res, next){
 	// render to views/user/add.ejs
 	res.render('customers/add', {
 		title: 'Add New Customer',
+		id: '',
+		password: '',
 		name: '',
 		car: '',
 		nation: '',
@@ -55,6 +57,8 @@ app.post('/add', function(req, res, next){
 		req.sanitize('username').trim(); // returns 'a user'
 		********************************************/
 		var user = {
+			id: req.sanitize('id').escape().trim(),
+			password: req.sanitize('password').escape().trim(),
 			name: req.sanitize('name').escape().trim(),
 			car: req.sanitize('car').escape().trim(),
 			nation: req.sanitize('nation').escape().trim(),
@@ -71,6 +75,8 @@ app.post('/add', function(req, res, next){
 					// render to views/user/add.ejs
 					res.render('customers/add', {
 						title: 'Add New Customer',
+						id: user.id,
+						password: user.password,
 						name: user.name,
 						car: user.car,
 						nation: user.nation,
@@ -83,6 +89,8 @@ app.post('/add', function(req, res, next){
 					// render to views/user/add.ejs
 					res.render('customers/add', {
 						title: 'Add New Customer',
+						id: '',
+						password: '',
 						name: '',
 						car: '',
 						nation: '',
@@ -104,21 +112,23 @@ app.post('/add', function(req, res, next){
 		 * Using req.body.name 
 		 * because req.param('name') is deprecated
 		 */ 
-        res.render('customers/add', { 
-            title: 'Add New Customer',
+        res.render('customers/add', {
+			title: 'Add New Customer',
+			id: user.id,
+			password: user.password,
 			name: user.name,
 			car: user.car,
 			nation: user.nation,
 			phone: user.phone,
-			email: user.email	
-        })
+			email: user.email					
+		})
     }
 })
 
 // SHOW EDIT USER FORM
 app.get('/edit/(:id)', function(req, res, next){
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM customer WHERE id = ' + req.params.id, function(err, rows, fields) {
+		conn.query("SELECT * FROM customer WHERE id = ?", req.params.id, function(err, rows, fields) {
 			if(err) throw err
 			
 			// if user not found
@@ -132,6 +142,7 @@ app.get('/edit/(:id)', function(req, res, next){
 					title: 'Edit customer', 
 					//data: rows[0],
 					id: rows[0].id,
+					password: rows[0].password,
 					name: rows[0].name,
 					car: rows[0].car,
 					nation: rows[0].nation,
@@ -163,6 +174,8 @@ app.put('/edit/(:id)', function(req, res, next) {
 		req.sanitize('username').trim(); // returns 'a user'
 		********************************************/
 		var user = {
+			id: req.sanitize('id').escape().trim(),
+			password: req.sanitize('password').escape().trim(),
 			name: req.sanitize('name').escape().trim(),
 			car: req.sanitize('car').escape().trim(),
 			nation: req.sanitize('nation').escape().trim(),
@@ -171,7 +184,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 		}
 		
 		req.getConnection(function(error, conn) {
-			conn.query('UPDATE CUSTOMER SET ? WHERE id = ' + req.params.id, user, function(err, result) {
+			conn.query("UPDATE CUSTOMER SET ? WHERE id = '" + req.params.id +"'", user, function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
@@ -179,6 +192,8 @@ app.put('/edit/(:id)', function(req, res, next) {
 					// render to views/user/add.ejs
 					res.render('customers/edit', {
 						title: 'EDIT Customer',
+						id: user.id,
+						password: user.password,
 						name: user.name,
 						car: user.car,
 						nation: user.nation,
@@ -192,6 +207,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 					res.render('customers/edit', {
 						title: 'Edit Customer',
 						id: req.params.id,
+						password: req.body.password,
 						name: req.body.name,
 						car: req.body.car,
 						nation: req.body.nation,
@@ -216,6 +232,7 @@ app.put('/edit/(:id)', function(req, res, next) {
         res.render('customers/edit', { 
             title: 'Edit Customer',
 			id: req.params.id,
+			password: req.body.password,
 			name: req.body.name,
 			car: req.body.car,
 			nation: req.body.nation,

@@ -14,6 +14,7 @@ including header content which is common for all pages
 <table width='80%' border=0>
 
 	<tr style='text-align:left; background-color:#CCC'>
+		<th>ID</th>
 		<th>Name</th>
 		<th>Car</th>
 		<th>Nation</th>
@@ -31,6 +32,7 @@ including header content which is common for all pages
 	<% if (data) { %>
 	<% data.forEach(function(customer){ %>
 		<tr>
+			<td><%= customer.id %></td>
 			<td><%= customer.name %></td>
 			<td><%= customer.car %></td>
 			<td><%= customer.nation %></td>
