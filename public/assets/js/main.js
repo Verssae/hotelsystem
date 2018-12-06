@@ -42,4 +42,4 @@
 				side: 'right'
 			});
 
-});
+})(jQuery);

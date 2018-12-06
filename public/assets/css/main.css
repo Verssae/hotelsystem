@@ -436,10 +436,10 @@ input[type="radio"] {
   -ms-appearance: none;
   appearance: none;
   display: block;
-  float: left;
+  /* float: left;
   margin-right: -2rem;
   opacity: 0;
-  width: 1rem;
+  width: 1rem; */
   z-index: -1; }
   input[type="checkbox"] + label,
   input[type="radio"] + label {
@@ -2389,7 +2389,7 @@ ul.icons {
 
 /* Header */
 body {
-   }
+  padding-top: 3.25rem; }
   body:before {
     content: ' ';
     background-image: url(../../images/bg.jpg);
