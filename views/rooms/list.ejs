@@ -75,12 +75,14 @@ including header content which is common for all pages
 													<input type="text" name="number" value="<%= room.number %>" />
 													floor
 													<input type="text" name="floor" value="<%= room.floor %>" />
+													</br>
 													Clean
-													<input type="text" name="clean" value="<%= room.clean %>" />
+													<input type="checkbox" name="clean" value="true"  <%= room.clean ? "checked" : "" %> />
 													linen
-													<input type="text" name="linen" value="<%= room.linen %>" />
+													<input type="checkbox" name="linen" value="true"  <%= room.linen ? "checked" : "" %> />
 													amenity
-													<input type="text" name="amenity" value="<%= room.amenity %>" />
+													<input type="checkbox" name="amenity" value="true"  <%= room.amenity ? "checked" : "" %> />
+													</br>
 													order_take
 													<input type="text" name="order_take" value="<%= room.order_take %>" />
 													</br>

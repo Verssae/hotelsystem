@@ -153,10 +153,10 @@ app.put('/edit/(:number)', function(req, res, next) {
 			floor: req.sanitize('floor').escape().trim()
 		}
 		var housekeeping = {
-			clean: req.sanitize('clean').escape().trim(),
-			linen: req.sanitize('linen').escape().trim(),
-			amenity: req.sanitize('amenity').escape().trim(),
-			order_take: req.sanitize('order_take').escape().trim()
+			clean: req.body.clean ? true: false,
+			linen: req.body.linen ? true: false,
+			amenity: req.body.amenity ? true: false,
+			order_take: req.body.order_take
 		}
 		
 		req.getConnection(function(error, conn) {
