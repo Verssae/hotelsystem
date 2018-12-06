@@ -28,6 +28,8 @@ app.get('/add', function(req, res, next){
 	// render to views/user/add.ejs
 	res.render('staffs/add', {
 		title: 'Add New Staff',
+		id: 'id',
+		password: 'password',
 		name: '',
 		gender: '',
 		birth: ''
@@ -53,6 +55,8 @@ app.post('/add', function(req, res, next){
 		req.sanitize('username').trim(); // returns 'a user'
 		********************************************/
 		var staff = {
+			id: req.body.id,
+			password: req.body.password,
 			name: req.body.name,
 			gender: req.body.gender,
 			birth: req.body.birth
@@ -67,6 +71,8 @@ app.post('/add', function(req, res, next){
 					// render to views/user/add.ejs
 					res.render('staffs/add', {
 						title: 'Add New Staff',
+						id: staff.id,
+						password: staff.password,
 						name: staff.name,
 						gender: staff.gender,
 						birth: staff.birth
@@ -77,6 +83,8 @@ app.post('/add', function(req, res, next){
 					// render to views/user/add.ejs
 					res.render('staffs/add', {
 						title: 'Add New Staff',
+						id: '',
+						password: '',
 						name: '',
 						gender: '',
 						birth: ''
@@ -104,7 +112,7 @@ app.post('/add', function(req, res, next){
 // SHOW EDIT USER FORM
 app.get('/edit/(:id)', function(req, res, next){
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM staff WHERE id = ' + req.params.id, function(err, rows, fields) {
+		conn.query("SELECT * FROM staff WHERE id = '" + req.params.id+"'", function(err, rows, fields) {
 			if(err) throw err
 
 			// if user not found
@@ -118,6 +126,7 @@ app.get('/edit/(:id)', function(req, res, next){
 					title: 'Edit staff',
 					//data: rows[0],
 					id: rows[0].id,
+					password: rows[0].password,
 					name: rows[0].name,
 					gender: rows[0].gender,
 					birth: rows[0].birth
@@ -147,13 +156,15 @@ app.put('/edit/(:id)', function(req, res, next) {
 		req.sanitize('username').trim(); // returns 'a user'
 		********************************************/
 		var staff = {
+			id: req.body.id,
+			password: req.body.password,
 			name: req.body.name,
 			gender: req.body.gender,
 			birth: req.body.birth
 		}
 
 		req.getConnection(function(error, conn) {
-			conn.query('UPDATE staff SET ? WHERE id = ' + req.params.id, staff, function(err, result) {
+			conn.query("UPDATE staff SET ? WHERE id = '" + req.params.id+"'", staff, function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
@@ -167,6 +178,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 					res.render('staffs/edit', {
 						title: 'Edit staff',
 						id: req.params.id,
+						password: req.body.password,
 						name: req.body.name,
 						gender: req.body.gender,
 						birth: req.body.birth

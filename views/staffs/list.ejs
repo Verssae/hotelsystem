@@ -96,7 +96,7 @@ including header content which is common for all pages
 							</div>
 							<table id="user-table">
 	<thead>
-	<tr >
+	<tr ><th>ID</th>
 		<th>Name</th>
 		<th>Gender</th>
 		<th>Birthday</th>
@@ -114,6 +114,7 @@ including header content which is common for all pages
 	<% if (staffs) { %>
 	<% staffs.forEach(function(staff){ %>
 		<tr>
+			<td><%= staff.id %></td>
 			<td><%= staff.name %></td>
 			<td><%= staff.gender %></td>
 			<td><%= staff.birth %></td>
