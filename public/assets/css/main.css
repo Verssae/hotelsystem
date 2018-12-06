@@ -83,7 +83,7 @@ input::-moz-focus-inner {
 
 input, select, textarea {
   -moz-appearance: none;
-  -webkit-appearance: none;
+  
   -ms-appearance: none;
   appearance: none; }
 
@@ -256,7 +256,7 @@ input[type="button"],
 button,
 .button {
   -moz-appearance: none;
-  -webkit-appearance: none;
+  
   -ms-appearance: none;
   appearance: none;
   -moz-transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
@@ -378,7 +378,7 @@ input[type="url"],
 select,
 textarea {
   -moz-appearance: none;
-  -webkit-appearance: none;
+  
   -ms-appearance: none;
   appearance: none;
   border-radius: 4px;
@@ -432,14 +432,11 @@ textarea {
 input[type="checkbox"],
 input[type="radio"] {
   -moz-appearance: none;
-  -webkit-appearance: none;
+  
   -ms-appearance: none;
   appearance: none;
   display: block;
-  /* float: left;
-  margin-right: -2rem;
-  opacity: 0;
-  width: 1rem; */
+  
   z-index: -1; }
   input[type="checkbox"] + label,
   input[type="radio"] + label {
