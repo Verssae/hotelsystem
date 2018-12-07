@@ -1,0 +1,53 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include layouts_user/header.ejs %>	
+
+<!--
+including footer content which is common for all pages
+-->
+
+<!-- Banner -->
+			<section id="banner" role = "button">
+				<div class="inner">
+					<h1>'B' hotel management system</h1>
+				</div>
+				<video autoplay loop muted playsinline src="images/banner.mp4"></video>
+			</section>
+<!-- Highlights -->
+			<section class="wrapper">
+				<div class="inner">
+					<header class="special">
+						<h2>menu</h2>
+						<p>사용 할 기능 선택</p>
+					</header>
+					<div class="highlights">
+						<section>
+							<div class="content">
+								<header>
+									<a href="/reservations" class="icon fa-vcard-o"><span class="label">Icon</span></a>
+									<h3>예약</h3>
+								</header>
+								<p>
+
+								</p>
+							</div>
+						</section>
+
+						<section>
+							<div class="content">
+								<header>
+									<a href="/rooms" class="icon fa-line-chart"><span class="label">Icon</span></a>
+									<h3>예약 조회</h3>
+								</header>
+								<p>
+
+								</p>
+							</div>
+						</section>
+						
+					</div>
+				</div>
+			</section>
+
+<%- include layouts_user/footer.ejs %>

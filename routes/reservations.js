@@ -2,8 +2,13 @@ var moment = require('moment')
 var datetime = require('date-and-time');
 var express = require('express')
 var app = express()
+var isAuthenticated = function (req, res, next) {
+	if (req.isAuthenticated())
+	  return next();
+	res.redirect('/login');
+  };
 
-app.get('/', function(req, res, next) {
+app.get('/',isAuthenticated, function(req, res, next) {
 	req.getConnection(function(error, conn) {
 		conn.query("select code, number,id, name, date_format(indate, '%m월 %d일 %h %p') as indate, date_format(outdate, '%m월 %d일 %h %p') as outdate, checkIn, checkOut from reservation natural join customer order by indate",function(err, rows, fields) {
 			if (err) {
@@ -23,7 +28,7 @@ app.get('/', function(req, res, next) {
 })
 
 
-app.get('/add', function(req, res, next){
+app.get('/add', isAuthenticated,function(req, res, next){
 
 	req.getConnection(function(error, conn) {
 		conn.query('select * from room order by number',function(err, numbers, fields) {
@@ -43,7 +48,7 @@ app.get('/add', function(req, res, next){
 	})
 })
 
-app.get('/check', function(req, res, next){
+app.get('/check',isAuthenticated, function(req, res, next){
 
 	req.getConnection(function(error, conn) {
 		conn.query('select * from room order by number',function(err, numbers, fields) {
@@ -61,7 +66,7 @@ app.get('/check', function(req, res, next){
 	})
 })
 
-app.post('/check', function(req, res, next) {
+app.post('/check',isAuthenticated, function(req, res, next) {
 	// req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()
 
@@ -110,7 +115,7 @@ app.post('/check', function(req, res, next) {
 
 
 
-app.post('/add', function(req, res, next){
+app.post('/add',isAuthenticated, function(req, res, next){
 	req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()
 
@@ -193,7 +198,7 @@ app.post('/add', function(req, res, next){
 })
 
 
-app.get('/edit/(:code)', function(req, res, next){
+app.get('/edit/(:code)',isAuthenticated, function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM reservation WHERE code = ' + req.params.code, function(err, rows, fields) {
 			if(err) throw err;
@@ -231,7 +236,7 @@ app.get('/edit/(:code)', function(req, res, next){
 })
 
 
-app.put('/edit/(:code)', function(req, res, next) {
+app.put('/edit/(:code)',isAuthenticated, function(req, res, next) {
 	req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()
 
@@ -298,7 +303,7 @@ app.put('/edit/(:code)', function(req, res, next) {
 })
 
 
-app.delete('/delete/(:code)', function(req, res, next) {
+app.delete('/delete/(:code)',isAuthenticated, function(req, res, next) {
 	var reserve = { code: req.params.code }
 
 	req.getConnection(function(error, conn) {

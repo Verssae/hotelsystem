@@ -2,8 +2,13 @@ var express = require('express')
 var app = express()
 var datetime = require('date-and-time')
 var moment = require('moment')
+var isAuthenticated = function (req, res, next) {
+	if (req.isAuthenticated())
+	  return next();
+	res.redirect('/login');
+  };
 
-app.get('/', function(req, res, next) {
+app.get('/',isAuthenticated, function(req, res, next) {
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM room natural left outer join housekeeping ORDER BY floor desc, number ',function(err, rows, fields) {
 			if (err) {
@@ -43,7 +48,7 @@ app.get('/', function(req, res, next) {
 })
 
 
-app.get('/add', function(req, res, next){	
+app.get('/add',isAuthenticated, function(req, res, next){	
 	
 	req.getConnection(function(error, conn) {
 		conn.query('select * from room_type ',function(err, rows, fields) {
@@ -60,7 +65,7 @@ app.get('/add', function(req, res, next){
 })
 
 
-app.post('/add', function(req, res, next){	
+app.post('/add',isAuthenticated, function(req, res, next){	
 	req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()     
 	   
@@ -115,7 +120,7 @@ app.post('/add', function(req, res, next){
 })
 
 
-app.get('/edit/(:number)', function(req, res, next){
+app.get('/edit/(:number)',isAuthenticated, function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM room WHERE number = ' + req.params.number, function(err, rows, fields) {
 			if(err) throw err
@@ -141,7 +146,7 @@ app.get('/edit/(:number)', function(req, res, next){
 })
 
 
-app.put('/edit/(:number)', function(req, res, next) {
+app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 	req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()  
 
@@ -199,7 +204,7 @@ app.put('/edit/(:number)', function(req, res, next) {
 })
 
 
-app.delete('/delete/(:number)', function(req, res, next) {
+app.delete('/delete/(:number)',isAuthenticated, function(req, res, next) {
 	var room = { number: req.params.number }
 	
 	req.getConnection(function(error, conn) {

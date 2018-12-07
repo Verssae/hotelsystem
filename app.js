@@ -3,10 +3,14 @@ var app = express()
 
 var mysql = require('mysql')
 
-/**
- * This middleware provides a consistent API
- * for MySQL connections during request/response life cycle
- */
+var flash = require('express-flash')
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport') //passport module add
+var LocalStrategy = require('passport-local').Strategy;
+
+
+
 var myConnection  = require('express-myconnection')
 /**
  * Store database credentials in a separate config.js file
@@ -45,7 +49,7 @@ var rooms = require('./routes/rooms')
 var reservations = require('./routes/reservations')
 var staffs = require('./routes/staffs')
 var housekeeping = require('./routes/housekeeping')
-
+var login = require('./routes/login')
 
 /**
  * Express Validator Middleware for Form Validation
@@ -66,7 +70,7 @@ var bodyParser = require('body-parser')
  * and exposes the resulting object (containing the keys and values) on req.body.
  */
 
-app.use(bodyParser.urlencoded({ extended: false }))
+
 // app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -101,18 +105,112 @@ app.use(methodOverride(function (req, res) {
  * So, we also have to install and use
  * cookie-parser & session modules
  */
-var flash = require('express-flash')
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
+
 
 app.use(cookieParser('keyboard cat'))
 app.use(session({
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: true,
-	cookie: { maxAge: 60000 }
-}))
+	secret: '!@#$',
+    resave: false,
+    saveUninitialized: false
+}));
+
+
 app.use(flash())
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  /* db 에서 id를 이용하여 user를 얻어서 done을 호출합니다 */
+  done(null, user);
+//   connection.query("SELECT * FROM customer WHERE id=?", [id], function(err, rows) {
+//     var user = rows[0];
+//     done(err, user);
+//   });
+});
+
+passport.use(new LocalStrategy({
+  usernameField: 'id',
+  passwordField: 'password',
+  passReqToCallback: true
+}, function(req,username, password, done) {
+	
+	if (req.body.customer) {
+		req.getConnection(function(error, conn) {
+			conn.query('SELECT * FROM customer WHERE id =?', [username], function(err, rows) {
+				
+				
+				if (err) {
+					return done(err);
+				}
+				var user = rows[0];
+				
+				if (!user) {
+					return done(null, false, { message: 'ID를 확인해 주세요' });
+				}
+				if (user.password !== password) {
+					return done(null, false, { message: '비밀번호를 확인해 주세요' });
+				}
+				user.tag = "customer"
+				return done(null, user);
+			  });
+		});
+	} else {
+		req.getConnection(function(error, conn) {
+			conn.query('SELECT * FROM staff WHERE id =?', [username], function(err, rows) {
+				
+				if (err) {
+					return done(err);
+				}
+				var user = rows[0];
+				
+				if (!user) {
+					return done(null, false, { message: 'ID를 확인해 주세요' });
+				}
+				if (user.password !== password) {
+					return done(null, false, { message: '비밀번호를 확인해 주세요' });
+				}
+				user.tag = "staff"
+				return done(null, user);
+			  });
+		});
+	}
+	
+}));
+
+/* controllers */
+// app.get('/', function(req, res, next) {
+//   res.send('hello world');
+// });
+
+app.route('/login')
+.get(function(req, res, next) {
+//   console.log(req.flash('error'));
+  if (req.user) {
+    res.redirect("/");
+  } else {
+
+		res.render('login/login');
+    
+  }
+}).post(passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true
+}));
+
+app.get('/logout', function (req, res) {
+	req.logout();
+	res.redirect('/login');
+})
+
+// app.get('/login', function (req, res) {
+// 	res.render('login/main');
+// })
 
 
 app.use('/', index)
@@ -120,6 +218,7 @@ app.use('/customers', customers)
 app.use('/rooms',rooms)
 app.use('/reservations',reservations)
 app.use('/staffs',staffs)
+
 
 app.use(express.static('public'));
 app.use('/housekeeping', housekeeping)

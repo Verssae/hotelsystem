@@ -1,8 +1,12 @@
 var express = require('express')
 var app = express()
-
+var isAuthenticated = function (req, res, next) {
+	if (req.isAuthenticated())
+	  return next();
+	res.redirect('/login');
+  };
 // SHOW LIST OF USERS
-app.get('/', function(req, res, next) {
+app.get('/',isAuthenticated, function(req, res, next) {
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM staff ORDER BY id DESC',function(err, rows, fields) {
 			//if(err) throw err
@@ -24,7 +28,7 @@ app.get('/', function(req, res, next) {
 })
 
 // SHOW ADD USER FORM
-app.get('/add', function(req, res, next){
+app.get('/add',isAuthenticated, function(req, res, next){
 	// render to views/user/add.ejs
 	res.render('staffs/add', {
 		title: 'Add New Staff',
@@ -37,7 +41,7 @@ app.get('/add', function(req, res, next){
 })
 
 // ADD NEW USER POST ACTION
-app.post('/add', function(req, res, next){
+app.post('/add',isAuthenticated, function(req, res, next){
 	req.assert('name', 'Name is required').notEmpty()           //Validate name
     // req.assert('email', 'A valid email is required').isEmail()  //Validate email
 
@@ -110,7 +114,7 @@ app.post('/add', function(req, res, next){
 })
 
 // SHOW EDIT USER FORM
-app.get('/edit/(:id)', function(req, res, next){
+app.get('/edit/(:id)', isAuthenticated,function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query("SELECT * FROM staff WHERE id = '" + req.params.id+"'", function(err, rows, fields) {
 			if(err) throw err
@@ -137,7 +141,7 @@ app.get('/edit/(:id)', function(req, res, next){
 })
 
 // EDIT USER POST ACTION
-app.put('/edit/(:id)', function(req, res, next) {
+app.put('/edit/(:id)', isAuthenticated,function(req, res, next) {
 	req.assert('name', 'Name is required').notEmpty()           //Validate name
 
     // req.assert('email', 'A valid email is required').isEmail()  //Validate email
@@ -203,7 +207,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 })
 
 // DELETE USER
-app.delete('/delete/(:id)', function(req, res, next) {
+app.delete('/delete/(:id)',isAuthenticated, function(req, res, next) {
 	var staff = { id: req.params.id }
 
 	req.getConnection(function(error, conn) {

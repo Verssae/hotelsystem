@@ -34,6 +34,8 @@
     border-image: initial !important;
 }
 
+
+
 .bookable {
     box-sizing: border-box !important;
     cursor: pointer !important;
@@ -56,8 +58,8 @@
     border-style: solid !important;
     border-left-color: rgb(255,255,255) !important;
     border-right-color: rgb(228, 231, 231) !important;
-    border-top-color: transparent!important;
-    border-bottom-color: transparent!important;
+    border-top-color: rgb(255,255,255)!important;
+    border-bottom-color: rgb(255,255,255)!important;
     border-image: initial !important;
     background: rgb(255, 255, 255) !important;
 }
@@ -138,8 +140,4 @@
   color: #6cc0e5;
   text-align: center;
   border: 1px solid #6cc0e5;
-}
-input[type=checkbox]
-{
-  -webkit-appearance:checkbox;
 }

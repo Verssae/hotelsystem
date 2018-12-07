@@ -1,7 +1,12 @@
 var express = require('express')
 var app = express()
+var isAuthenticated = function (req, res, next) {
+	if (req.isAuthenticated())
+	  return next();
+	res.redirect('/login');
+  };
 
-app.get('/', function(req, res, next) {
+app.get('/',isAuthenticated, function(req, res, next) {
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM housekeeping ORDER BY number',function(err, rows, fields) {
 			if (err) {
@@ -21,7 +26,7 @@ app.get('/', function(req, res, next) {
 })
 
 
-app.get('/add', function(req, res, next){
+app.get('/add',isAuthenticated, function(req, res, next){
 
 	req.getConnection(function(error, conn) {
 		conn.query('select * from room order by number',function(err, numbers, fields) {
@@ -38,7 +43,7 @@ app.get('/add', function(req, res, next){
 	})
 })
 
-app.post('/add', function(req, res, next){
+app.post('/add',isAuthenticated, function(req, res, next){
 	req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()
 
@@ -96,7 +101,7 @@ app.post('/add', function(req, res, next){
 })
 
 
-app.get('/edit/(:number)', function(req, res, next){
+app.get('/edit/(:number)',isAuthenticated, function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM housekeeping WHERE number = ' + req.params.number, function(err, rows, fields) {
 			if(err) throw err;
@@ -123,7 +128,7 @@ app.get('/edit/(:number)', function(req, res, next){
 })
 
 
-app.put('/edit/(:number)', function(req, res, next) {
+app.put('/edit/(:number)', isAuthenticated,function(req, res, next) {
 	req.assert('number', 'Room number is required').notEmpty()
 	// req.assert('type', 'Room type is required').notEmpty()
 
@@ -182,7 +187,7 @@ app.put('/edit/(:number)', function(req, res, next) {
 })
 
 
-app.delete('/delete/(:number)', function(req, res, next) {
+app.delete('/delete/(:number)',isAuthenticated, function(req, res, next) {
 	var housekeeping = { number: req.params.number }
 
 	req.getConnection(function(error, conn) {
