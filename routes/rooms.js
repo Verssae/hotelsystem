@@ -30,17 +30,25 @@ app.get('/',isAuthenticated, function(req, res, next) {
 						res.redirect('/')
 						
 					} else {
-						var sql = "select * from task natural join staff"
-						conn.query(sql, function(err, staffs) {
+						var sql = "select * from staff right join task on staff.id = task.id"
+						conn.query(sql, function(err, tasks) {
 							if (err) {
 								res.redirect('/')
 							} else {
-								res.render('rooms/list', {
-									title: 'Room List', 
-									data: rows,
-									reserved: reserved,
-									staffs: staffs
-								})
+								var sql = "select * from staff"
+						        conn.query(sql, function(err, staffs) {
+                                    if (err) {
+                                        res.redirect('/')
+                                    } else {
+                                        res.render('rooms/list', {
+                                            title: 'Room List', 
+                                            data: rows,
+                                            reserved: reserved,
+                                            staffs: staffs,
+                                            tasks: tasks
+                                        })
+                                    }
+                                })
 							}
 						})
 						
@@ -178,12 +186,39 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 					
 					res.redirect('/rooms')
 				} else {
-					req.flash('success', 'Data updated successfully!')
-					res.redirect('/rooms')
+
+					var task = {
+						number: req.params.number,
+						id: req.body.id
+					}
+					
+					
+					conn.query('insert into task SET ? ', task, function(err, result) {
+						//if(err) throw err
+						if (err) {
+							conn.query("update task set ? where number = '"+task.number+"'", task, function(err, rows) {
+								if (err) {
+									req.flash('error', err)
+									res.redirect('/rooms')
+								} else {
+									req.flash('success', 'Data updated successfully!')
+									res.redirect('/rooms')
+								}
+							})
+							
+						} else {
+							req.flash('success', 'Data updated successfully!')
+							res.redirect('/rooms')
+							
+						}
+					})
+					
 					
 				}
 			})
 		})
+
+		
 		
 	}
 	else {   //Display errors to user

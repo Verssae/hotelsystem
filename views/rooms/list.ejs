@@ -59,10 +59,10 @@ including header content which is common for all pages
 														<% } %>
 													<%  } %>
 												<% }); %>
-												<% var matched_staff = ""%>
-												<% staffs.forEach(function(staff) {%>
-													<%if (room.number == staff.number){ %>
-													<%	matched_staff = staff.name; %>
+												<% var matched_staff = ""; var matched_staff_id="";%>
+												<% tasks.forEach(function(task) {%>
+													<%if (room.number == task.number){ %>
+													<%	matched_staff = task.name;matched_staff_id = task.id; %>
 													<%	 %>
 													<%} %>
 												<%}) %>
@@ -74,7 +74,7 @@ including header content which is common for all pages
 											<div class="modal-title">
 
 												<span class="close">&times;</span>
-												<h2>Housekeeping State</h2>
+												<h2><%= room.number %>호</h2>
 											</div>
 											<div class="checklist">
 												<form action="/rooms/edit/<%= room.number %>" method="post" name="form1" >
@@ -83,8 +83,15 @@ including header content which is common for all pages
 													</br>
 													floor
 													<input type="text" name="floor" value="<%= room.floor %>" />
+													<select name="id">
+														<% if (staffs) { %>
+															<% staffs.forEach(function(staff){ %>
+																<option value='<%= staff.id %>' <% if (staff.id == matched_staff_id) { %>selected 
+																<% } %>> <%= staff.name%> <%= staff.gender %> <%= staff.birth %></option>
+															<% }) %>
+														<% } %>	
+													</select>
 													</br>
-													STAFF: <%=matched_staff%></br>
 													Clean
 													<input type="checkbox" name="clean" value="true"  <%= room.clean ? "checked" : "" %> />
 													linen
