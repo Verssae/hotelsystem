@@ -1,0 +1,101 @@
+{
+  "_from": "pg-calendar",
+  "_id": "pg-calendar@1.4.30",
+  "_inBundle": false,
+  "_integrity": "sha512-wGqugR6PyuQD6bbsAKrqVja6ve4MLQZ4stuuMwsvuDQKMqcB40SIpuiNIpw6x3+NZsEaYgvq0wm1L77Rox8X6Q==",
+  "_location": "/pg-calendar",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "pg-calendar",
+    "name": "pg-calendar",
+    "escapedName": "pg-calendar",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/pg-calendar/-/pg-calendar-1.4.30.tgz",
+  "_shasum": "979b182e6e61c3c26fad2b83b79f31872f8d472a",
+  "_spec": "pg-calendar",
+  "_where": "/Users/juhansae/hotelsystem",
+  "author": {
+    "name": "PIGNOSE",
+    "email": "kennethan@nhpcw.com"
+  },
+  "bugs": {
+    "url": "https://github.com/KennethanCeyer/PIGNOSE-Calendar/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Adrian Hernandez",
+      "url": "https://github.com/adrian2monk"
+    }
+  ],
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "moment": "^2.22.2"
+  },
+  "deprecated": false,
+  "description": "Beautiful and eidetic jQuery date picker plguin.",
+  "devDependencies": {
+    "almond": "^0.3.3",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.1.2",
+    "grunt": "^1.0.3",
+    "grunt-babel": "^7.0.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-contrib-csslint": "^2.0.0",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^2.0.0",
+    "grunt-contrib-requirejs": "^1.0.0",
+    "grunt-contrib-uglify": "^3.4.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-css-url-rewrite": "0.3.5",
+    "grunt-umd": "^3.0.0",
+    "jsdom": "^11.12.0",
+    "less-plugin-autoprefix": "^2.0.0",
+    "libumd": "^0.9.0",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "rimraf": "^2.6.2"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "homepage": "https://www.pigno.se/barn/PIGNOSE-Calendar/",
+  "keywords": [
+    "datepicker",
+    "toggle",
+    "date",
+    "material",
+    "pignose",
+    "kennethanceyer",
+    "jquery",
+    "plugin"
+  ],
+  "license": "MIT",
+  "main": "dist/js/pignose.calendar.js",
+  "name": "pg-calendar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KennethanCeyer/PIGNOSE-Calendar.git"
+  },
+  "scripts": {
+    "build": "grunt",
+    "clean": "rimraf ./coverage ./.nyc_output",
+    "coverage": "nyc report --reporter=text-lcov > ./coverage/coverage.lcov && cat ./coverage/coverage.lcov | coveralls && codecov -t e0e9165c-fa05-48bd-8b42-9e221c01f84d",
+    "test": "npm run clean && nyc --reporter=html --reporter=json ./node_modules/mocha/bin/mocha **/*.spec.js -t 1000"
+  },
+  "version": "1.4.30"
+}

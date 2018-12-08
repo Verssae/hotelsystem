@@ -1,32 +1,80 @@
-<!--
-including header content which is common for all pages
--->
 <%- include ../layouts/header.ejs %>	
+<div id="wrapper">
+    
+    <div id="multiple" class="article">
+        <div class="title">
+		<h3><span>예약 기간 선택</span></h3>
+		
+        </div>
+        <div class="multi-select-calendar"></div>
+		
+			<div class="box">
+				<p>DATE</p>
+			</div>
 
-<% if (messages.error) { %>
-	<p style="color:red"><%- messages.error %></p>
-<% } %>
+		
+        
+        
+        
+    </div>
+    
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+<script type="text/javascript" src="/pg-calendar/dist/js/pignose.calendar.full.min.js"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    $(function () {
+        $('#wrapper .version strong').text('v' + $.fn.pignoseCalendar.version);
 
-<% if (messages.success) { %>
-	<p style="color:green"><%- messages.success %></p>
-<% } %>
+        function onSelectHandler(date, context) {
+			console.log(date);
+            
 
-<form action="/reservations/check" method="post" name="form1">
+            var $element = context.element;
+            var $calendar = context.calendar;
+            var $box = $element.siblings('.box').show();
+            
+			var indate = null;
+			var outdate = null;
 
-	In Date
-	<input type="datetime-local" name="indate" value="<%= indate %>" />
-	<br/>
-	Out Date
-	<input type="datetime-local" name="outdate" value="<%= outdate %>" />
-</br>
-	<input type="submit" name="Submit" value="check" />
+            if (date[0] !== null) {
+                indate = date[0].format('YYYY-MM-DD');
+            }
 
-</form>
-
+            
+            if (date[1] !== null) {
+                outdate = date[1].format('YYYY-MM-DD');
+            }
 
 
+            // $box.text(text);
+			$box.html("<form action='/reservations/check' method='post' name='form1'>"+
+			"<input type='datetime' name='indate' value='"+indate+"'/></br>" + 
+			"<input type='datetime' name='outdate' value='"+outdate+"'/>"+
+			"<input type='submit' name='Submit' value='check' /></form>" );
+			
+			
+			
+        }
+        
+        
 
-<!--
-including footer content which is common for all pages
--->
-<%- include ../layouts/footer.ejs %>
+        // Multiple picker type Calendar
+        $('.multi-select-calendar').pignoseCalendar({
+            multiple: true,
+            select: onSelectHandler
+        });
+
+        
+    });
+    //]]>
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.13.0/prism.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.13.0/components/prism-javascript.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.13.0/components/prism-typescript.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.13.0/components/prism-json.min.js"></script>
+<script type="text/javascript" src="https://twemoji.maxcdn.com/2/twemoji.min.js?2.5"></script>
+</body>
+</html>
