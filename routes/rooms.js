@@ -21,7 +21,7 @@ app.get('/',isAuthenticated, function(req, res, next) {
 				var now = new Date();
 				var indate = moment(now).format('YYYY-MM-DD HH:mm:ss');
 				var outdate = indate;
-				var sql = "select * from reservation where indate <= '" +indate+ "' and outdate >= '" + indate +"' ";
+				var sql = "select * from reservation natural join customer where indate <= '" +indate+ "' and outdate >= '" + indate +"' ";
 				
 				conn.query(sql, function(err, reserved) {
 					if (err) {

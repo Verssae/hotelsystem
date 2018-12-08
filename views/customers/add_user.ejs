@@ -1,7 +1,7 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts/header.ejs %>	
+<%- include ../layouts_user/header.ejs %>	
 
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
@@ -11,7 +11,7 @@ including header content which is common for all pages
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
 
-<form action="/customers/add" method="post" name="form1">
+<form action="/signin" method="post" name="form1">
 	<section>
 		<div>
 		<h1>회원가입</h1>

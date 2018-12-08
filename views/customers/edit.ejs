@@ -12,41 +12,23 @@ including header content which is common for all pages
 <% } %>
 
 <form action="/customers/edit/<%= id %>" method="post" name="form1">
-	<table width="25%" border="0">
-		<tr> 
-			<td>ID</td>
-			<td><input type="text" name="id" value="<%= id %>" /></td>
-		</tr>
-		<tr> 
-			<td>PASSWORD</td>
-			<td><input type="text" name="password" value="<%= password %>" /></td>
-		</tr>
-		<tr> 
-			<td>Name</td>
-			<td><input type="text" name="name" id="name" value="<%= name %>" /></td>
-		</tr>
-		<tr> 
-			<td>Car</td>
-			<td><input type="text" name="car" value="<%= car %>" /></td>
-		</tr>
-		<tr> 
-			<td>Nation</td>
-			<td><input type="text" name="nation" value="<%= nation %>" /></td>
-		</tr>
-		<tr> 
-			<td>Phone</td>
-			<td><input type="text" name="phone" value="<%= phone %>" /></td>
-		</tr>
-		<tr> 
-			<td>Email</td>
-			<td><input type="text" name="email" value="<%= email %>" /></td>
-		</tr>
-		<tr> 
-			<td></td>
-			<td><input type="submit" name="Submit" value="Edit" /></td>
-		</tr>
-	</table>
-	<input type="hidden" name="_method" value="PUT" />
+	<section>
+		<div>
+		<h1>회원가입</h1>
+		<p>이름:<input type="text" name="name"  value="<%= name %>" ></p>
+		<p>아이디:<input type="text" name="id" value="<%= id %>"></p>
+		<p>비밀번호:<input type="text" name="password" value="<%= password %>" ></p>
+		<p>자동차:<input type="checkbox" name="car" value="true" <%= car ? "checked" : "" %>/></p>
+		<p>Phone:<input type="text" name="phone" value="<%= phone %>"></p>
+		<p>email:<input type="text" name="email" value="<%= email %>"></p>
+		<p>Nation:<input type="text" name="nation" value="<%= nation %>" ></p>
+
+		<p><input type ="submit" value="edit"></p>
+		<input type="hidden" name="_method" value="PUT" />
+	</div>
+	</section>
+ 
+	
 </form>
 
 <!--

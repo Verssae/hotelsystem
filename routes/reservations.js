@@ -10,7 +10,7 @@ var isAuthenticated = function (req, res, next) {
 
 app.get('/',isAuthenticated, function(req, res, next) {
 	req.getConnection(function(error, conn) {
-		conn.query("select code, number,id, name, date_format(indate, '%m월 %d일 %h %p') as indate, date_format(outdate, '%m월 %d일 %h %p') as outdate, checkIn, checkOut from reservation natural join customer order by indate",function(err, rows, fields) {
+		conn.query("select code, number,id, name, date_format(indate, '%m월 %d일') as indate, date_format(outdate, '%m월 %d일 ') as outdate, checkIn, checkOut, reservedate from reservation natural join customer order by indate",function(err, rows, fields) {
 			if (err) {
 				req.flash('error', err)
 				res.render('reservations/list', {
@@ -124,7 +124,7 @@ app.post('/add',isAuthenticated, function(req, res, next){
 
     if( !errors ) {
 
-
+		var now = new Date();
 		var sql = "insert into reservation set ?";
 		var params = {
 			id:req.body.customer,
@@ -132,7 +132,8 @@ app.post('/add',isAuthenticated, function(req, res, next){
 			indate: moment(req.body.indate).format('YYYY-MM-DD'),
 			outdate: moment(req.body.outdate).format('YYYY-MM-DD'),
 			checkIn: req.body.checkIn ? true: false,
-			checkOut: req.body.checkOut ? true : false
+			checkOut: req.body.checkOut ? true : false,
+			reservedate: now
 		};
 
 		console.log("post add")
@@ -141,7 +142,7 @@ app.post('/add',isAuthenticated, function(req, res, next){
 
 		req.getConnection(function(error, conn) {
 			conn.query(sql, params, function(err, result) {
-				var now = new Date();
+				
 				if (err) {
 					req.flash('error', err)
 					console.log(err);

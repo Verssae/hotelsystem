@@ -30,22 +30,20 @@ app.get('/',isAuthenticated, function(req, res, next) {
 })
 
 // SHOW ADD USER FORM
-app.get('/add',isAuthenticated, function(req, res, next){	
-	// render to views/user/add.ejs
-	res.render('customers/add', {
+app.get('/add', function(req, res) {
+	res.render('customers/add_user', {
 		title: 'Add New Customer',
 		id: '',
 		password: '',
 		name: '',
-		car: '',
+		
 		nation: '',
 		phone: '',
 		email: ''		
 	})
 })
 
-// ADD NEW USER POST ACTION
-app.post('/add',isAuthenticated, function(req, res, next){	
+app.post('/add', function(req, res, next){	
 	req.assert('name', 'Name is required').notEmpty()           //Validate name
     // req.assert('email', 'A valid email is required').isEmail()  //Validate email
 
@@ -63,13 +61,13 @@ app.post('/add',isAuthenticated, function(req, res, next){
 		req.sanitize('username').trim(); // returns 'a user'
 		********************************************/
 		var user = {
-			id: req.sanitize('id').escape().trim(),
-			password: req.sanitize('password').escape().trim(),
-			name: req.sanitize('name').escape().trim(),
-			car: req.sanitize('car').escape().trim(),
-			nation: req.sanitize('nation').escape().trim(),
-			phone: req.sanitize('phone').escape().trim(),
-			email: req.sanitize('email').escape().trim()
+			id: req.body.id,
+			password: req.body.password,
+			name: req.body.name,
+			car: req.body.car ? true:false,
+			nation: req.body.nation,
+			phone: req.body.phone,
+			email: req.body.email
 		}
 		
 		req.getConnection(function(error, conn) {
@@ -84,7 +82,7 @@ app.post('/add',isAuthenticated, function(req, res, next){
 						id: user.id,
 						password: user.password,
 						name: user.name,
-						car: user.car,
+						
 						nation: user.nation,
 						phone: user.phone,
 						email: user.email					
@@ -93,16 +91,7 @@ app.post('/add',isAuthenticated, function(req, res, next){
 					req.flash('success', 'Data added successfully!')
 					
 					// render to views/user/add.ejs
-					res.render('customers/add', {
-						title: 'Add New Customer',
-						id: '',
-						password: '',
-						name: '',
-						car: '',
-						nation: '',
-						phone: '',
-						email: ''					
-					})
+					res.redirect('/customers');
 				}
 			})
 		})
@@ -118,23 +107,14 @@ app.post('/add',isAuthenticated, function(req, res, next){
 		 * Using req.body.name 
 		 * because req.param('name') is deprecated
 		 */ 
-        res.render('customers/add', {
-			title: 'Add New Customer',
-			id: user.id,
-			password: user.password,
-			name: user.name,
-			car: user.car,
-			nation: user.nation,
-			phone: user.phone,
-			email: user.email					
-		})
+        res.redirect('/customers');
     }
 })
 
 // SHOW EDIT USER FORM
 app.get('/edit/(:id)',isAuthenticated, function(req, res, next){
 	req.getConnection(function(error, conn) {
-		conn.query("SELECT * FROM customer WHERE id = ?", req.params.id, function(err, rows, fields) {
+		conn.query("SELECT * FROM customer WHERE id = ?", [req.params.id], function(err, rows, fields) {
 			if(err) throw err
 			
 			// if user not found
@@ -161,7 +141,7 @@ app.get('/edit/(:id)',isAuthenticated, function(req, res, next){
 })
 
 // EDIT USER POST ACTION
-app.put('/edit/(:id)',isAuthenticated, function(req, res, next) {
+app.put('/edit/(:id)', function(req, res, next) {
 	req.assert('name', 'Name is required').notEmpty()           //Validate name
 	
     // req.assert('email', 'A valid email is required').isEmail()  //Validate email
@@ -183,7 +163,7 @@ app.put('/edit/(:id)',isAuthenticated, function(req, res, next) {
 			id: req.sanitize('id').escape().trim(),
 			password: req.sanitize('password').escape().trim(),
 			name: req.sanitize('name').escape().trim(),
-			car: req.sanitize('car').escape().trim(),
+			car: req.body.car ? true: false,
 			nation: req.sanitize('nation').escape().trim(),
 			phone: req.sanitize('phone').escape().trim(),
 			email: req.sanitize('email').escape().trim()
@@ -210,16 +190,7 @@ app.put('/edit/(:id)',isAuthenticated, function(req, res, next) {
 					req.flash('success', 'Data updated successfully!')
 					
 					// render to views/user/add.ejs
-					res.render('customers/edit', {
-						title: 'Edit Customer',
-						id: req.params.id,
-						password: req.body.password,
-						name: req.body.name,
-						car: req.body.car,
-						nation: req.body.nation,
-						phone: req.body.phone,
-						email: req.body.email
-					})
+					res.redirect('/customers')
 				}
 			})
 		})
@@ -235,25 +206,16 @@ app.put('/edit/(:id)',isAuthenticated, function(req, res, next) {
 		 * Using req.body.name 
 		 * because req.param('name') is deprecated
 		 */ 
-        res.render('customers/edit', { 
-            title: 'Edit Customer',
-			id: req.params.id,
-			password: req.body.password,
-			name: req.body.name,
-			car: req.body.car,
-			nation: req.body.nation,
-			phone: req.body.phone,
-			email: req.body.email
-        })
+        res.render('/cusotmers')
     }
 })
 
 // DELETE USER
 app.delete('/delete/(:id)',isAuthenticated, function(req, res, next) {
-	var user = { id: req.params.id }
+	
 	
 	req.getConnection(function(error, conn) {
-		conn.query('DELETE FROM customer WHERE id = ' + req.params.id, user, function(err, result) {
+		conn.query('DELETE FROM customer WHERE id = ?',  req.params.id, function(err, result) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)

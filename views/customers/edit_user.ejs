@@ -1,8 +1,8 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts/header.ejs %>	
-
+<%- include ../layouts_user/header.ejs %>	
+		
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
 <% } %>
@@ -11,19 +11,20 @@ including header content which is common for all pages
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
 
-<form action="/customers/add" method="post" name="form1">
+<form action="/login/edit/<%= id %>" method="post" name="form1">
 	<section>
 		<div>
 		<h1>회원가입</h1>
 		<p>이름:<input type="text" name="name"  value="<%= name %>" ></p>
 		<p>아이디:<input type="text" name="id" value="<%= id %>"></p>
 		<p>비밀번호:<input type="text" name="password" value="<%= password %>" ></p>
-		<p>자동차:<input type="checkbox" name="car" value="true"/></p>
+		<p>자동차:<input type="checkbox" name="car" value="true" <%= car ? "checked" : "" %>/></p>
 		<p>Phone:<input type="text" name="phone" value="<%= phone %>"></p>
 		<p>email:<input type="text" name="email" value="<%= email %>"></p>
 		<p>Nation:<input type="text" name="nation" value="<%= nation %>" ></p>
 
-		<p><input type ="submit" value="회원가입"></p>
+		<p><input type ="submit" value="edit"></p>
+		<input type="hidden" name="_method" value="PUT" />
 	</div>
 	</section>
  

@@ -49,9 +49,10 @@ including header content which is common for all pages
 											<tr >
 												<th class="floor" style="width:70px;height:70px;"><%= room.floor %>F</th>
 											<% }  %>
-													<% var color = "bookable";%>
+													<% var color = "bookable"; var customer_id = ""; var customer_name = "";%>
 													<% reserved.forEach(function(reserve) { %>
 													<% if (room.number == reserve.number) { %>
+														<% customer_id = reserve.id; customer_name = reserve.name; %>
 														<% if (room.clean && room.linen && room.amenity) { %>
 														<%     color = "c_done"; %>
 														<% } else { %>
@@ -67,7 +68,7 @@ including header content which is common for all pages
 													<%} %>
 												<%}) %>
 												<td class="<%=color%>" id="<%=room.number%>" role="button" tabindex="0" style="width:70px;height:70px;" >
-												<%=room.number%>호</br><%=matched_staff%></td>
+												<%=room.number%>호</br><%=matched_staff%></br><%=customer_name%></td>
 												
 									<div id="<%= room.number %>" class="modal">
 										<div class="modal-content">
@@ -83,6 +84,8 @@ including header content which is common for all pages
 													</br>
 													floor
 													<input type="text" name="floor" value="<%= room.floor %>" />
+													</br>
+													STAFF
 													<select name="id">
 														<% if (staffs) { %>
 															<% staffs.forEach(function(staff){ %>
@@ -91,6 +94,9 @@ including header content which is common for all pages
 															<% }) %>
 														<% } %>	
 													</select>
+													</br>
+													Customer Info
+													<a href="/customers/edit/<%=customer_id%>"><%=customer_name%></a>
 													</br>
 													Clean
 													<input type="checkbox" name="clean" value="true"  <%= room.clean ? "checked" : "" %> />
