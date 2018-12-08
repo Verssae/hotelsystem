@@ -31,14 +31,7 @@ including header content which is common for all pages
 	<br/>
 	Customer Name
 	
-	<select name="customer" >
-			<% if (customers) { %>
-				<% customers.forEach(function(customer){ %>
-					<option value='<%= customer.id %>'>id:<%= customer.id%> name: <%= customer.name %></option>
-					
-				<% }) %>
-			<% } %>	
-	</select>
+	<%=customers[0].name%>
 	<br/>
 	
 	<br/>

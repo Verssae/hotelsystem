@@ -27,7 +27,8 @@
     //<![CDATA[
     $(function () {
         $('#wrapper .version strong').text('v' + $.fn.pignoseCalendar.version);
-
+		var indate = null;
+		var outdate = null;
         function onSelectHandler(date, context) {
 			console.log(date);
             
@@ -36,8 +37,7 @@
             var $calendar = context.calendar;
             var $box = $element.siblings('.box').show();
             
-			var indate = null;
-			var outdate = null;
+			
 
             if (date[0] !== null) {
                 indate = date[0].format('YYYY-MM-DD');
@@ -48,12 +48,15 @@
                 outdate = date[1].format('YYYY-MM-DD');
             }
 
-
-            // $box.text(text);
+		
+			
+				// $box.text(text);
 			$box.html("<form action='/reservations/check' method='post' name='form1'>"+
 			"<input type='datetime' name='indate' value='"+indate+"'/></br>" + 
 			"<input type='datetime' name='outdate' value='"+outdate+"'/>"+
 			"<input type='submit' name='Submit' value='check' /></form>" );
+			
+        
 			
 			
 			
