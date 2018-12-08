@@ -1,4 +1,4 @@
-# 설치법(수정됨:12/6)
+# 설치법(수정됨:12/9)
 - 루트 디렉토리에 config.js 생성하기
 
 ```javascript
@@ -25,6 +25,7 @@ module.exports = config
 # 복붙해서 만드세요
 # 모두 drop table 하시고 새로 만드는게 편합니다
 
+
 create table customer (
 	id varchar(20) not null ,
 	password varchar(20) not null,
@@ -34,7 +35,7 @@ create table customer (
 	phone varchar(20) not null,
 	email varchar(30),
 	primary key (id)
-)
+);
 
 create table room_type (
 	type varchar(10) not null primary key,
@@ -46,6 +47,10 @@ create table room (
     number int(10) not null primary key,
     type varchar(10),
 	floor int(10) not null,
+	clean booelan,
+    linen booelan,
+    amenity boolean,
+    order_take varchar(255),
     foreign key (type) references room_type (type)
 );
 
@@ -73,15 +78,6 @@ create table staff (
 );
 
 
-create table housekeeping (
-    number int(10),
-    clean booelan,
-    linen booelan,
-    amenity boolean,
-    order_take varchar(255),
-    foreign key (number) references room (number),
-    primary key (number)
-);
 
 create table task (
     number int(10),
@@ -90,6 +86,7 @@ create table task (
     foreign key (id) references staff (id),
     primary key (number, id)
 );
+
 
 
 
