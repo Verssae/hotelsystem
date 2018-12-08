@@ -49,7 +49,7 @@ var rooms = require('./routes/rooms')
 var reservations = require('./routes/reservations')
 var staffs = require('./routes/staffs')
 var housekeeping = require('./routes/housekeeping')
-var login = require('./routes/login')
+var assign = require('./routes/assign')
 
 /**
  * Express Validator Middleware for Form Validation
@@ -218,6 +218,7 @@ app.use('/customers', customers)
 app.use('/rooms',rooms)
 app.use('/reservations',reservations)
 app.use('/staffs',staffs)
+app.use('/assign',assign)
 
 
 app.use(express.static('public'));

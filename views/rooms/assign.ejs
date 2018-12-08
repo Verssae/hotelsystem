@@ -59,16 +59,16 @@ including header content which is common for all pages
 														<% } %>
 													<%  } %>
 												<% }); %>
-												<% var matched_staff = ""%>
-												<% staffs.forEach(function(staff) {%>
-													<%if (room.number == staff.number){ %>
-													<%	matched_staff = staff.name; %>
+												
+												<% var matched_staff = ""; var matched_staff_id="";%>
+												<% tasks.forEach(function(task) {%>
+													<%if (room.number == task.number){ %>
+													<%	matched_staff = task.name;matched_staff_id = task.id; %>
 													<%	 %>
 													<%} %>
 												<%}) %>
 												<td class="<%=color%>" id="<%=room.number%>" role="button" tabindex="0" style="width:70px;height:70px;" >
 												<%=room.number%>호</br><%=matched_staff%></td>
-												
 									<div id="<%= room.number %>" class="modal">
 										<div class="modal-content">
 											<div class="modal-title">
@@ -77,27 +77,31 @@ including header content which is common for all pages
 												<h2>Housekeeping State</h2>
 											</div>
 											<div class="checklist">
-												<form action="/rooms/edit/<%= room.number %>" method="post" name="form1" >
-													Room Number
-													<input type="text" name="number" value="<%= room.number %>" />
+												<form action="/assign/edit/<%= room.number %>" method="post" name="form1" >
+													
+													<p><%= room.number %>호</p>
 													</br>
-													floor
-													<input type="text" name="floor" value="<%= room.floor %>" />
-													</br>
-													STAFF: <%=matched_staff%></br>
-													Clean
-													<input type="checkbox" name="clean" value="true"  <%= room.clean ? "checked" : "" %> />
-													linen
-													<input type="checkbox" name="linen" value="true"  <%= room.linen ? "checked" : "" %> />
-													amenity
-													<input type="checkbox" name="amenity" value="true"  <%= room.amenity ? "checked" : "" %> />
-													</br>
-													order_take
-													<input type="text" name="order_take" value="<%= room.order_take %>" />
+														<select name="id">
+															<% if (staffs) { %>
+																<% staffs.forEach(function(staff){ %>
+																	<option value='<%= staff.id %>' <% if (staff.id == matched_staff_id) { %>selected 
+																	<% } %>> name:<%= staff.name%> gender: <%= staff.gender %> birth: <%= staff.birth %></option>
+																<% }) %>
+															<% } %>	
+														</select>
+
+
+
+
+
+
+
+									
+											
 													</br>
 													
 													<input type="hidden" name="_method" value="PUT" />
-													<span><button id="confirm">확인</button></span>
+													<span><button id="confirm">배정</button></span>
 												</form>
 											
 												

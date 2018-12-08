@@ -10,7 +10,7 @@ var isAuthenticated = function (req, res, next) {
 
 app.get('/',isAuthenticated, function(req, res, next) {
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM room natural left outer join housekeeping ORDER BY floor desc, number ',function(err, rows, fields) {
+		conn.query('SELECT * FROM room ORDER BY floor desc, number ',function(err, rows, fields) {
 			if (err) {
 				req.flash('error', err)
 				res.render('rooms/list', {
@@ -30,12 +30,20 @@ app.get('/',isAuthenticated, function(req, res, next) {
 						res.redirect('/')
 						
 					} else {
-						res.render('rooms/list', {
-							title: 'Room List', 
-							data: rows,
-							reserved: reserved,
-							// date: datetime.format(now, 'YYYY-MM-DDTHH:mm:ss')
+						var sql = "select * from task natural join staff"
+						conn.query(sql, function(err, staffs) {
+							if (err) {
+								res.redirect('/')
+							} else {
+								res.render('rooms/list', {
+									title: 'Room List', 
+									data: rows,
+									reserved: reserved,
+									staffs: staffs
+								})
+							}
 						})
+						
 					}
 
 				})
@@ -155,9 +163,7 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
     if( !errors ) {
 		var room = {
 			number: req.sanitize('number').escape().trim(),
-			floor: req.sanitize('floor').escape().trim()
-		}
-		var housekeeping = {
+			floor: req.sanitize('floor').escape().trim(),
 			clean: req.body.clean ? true: false,
 			linen: req.body.linen ? true: false,
 			amenity: req.body.amenity ? true: false,
@@ -172,20 +178,13 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 					
 					res.redirect('/rooms')
 				} else {
-
-					conn.query('UPDATE housekeeping SET ? WHERE number = ' + req.params.number, housekeeping, function(err, result) {
-						//if(err) throw err
-						if (err) {
-							req.flash('error', err)
-							res.redirect('/rooms')
-						} else {
-							req.flash('success', 'Data updated successfully!')
-							res.redirect('/rooms')
-						}
-					})
+					req.flash('success', 'Data updated successfully!')
+					res.redirect('/rooms')
+					
 				}
 			})
 		})
+		
 	}
 	else {   //Display errors to user
 		var error_msg = ''
@@ -222,6 +221,9 @@ app.delete('/delete/(:number)',isAuthenticated, function(req, res, next) {
 		})
 	})
 })
+
+
+
 
 
 
