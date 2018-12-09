@@ -1,14 +1,14 @@
 {
-  "name": "crud-mysql",
+  "name": "hotelsystem",
   "version": "1.0.0",
-  "description": "Node.js CRUD application using MySQL",
+  "description": "Node.js hotel database system application using MySQL",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "node",
-    "crud",
+    "hotel",
     "mysql"
   ],
   "author": "Mukesh Chapagain",
