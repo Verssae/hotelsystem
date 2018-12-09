@@ -86,19 +86,10 @@ app.post('/signin', function(req, res, next){
 						email: user.email					
 					})
 				} else {				
-					req.flash('success', 'Data added successfully!')
+					// req.flash('success', 'Data added successfully!')
 					
 					// render to views/user/add.ejs
-					res.render('customers/add_user', {
-						title: 'Add New Customer',
-						id: '',
-						password: '',
-						name: '',
-						
-						nation: '',
-						phone: '',
-						email: ''					
-					})
+					res.redirect("/login")
 				}
 			})
 		})
@@ -114,16 +105,7 @@ app.post('/signin', function(req, res, next){
 		 * Using req.body.name 
 		 * because req.param('name') is deprecated
 		 */ 
-        res.render('customers/add_user', {
-			title: 'Add New Customer',
-			id: user.id,
-			password: user.password,
-			name: user.name,
-			
-			nation: user.nation,
-			phone: user.phone,
-			email: user.email					
-		})
+        res.redirect("/signin")
     }
 })
 
