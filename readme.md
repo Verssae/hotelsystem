@@ -1,5 +1,5 @@
 # 설치법(수정됨:12/9)
-- 루트 디렉토리에 config.js 생성하기
+- 최상위 디렉토리에 config.js 생성하기
 
 ```javascript
 var config = {
@@ -22,9 +22,6 @@ module.exports = config
 * mysql에 테이블 생성 (mysql 5.7 버전) (수정됨)
 
 ```mysql
-# 복붙해서 만드세요
-# 모두 drop table 하시고 새로 만드는게 편합니다
-
 
 create table customer (
 	id varchar(20) not null ,
@@ -59,8 +56,9 @@ create table reservation (
     code int(10) not null auto_increment,
     id varchar(20) not null,
     number int(10) not null,
-    indate datetime not null,
-	outdate datetime not null,
+	reservedate datetime not null,
+    indate date not null,
+	outdate date not null,
 	checkIn boolean,
 	checkOut boolean,
     primary key (code),
@@ -92,13 +90,11 @@ create table task (
 
 ```
 
-* 권한 설정
+* 권한 설정(root 사용자에게)
 
 ```mysql
 $ sudo mysql
 mysql> grant all privileges on *.* to 'root'@'%' identified by 'root의 패스워드'
-
-
 mysql> 
 ```
 
