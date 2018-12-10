@@ -51,7 +51,6 @@
    │   └── img
    ├── routes
    │   ├── customers.js
-   │   ├── housekeeping.js
    │   ├── index.js
    │   ├── reservations.js
    │   ├── rooms.js
@@ -120,3 +119,99 @@
    - 서버로부터 주고 받는 데이터를 쉽게 활용하기 위해 ejs 템플릿 엔진을 사용하여 .html 대신 .ejs파일임.
    
    ```
+
+4. 사용한 sql문 설명
+
+   * 로그인 (app.js)
+
+     ```javascript
+     'SELECT * FROM customer WHERE id =?' 
+     'SELECT * FROM staff WHERE id =?'
+     ```
+
+     고객으로 로그인할 경우, 직원으로 로그인할 경우 각각 id를 받아오고 password랑 비교함
+
+   * 회원 가입 (index.js)
+
+     ```javascript
+     'INSERT INTO customer SET ?', user
+     ```
+
+     User 정보를 customer 테이블에 생성
+
+   * 예약 (reservation.js)
+
+     ```javascript
+     "select code, number,id, name, date_format(indate, '%m월 %d일') as indate, date_format(outdate, '%m월 %d일 ') as outdate, checkIn, checkOut, reservedate from reservation natural join customer order by indate";
+     ```
+
+     예약 목록과 고객 정보를 natural join으로 합쳐서 얻어온다. Date 타입인 indate, outdate는 mysql에서 지원하는 date_format()함수로 알맞게 변환한다.
+
+     ```javascript
+     "select number from room where number not in (select number from reservation where indate <= '" + outdate + "' and outdate >= '" + indate +"') order by number";
+     ```
+
+     예약하고자 하는 날짜 (indate ~ outdate)에 예약되어 있는 방이 아닌 방의 번호를 오름차순으로 얻어온다.
+
+   * 방 정보(rooms.js)
+
+     ```javascript
+     "SELECT * FROM room ORDER BY floor desc, number"
+     ```
+
+     높은 층, 낮은 호수 순서로 room 데이터를 얻어온다.
+
+     ```javascript
+     var now = new Date();
+     var indate = moment(now).format('YYYY-MM-DD');
+     var outdate = indate;
+     "select * from reservation natural join customer where indate <= '" +outdate+ "' and outdate >= '" + indate +"' " 
+     ```
+
+     오늘 예약된 방과 그 예약한 고객의 정보를 함께 가져온다.
+
+     ```mysql
+     mysql> desc task;
+     +--------+-------------+------+-----+---------+-------+
+     | Field  | Type        | Null | Key | Default | Extra |
+     +--------+-------------+------+-----+---------+-------+
+     | number | int(10)     | NO   | PRI | NULL    |       |
+     | id     | varchar(20) | NO   | MUL | NULL    |       |
+     +--------+-------------+------+-----+---------+-------+
+     mysql> desc staff;
+     +----------+-------------+------+-----+---------+-------+
+     | Field    | Type        | Null | Key | Default | Extra |
+     +----------+-------------+------+-----+---------+-------+
+     | id       | varchar(20) | NO   | PRI | NULL    |       |
+     | password | varchar(60) | YES  |     | NULL    |       |
+     | name     | varchar(10) | NO   |     | NULL    |       |
+     | gender   | varchar(10) | YES  |     | NULL    |       |
+     | birth    | date        | YES  |     | NULL    |       |
+     +----------+-------------+------+-----+---------+-------+
+     ```
+
+     ```javascript
+     "select * from staff right join task on staff.id = task.id"
+     ```
+
+     Staff와 Task를 오른쪽 외부 조인 하여 배정된 방 번호와 직원 정보를 함께 가져온다.
+
+5. 프론트엔드 구조
+
+   * ejs 파일 구조
+
+     ```ejs
+     <%- include layouts/header.ejs %>	
+     <!-- main -->
+     <%- include layouts/footer.ejs %>
+     ```
+
+     header.ejs 와 footer.ejs로 공통적으로 불러오는 head 및 nav 부분과 css 및 js 파일 불러오는 코드의 재사용성을 높였다.
+
+     ```
+     /public/assets/css
+     /public/assets/js
+     ```
+
+     css, js 폴더 위치
+

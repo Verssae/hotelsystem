@@ -10,7 +10,7 @@ var isAuthenticated = function (req, res, next) {
 // SHOW LIST OF USERS
 app.get('/',isAuthenticated, function(req, res, next) {
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM customer ORDER BY id DESC',function(err, rows, fields) {
+		conn.query('SELECT * FROM customer',function(err, rows, fields) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)

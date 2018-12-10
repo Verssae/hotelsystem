@@ -19,9 +19,9 @@ app.get('/',isAuthenticated, function(req, res, next) {
 				})
 			} else {
 				var now = new Date();
-				var indate = moment(now).format('YYYY-MM-DD HH:mm:ss');
+				var indate = moment(now).format('YYYY-MM-DD');
 				var outdate = indate;
-				var sql = "select * from reservation natural join customer where indate <= '" +indate+ "' and outdate >= '" + indate +"' ";
+				var sql = "select * from reservation natural join customer where indate <= '" +outdate+ "' and outdate >= '" + indate +"' ";
 				
 				conn.query(sql, function(err, reserved) {
 					if (err) {
