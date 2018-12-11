@@ -82,57 +82,54 @@ app.get('/add',isAuthenticated, function(req, res, next){
 
 
 app.post('/add',isAuthenticated, function(req, res, next){	
-	req.assert('number', 'Room number is required').notEmpty()
-	// req.assert('type', 'Room type is required').notEmpty()     
-	   
-    
-    var errors = req.validationErrors()
-    
-    if( !errors ) {
-		var room = {
-			number: req.sanitize('number').escape().trim(),
-			type: req.sanitize('type1').escape().trim(),
-			floor: req.sanitize('floor').escape().trim()
-		}
-		// console.log(req.sanitize('hour').escape().trim());
-		// console.log(req)
-		console.log(room)
-		req.getConnection(function(error, conn) {
-			conn.query('INSERT INTO room SET ?', room, function(err, result) {
-				if (err) {
-					req.flash('error', err)
-
-					res.redirect('/rooms')
-				} else {				
-					req.flash('success', 'Data added successfully!')
-
-					conn.query('select * from room_type ',function(err, rows, fields) {
-						if (err) throw err;
-						res.render('rooms/add', {
-							title: 'Add New Room',
-							number: '',
-							floor: '',
-							data: rows
-						})
-					})
+	
+	// console.log(room)
+	req.getConnection(function(error, conn) {
+		var sql = "INSERT INTO ROOM (number, type, floor) values ";
+		var i, j, n;
+		for (i=2; i<=7; i++) {
+			for (j=1; j <= 4; j++) {
+				n = i*100+j;
+				sql += "("+ n + ", 'standard', " + i + "),"
+			}
+			for (j=5; j <= 6; j++) {
+				n = i*100+j;
+				sql += "("+ n + ", 'executive', " + i + "),"
+			}
+			for (j=7; j <= 8; j++) {
+				n = i*100+j;
+				if(i==7 && j ==8) {
+					sql += "("+ n + ", 'sweet', " + i + ")"
+				} else {
+					sql += "("+ n + ", 'sweet', " + i + "),"
 				}
-			})
-		})
-	}
-	else {   //Display errors to user
-		var error_msg = ''
-		errors.forEach(function(error) {
-			error_msg += error.msg + '<br>'
-		})				
-		req.flash('error', error_msg)		
+				
+			}
+		}
 		
-        // res.render('rooms/add', {
-		// 	title: 'Add New Room',
-		// 	number: room.number,
-		// 	type: room.type			
-		// })
-		res.redirect('/rooms')
-    }
+		conn.query(sql, function(err, result) {
+			if (err) {
+				req.flash('error', "이미 방이 추가된 상태입니다")
+				console.log(err)
+
+				res.redirect('/rooms')
+			} else {				
+				req.flash('success', '방 추가 완료')
+				res.redirect('/rooms')
+
+				// conn.query('select * from room_type ',function(err, rows, fields) {
+				// 	if (err) throw err;
+				// 	res.render('rooms/add', {
+				// 		title: 'Add New Room',
+				// 		number: '',
+				// 		floor: '',
+				// 		data: rows
+				// 	})
+				// })
+			}
+		})
+	})
+
 })
 
 
@@ -170,8 +167,7 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
     
     if( !errors ) {
 		var room = {
-			number: req.sanitize('number').escape().trim(),
-			floor: req.sanitize('floor').escape().trim(),
+			
 			clean: req.body.clean ? true: false,
 			linen: req.body.linen ? true: false,
 			amenity: req.body.amenity ? true: false,
@@ -183,21 +179,40 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
+					console.log(err);
 					
 					res.redirect('/rooms')
 				} else {
 
-					var task = {
-						number: req.params.number,
-						id: req.body.id
-					}
 					
 					
-					conn.query('insert into task SET ? ', task, function(err, result) {
+					var sql = "select id from task where number = " + req.params.number 
+					conn.query(sql, function(err, row) {
 						//if(err) throw err
 						if (err) {
-							conn.query("update task set ? where number = '"+task.number+"'", task, function(err, rows) {
+							console.log(err);
+							
+							
+						} else {
+							if (row.length <= 0) {
+								if (req.body.id == "No Staff") {
+									res.redirect('/rooms')
+									return
+								} else {
+									sql = "insert into task (number, id) values (" + req.params.number + ", '" + req.body.id +"')"
+								}
+								
+							} else {
+								if (req.body.id == "No Staff") {
+									sql = "delete from task where number = " + req.params.number
+								} else {
+									sql = "update task set id = '" + req.body.id + "' where number = " + req.params.number 
+								}
+							}
+
+							conn.query(sql, function(err, rows) {
 								if (err) {
+									console.log(err);
 									req.flash('error', err)
 									res.redirect('/rooms')
 								} else {
@@ -205,10 +220,6 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 									res.redirect('/rooms')
 								}
 							})
-							
-						} else {
-							req.flash('success', 'Data updated successfully!')
-							res.redirect('/rooms')
 							
 						}
 					})

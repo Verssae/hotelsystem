@@ -5,19 +5,21 @@ including header content which is common for all pages
 
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
+
 <% } %>
 
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
-<% } %>	
+<% } %>
 
 <!-- Main -->
 	<section id="main" class="wrapper">
 		<div class="inner">
 			<div class="content" style="TEXT-ALIGN: center">
+				<h1 style='text-align:center;'>직원 조회</h1>
 				<header >
 					<h10>
-					
+
 
 
 						<style>
@@ -37,27 +39,29 @@ including header content which is common for all pages
 								outline: none;
 							}
 							.sch_smit {
-								width: 54px; height: 40px;
+								width: 54px; height: 35px;
 								margin: 0; border: 0;
 								vertical-align: top;
 								background: #200400;
 								color: white;
 								font-weight: bold;
-								border-radius: 1px;
+								border-radius: 3px;
 								cursor: pointer;
 							}
 							.sch_smit2 {
-								width: 120px; height: 40px;
+								width: 120px; height: 35px;
 								margin: 0; border: 0;
 								vertical-align: top;
 								background: #200400;
 								color: white;
 								font-weight: bold;
-								border-radius: 1px;
+								border-radius: 3px;
 								cursor: pointer;
 							}
 							.sch_smit:hover {
-								background: #56C82C;
+								background: #ce1b28;
+								color: white;
+								border-width: 3px;
 							}
 						</style>
 
@@ -76,12 +80,12 @@ including header content which is common for all pages
 							function myFunction() {
 								var x = document.getElementById("text10").value;
 								var y = document.getElementById("selectBox");
-							    alert('선택된 옵션 value 값=' + y.options[y.selectedIndex].value + x);   
-							    
+							    alert('선택된 옵션 value 값=' + y.options[y.selectedIndex].value + x);
+
 
 							}
 						</script>
-						
+
 
 
 
@@ -89,40 +93,46 @@ including header content which is common for all pages
 						<div id="container">
 
 							<div id="input-form">
-								
 
 
-							
+
+
 							</div>
+							<p>
+
+							</p>
 							<table id="user-table">
-	<thead>
-	<tr ><th>ID</th>
-		<th>Name</th>
-		<th>Gender</th>
-		<th>Birthday</th>
-	</tr>
-	</thead>
-	
+	<!-- <thead>
+
+	</thead> -->
+
 	<!--
 		Using FOREACH LOOP for the users array
-		
+
 		myArray.forEach(function(el, index) {
 			// el - current element, i - index
 		});
 	-->
 	<tbody>
+		<tr style='text-align:left; background-color:#333; color:#fff;'>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Gender</td>
+			<td>Birthday</td>
+			<td>Edit</td>
+		</tr>
 	<% if (staffs) { %>
 	<% staffs.forEach(function(staff){ %>
-		<tr>
+		<tr style='text-align:left;'>
 			<td><%= staff.id %></td>
 			<td><%= staff.name %></td>
 			<td><%= staff.gender %></td>
 			<td><%= staff.birth %></td>
-			
+
 			<td>
 				<div style="float:left">
-					<a href='/staffs/edit/<%= staff.id %>'>Edit</a> &nbsp;							
-					
+					<a href='/staffs/edit/<%= staff.id %>'>Edit</a> &nbsp;
+
 				</div>
 			</td>
 		</tr>
@@ -131,7 +141,7 @@ including header content which is common for all pages
 	</tbody>
 
 </table>
-							
+<a href="/staffs/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">직원 추가</a>
 						</div>
 
 
@@ -151,7 +161,7 @@ including header content which is common for all pages
 
 
 
-<a href="/staffs/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
+<p>views/staffs/list.ejs</p>
 
 <!--
 including footer content which is common for all pages

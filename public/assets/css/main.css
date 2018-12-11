@@ -429,7 +429,7 @@ select {
 input[type="checkbox"],
 input[type="radio"] {
   -moz-appearance: none;
-  
+
   -ms-appearance: none;
   appearance: none;
   display: block;

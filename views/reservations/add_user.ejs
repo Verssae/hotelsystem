@@ -1,7 +1,7 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts/header.ejs %>	
+<%- include ../layouts_user/header.ejs %>	
 
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
@@ -23,7 +23,8 @@ including header content which is common for all pages
 	<select name="number">
 			<% if (numbers) { %>
 				<% numbers.forEach(function(room_number){ %>
-					<option value='<%= room_number.number %>'><%= room_number.number %></option>
+				
+					<option value='<%= room_number.number %>'><%= room_number.number %>호/<%= room_number.type %>/<%= room_number.price %>$</option>
 				<% }) %>
 			<% } %>	
 	</select>
@@ -41,7 +42,7 @@ including header content which is common for all pages
 		
 </form>
 
-
+<p>views/reservations/add_users.ejs</p>
 
 <!--
 including footer content which is common for all pages

@@ -9,53 +9,58 @@ including header content which is common for all pages
 
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
-<% } %>	
+<% } %>
+<section id="main" class="wrapper">
+	<div class="inner">
+		<div class="content">
+			<h1 style='text-align:center;'>예약 목록</h1>
 
-<h1>예약 목록</h1>
+			<table width='80%' border=0>
 
-<table width='80%' border=0>
+				<tr style='text-align:left; background-color:#333; color:#fff;'>
+					<td>Code</td>
+					<td>Room Number</td>
+					<td>Customer Name</td>
+					<td>Reserve Date</td>
+					<td>In Date</td>
+					<td>Out Date</td>
+					<td>CheckIn</td>
+					<td>CheckOut</td>
+					<td>Edit/Delete</td>
+				</tr>
 
-	<tr style='text-align:left; background-color:#CCC'>
-		<th>Code</th>
-		<th>Room Number</th>
-		<th>Customer Name</th>
-		<th>Reserve Date</th>
-		<th>In Date</th>
-		<th>Out Date</th>
-		<th>CheckIn</th>
-		<th>CheckOut</th>
-		<th>Edit/Delete</th>
-	</tr>
-	
 	<% if (data) { %>
 	<% data.forEach(function(reserve){ %>
-		<tr>
-			<td><%=reserve.code %></td>
-			<td><%= reserve.number %></td>
-			<td><a href='/customers/edit/<%=reserve.id %>'><%= reserve.name %></a></td>
-			<td><%= reserve.reservedate %></td>
-			<td><%= reserve.indate %></td>
-			<td><%= reserve.outdate %></td>
-			<td><input id="opt1" type="checkbox" name="check1" <%= reserve.checkIn ? "checked" : "" %> /></td>
-			<td><input id="opt1" type="checkbox" name="check2" <%= reserve.checkOut ? "checked" : "" %> /></td>
-	
-			<td>
-				<div style="float:left">
-					<a href='/reservations/edit/<%= reserve.code %>'>Edit</a> &nbsp;							
-					<form method="post" action="/reservations/delete/<%= reserve.code %>" style="float:right">
-						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-						<input type="hidden" name="_method" value="DELETE" />
-					</form>
-				</div>
-			</td>
-		</tr>
+				<tr>
+					<td><%=reserve.code %></td>
+					<td><%= reserve.number %></td>
+					<td><a href='/customers/edit/<%=reserve.id %>'><%= reserve.name %></a></td>
+					<td><%= reserve.reservedate %></td>
+					<td><%= reserve.indate %></td>
+					<td><%= reserve.outdate %></td>
+					<td><input id="opt1" type="checkbox" name="check1" <%= reserve.checkIn ? "checked" : "" %> /></td>
+					<td><input id="opt1" type="checkbox" name="check2" <%= reserve.checkOut ? "checked" : "" %> /></td>
+
+					<td>
+						<div style="float:left">
+							<a href='/reservations/edit/<%= reserve.code %>'>Edit</a> &nbsp;
+							<form method="post" action="/reservations/delete/<%= reserve.code %>" style="float:right">
+								<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+								<input type="hidden" name="_method" value="DELETE" />
+							</form>
+						</div>
+					</td>
+				</tr>
 	<% }) %>
 	<% } %>
 
-</table>
+			</table>
 
-<a href="/reservations/check" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
-
+			<a href="/reservations/check" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
+		</div>
+	</div>
+</section>
+<p>views/reservations/list.ejs</p>
 <!--
 including footer content which is common for all pages
 -->

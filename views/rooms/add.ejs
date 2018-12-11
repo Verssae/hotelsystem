@@ -12,28 +12,11 @@ including header content which is common for all pages
 <% } %>
 
 <form action="/rooms/add" method="post" name="form1">
-	
-		Room Number
-		<input type="text" name="number" value="<%= number %>" />
-		<br/>
-		Room Types
-		<select name="type1">
-				<% if (data) { %>
-					<% data.forEach(function(room_type){ %>
-						<option value='<%= room_type.type %>'><%= room_type.type %></option>
-					<% }) %>
-				<% } %>	
-		</select>
-		<br/>
-		Room Floor
-		<input type="text" name="floor" value="<%= floor %>" />
-		<br/>
 		<input type="submit" name="Submit" value="Add" />
-		
 </form>
 
 
-
+<p>views/rooms/add.ejs</p>
 <!--
 including footer content which is common for all pages
 -->

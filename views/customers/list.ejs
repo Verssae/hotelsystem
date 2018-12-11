@@ -9,51 +9,59 @@ including header content which is common for all pages
 
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
-<% } %>	
+<% } %>
+<section id="main" class="wrapper">
+	<div class="inner">
+		<div class="content">
+			<h1 style='text-align:center;'>고객 목록</h1>
+			<table width='80%' border=0>
 
-<table width='80%' border=0>
+				<tr style='text-align:left; background-color:#333; color:#fff;'>
+					<td>ID</td>
+					<td>Name</td>
+					<td>Car</td>
+					<td>Nation</td>
+					<td>Phone</td>
+					<td>Email</td>
+					<td>Edit/Delete</td>
+				</tr>
 
-	<tr style='text-align:left; background-color:#CCC'>
-		<th>ID</th>
-		<th>Name</th>
-		<th>Car</th>
-		<th>Nation</th>
-		<th>Phone</th>
-		<th>Email</th>
-	</tr>
-	
 	<!--
 		Using FOREACH LOOP for the users array
-		
+
 		myArray.forEach(function(el, index) {
 			// el - current element, i - index
 		});
 	-->
 	<% if (data) { %>
 	<% data.forEach(function(customer){ %>
-		<tr>
-			<td><%= customer.id %></td>
-			<td><%= customer.name %></td>
-			<td><%= customer.car %></td>
-			<td><%= customer.nation %></td>
-			<td><%= customer.phone %></td>
-			<td><%= customer.email %></td>
-			<td>
-				<div style="float:left">
-					<a href='/customers/edit/<%= customer.id %>'>Edit</a> &nbsp;							
-					<form method="post" action="/customers/delete/<%= customer.id %>" style="float:right">
-						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-						<input type="hidden" name="_method" value="DELETE" />
-					</form>
-				</div>
-			</td>
-		</tr>
+				<tr>
+					<td><%= customer.id %></td>
+					<td><%= customer.name %></td>
+					<td><%= customer.car %></td>
+					<td><%= customer.nation %></td>
+					<td><%= customer.phone %></td>
+					<td><%= customer.email %></td>
+					<td>
+						<div style="float:left">
+							<a href='/customers/edit/<%= customer.id %>'>Edit</a> &nbsp;
+							<form method="post" action="/customers/delete/<%= customer.id %>" style="float:right">
+								<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+								<input type="hidden" name="_method" value="DELETE" />
+							</form>
+						</div>
+					</td>
+				</tr>
 	<% }) %>
 	<% } %>
 
-</table>
-<a href="/customers/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
+			</table>
+			
 
+		</div>
+	</div>
+</section>
+<p>views/customers/list.ejs</p>
 <!--
 including footer content which is common for all pages
 -->

@@ -1,24 +1,32 @@
-<%- include ../layouts_user/header.ejs %>	
-<div id="wrapper">
-    
-    <div id="multiple" class="article">
-        <div class="title">
-		<h3><span>예약 기간 선택</span></h3>
-		
-        </div>
-        <div class="multi-select-calendar"></div>
-		
-			<div class="box">
-				<p>이 자리에 뿅 하고 생깁니다</p>
-			</div>
+<%- include ../layouts_user/header.ejs %>
 
-		
-        
-        
-        
+<section id="main" class="wrapper">
+	<div class="inner">
+		<div class="content">
+            <div id="wrapper">
+
+                <div id="multiple" class="article">
+                    <div class="title">
+		                <h2>예약 기간 선택</h2>
+
+                    </div>
+                    <div class="multi-select-calendar"></div>
+
+			        <div class="box" style="display: table; margin-left: auto; margin-right: auto;padding-top: 50px;
+  padding-right: 30px;
+  padding-bottom: 50px;
+  padding-left: 80px;">
+				<span><p>날짜를 선택해 주세요</p></span>
+			</div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
-    
-</div>
+
+</section>
+<p>views/reservations/check_user.ejs</p>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
@@ -30,12 +38,12 @@
 
         function onSelectHandler(date, context) {
 			console.log(date);
-            
+
 
             var $element = context.element;
             var $calendar = context.calendar;
             var $box = $element.siblings('.box').show();
-            
+
 			var indate = null;
 			var outdate = null;
 
@@ -43,7 +51,7 @@
                 indate = date[0].format('YYYY-MM-DD');
             }
 
-            
+
             if (date[1] !== null) {
                 outdate = date[1].format('YYYY-MM-DD');
             }
@@ -51,15 +59,15 @@
 
             // $box.text(text);
 			$box.html("<form action='/reservations/check' method='post' name='form1'>"+
-			"<input type='datetime' name='indate' value='"+indate+"'/></br>" + 
-			"<input type='datetime' name='outdate' value='"+outdate+"'/>"+
+			"<input type='datetime' name='indate' value='"+indate+"'/></br>" +
+			"<input type='datetime' name='outdate' value='"+outdate+"'/></br>"+
 			"<input type='submit' name='Submit' value='check' /></form>" );
-			
-			
-			
+
+
+
         }
-        
-        
+
+
 
         // Multiple picker type Calendar
         $('.multi-select-calendar').pignoseCalendar({
@@ -67,7 +75,7 @@
             select: onSelectHandler
         });
 
-        
+
     });
     //]]>
 </script>

@@ -141,7 +141,7 @@ passport.use(new LocalStrategy({
 	
 	if (req.body.customer) {
 		req.getConnection(function(error, conn) {
-			conn.query('SELECT * FROM customer WHERE id =?', [username], function(err, rows) {
+			conn.query('SELECT * FROM customer WHERE id = ?', [username], function(err, rows) {
 				
 				
 				if (err) {

@@ -214,7 +214,7 @@ app.delete('/delete/(:id)',isAuthenticated, function(req, res, next) {
 		conn.query('DELETE FROM staff WHERE id = ' + req.params.id, staff, function(err, result) {
 			//if(err) throw err
 			if (err) {
-				req.flash('error', err)
+				req.flash('error', "배정된 일이 있어 해고할 수 없습니다.")
 				// redirect to users list page
 				res.redirect('/staffs')
 			} else {

@@ -11,9 +11,9 @@ var isAuthenticated = function (req, res, next) {
 app.get('/',isAuthenticated, function(req, res, next) {
 	req.getConnection(function(error, conn) {
 		var user = req.session.passport.user.id;
-		var sql = "select code, number,id, name, date_format(indate, '%m월 %d일') as indate, date_format(outdate, '%m월 %d일 ') as outdate, checkIn, checkOut, reservedate from reservation natural join customer order by indate";
+		var sql = "select code, number,id, name, date_format(indate, '%Y-%m/%d') as indate, date_format(outdate, '%Y-%m/%d') as outdate, checkIn, checkOut, reservedate from reservation natural join customer order by indate";
 		if(req.session.passport.user.tag == "customer") {
-			sql = "select code, number,id, name, date_format(indate, '%m월 %d일') as indate, date_format(outdate, '%m월 %d일 ') as outdate, checkIn, checkOut, reservedate from reservation natural join customer where id = ? order by indate";
+			sql = "select code, number,id, name, date_format(indate, '%Y-%m/%d') as indate, date_format(outdate, '%Y-%m/%d') as outdate, checkIn, checkOut, reservedate from reservation natural join customer where id = ? order by indate";
 		}
 		conn.query(sql,[user],function(err, rows, fields) {
 			if (err) {
@@ -44,7 +44,7 @@ app.get('/',isAuthenticated, function(req, res, next) {
 app.get('/add', isAuthenticated,function(req, res, next){
 
 	req.getConnection(function(error, conn) {
-		conn.query('select * from room order by number',function(err, numbers, fields) {
+		conn.query('select * from room natural join room_type order by number',function(err, numbers, fields) {
 			if (err) throw err;
 			var user = req.session.passport.user.id;
 			var sql = "select * from customer"
@@ -69,7 +69,7 @@ app.get('/add', isAuthenticated,function(req, res, next){
 app.get('/check',isAuthenticated, function(req, res, next){
 
 	req.getConnection(function(error, conn) {
-		conn.query('select * from room order by number',function(err, numbers, fields) {
+		conn.query('select * from room natural join room_type order by number',function(err, numbers, fields) {
 			if (err) throw err;
 			var user = req.session.passport.user.id;
 			var sql = "select * from customer"
@@ -109,7 +109,7 @@ app.post('/check',isAuthenticated, function(req, res, next) {
 
 		var indate = moment(req.body.indate).format('YYYY-MM-DD');
 		var outdate = moment(req.body.outdate).format('YYYY-MM-DD');
-		var sql = "select number from room where number not in (select number from reservation where indate <= '" + outdate + "' and outdate >= '" + indate +"') order by number";
+		var sql = "select * from room natural join room_type where number not in (select number from reservation where indate <= '" + outdate + "' and outdate >= '" + indate +"') order by number";
 		console.log("post check")
 		console.log(indate)
 		console.log(outdate)

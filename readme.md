@@ -1,4 +1,4 @@
-# 설치법(수정됨:12/9)
+# 설치법(수정됨:12/11)
 - 최상위 디렉토리에 config.js 생성하기
 
 ```javascript
@@ -44,8 +44,8 @@ create table room (
     number int(10) not null primary key,
     type varchar(10),
 	floor int(10) not null,
-	clean booelan,
-    linen booelan,
+	clean boolean,
+    linen boolean,
     amenity boolean,
     order_take varchar(255),
     foreign key (type) references room_type (type)
@@ -75,19 +75,21 @@ create table staff (
     primary key (id)
 );
 
-
-
 create table task (
     number int(10),
     id varchar(20),
     foreign key (number) references room (number),
     foreign key (id) references staff (id),
-    primary key (number, id)
+    primary key (number)
 );
 
+# 최초 직원 입력
+insert into staff (id, password, name, gender, birth) values ('id', 'password', 'name','2018-12-11');
 
+# 가격은 기억 안나서 대충 씀 룸 타입 입력
+insert into room_type (type, price) values ('executive', 260), ('standard', 160), ('sweet', 100);
 
-
+# 직원으로 로그인 후 /rooms/add 한 후 나오는 버튼 클릭하면 방이 모두 들어감
 ```
 
 * 권한 설정(root 사용자에게)
