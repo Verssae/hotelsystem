@@ -141,3 +141,44 @@
   text-align: center;
   border: 1px solid #6cc0e5;
 }
+
+.green_window {
+    display: inline-block;
+    width: 366px; height: 34px;
+    border: 3px solid #200400;
+    background: white;
+}
+.input_text10 {
+    width: 348px; height: 21px;
+    margin: 6px 0 0 9px;
+    border: 0;
+    line-height: 21px;
+    font-weight: bold;
+    font-size: 16px;
+    outline: none;
+}
+.sch_smit {
+    width: 54px; height: 35px;
+    margin: 0; border: 0;
+    vertical-align: top;
+    background: #200400;
+    color: white;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.sch_smit2 {
+    width: 120px; height: 35px;
+    margin: 0; border: 0;
+    vertical-align: top;
+    background: #200400;
+    color: white;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.sch_smit:hover {
+    background: #ce1b28;
+    color: white;
+    border-width: 3px;
+}

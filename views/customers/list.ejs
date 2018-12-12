@@ -14,8 +14,38 @@ including header content which is common for all pages
 	<div class="inner">
 		<div class="content">
 			<h1 style='text-align:center;'>고객 목록</h1>
-			<table width='80%' border=0>
+			
+			<select id="what">
+							<option value = 1>ID</option>
+							<option value = 2>Name</option>
+							<option value = 4>Nation</option>
+							<option value = 5>Phone</option>
+							<option value = 6>Email</option>
+						</select>
+			<span class='green_window'>
+						
+						
+			<input id="keyword" type="text10" class='input_text10' name="search" onkeydown="enterSearch()"/></span>
+			<input type="button" class='sch_smit' value="검색" onclick="myFunction()"/>
+						<!-- JAVASCRIPT -->
+						<script type="text/javascript">
+							function enterSearch() {
+								if(event.keyCode == 13){
+							        myFunction();  // 실행할 이벤트
+							    }
+							}
+							function myFunction() {
+								var x = document.getElementById("text10").value;
+								var y = document.getElementById("selectBox");
+							    alert('선택된 옵션 value 값=' + y.options[y.selectedIndex].value + x);
 
+
+							}
+						</script>
+			
+			<table id="user-table" width='80%' border=0>
+			<tbody>
+			<thead>
 				<tr style='text-align:left; background-color:#333; color:#fff;'>
 					<td>ID</td>
 					<td>Name</td>
@@ -25,6 +55,7 @@ including header content which is common for all pages
 					<td>Email</td>
 					<td>Edit</td>
 				</tr>
+				</thead>
 
 	<!--
 		Using FOREACH LOOP for the users array
@@ -51,13 +82,28 @@ including header content which is common for all pages
 				</tr>
 	<% }) %>
 	<% } %>
-
+</tbody>
 			</table>
 			
 
 		</div>
 	</div>
 </section>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#keyword").keyup(function() {
+		var n = document.getElementById("what");
+		var m = n.options[n.selectedIndex].value
+		console.log(m)
+		var k = $(this).val();
+		$("#user-table > tbody > tr").hide();
+		var temp = $("#user-table > tbody > tr > td:nth-child(5n+"+m+"):contains('" + k + "')");
+
+
+		$(temp).parent().show();
+	})
+})
+</script>
 <p>views/customers/list.ejs</p>
 <!--
 including footer content which is common for all pages

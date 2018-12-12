@@ -42,7 +42,10 @@ app.get('/signin', function(req, res) {
 })
 
 app.post('/signin', function(req, res, next){	
-	req.assert('name', 'Name is required').notEmpty()           //Validate name
+	req.assert('name', 'Name is required').notEmpty()
+	req.assert('id', 'ID is required').notEmpty()
+	req.assert('password', 'password is required').notEmpty()      
+	req.assert('phone', 'phone is required').notEmpty()         //Validate name
     // req.assert('email', 'A valid email is required').isEmail()  //Validate email
 
     var errors = req.validationErrors()

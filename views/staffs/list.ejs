@@ -19,9 +19,6 @@ including header content which is common for all pages
 				<h1 style='text-align:center;'>직원 조회</h1>
 				<header >
 					<h10>
-
-
-
 						<style>
 							.green_window {
 								display: inline-block;
@@ -64,11 +61,18 @@ including header content which is common for all pages
 								border-width: 3px;
 							}
 						</style>
-
+<select id="what">
+							<option value = 1>ID</option>
+							<option value = 2>Name</option>
+							<option value = 3>Gender</option>
+							<option value = 4>Birthday</option>
+						</select>
 
 						<!-- HTML -->
 						<span class='green_window'>
-						<input id=text10 type="text10" class='input_text10' name="search" onkeydown="enterSearch()"/></span>
+						
+						
+						<input id="keyword" type="text10" class='input_text10' name="search" onkeydown="enterSearch()"/></span>
 						<input type="button" class='sch_smit' value="검색" onclick="myFunction()"/>
 						<!-- JAVASCRIPT -->
 						<script type="text/javascript">
@@ -85,75 +89,72 @@ including header content which is common for all pages
 
 							}
 						</script>
+						
 
 
 
 
 
-						<div id="container">
+					<div id="container">
 
-							<div id="input-form">
-
-
+						<div id="input-form">
 
 
-							</div>
-							<p>
 
-							</p>
-							<table id="user-table">
-	<!-- <thead>
 
-	</thead> -->
-
-	<!--
-		Using FOREACH LOOP for the users array
-
-		myArray.forEach(function(el, index) {
-			// el - current element, i - index
-		});
-	-->
-	<tbody>
-		<tr style='text-align:left; background-color:#333; color:#fff;'>
-			<td>ID</td>
-			<td>Name</td>
-			<td>Gender</td>
-			<td>Birthday</td>
-			<td>Edit</td>
-		</tr>
-	<% if (staffs) { %>
-	<% staffs.forEach(function(staff){ %>
-		<tr style='text-align:left;'>
-			<td><%= staff.id %></td>
-			<td><%= staff.name %></td>
-			<td><%= staff.gender %></td>
-			<td><%= staff.birth %></td>
-
-			<td>
-				<div style="float:left">
-					<a href='/staffs/edit/<%= staff.id %>'>Edit</a> &nbsp;
-
-				</div>
-			</td>
-		</tr>
-	<% }) %>
-	<% } %>
-	</tbody>
-
-</table>
-<a href="/staffs/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">직원 추가</a>
 						</div>
+						<p>
 
+						</p>
+						<table id="user-table">
+							<tbody>
+							<thead>
+								<tr style='text-align:left; background-color:#333; color:#fff;'>
+									<td>ID</td>
+									<td>Name</td>
+									<td>Gender</td>
+									<td>Birthday</td>
+									<td>Edit</td>
+								</tr>
+								</thead>
+							<% if (staffs) { %>
+							<% staffs.forEach(function(staff){ %>
+								<tr style='text-align:left;'>
+									<td><%= staff.id %></td>
+									<td><%= staff.name %></td>
+									<td><%= staff.gender %></td>
+									<td><%= staff.birth %></td>
 
+									<td>
+										<div style="float:left">
+											<a href='/staffs/edit/<%= staff.id %>'>Edit</a> &nbsp;
 
+										</div>
+									</td>
+								</tr>
+							<% }) %>
+							<% } %>
+							</tbody>
+						</table>
+						<script type="text/javascript">
+						$(document).ready(function() {
+							$("#keyword").keyup(function() {
+								var n = document.getElementById("what");
+								var m = n.options[n.selectedIndex].value
+								console.log(m)
+								var k = $(this).val();
+								$("#user-table > tbody > tr").hide();
+								var temp = $("#user-table > tbody > tr > td:nth-child(5n+"+m+"):contains('" + k + "')");
+						
 
-
-
+								$(temp).parent().show();
+							})
+						})
+						</script>
+					<a href="/staffs/add" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">직원 추가</a>
+					</div>
 				</h10>
 			</header>
-			<p>
-
-			</p>
 		</div>
 	</div>
 </section>

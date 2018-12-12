@@ -13,10 +13,26 @@ including header content which is common for all pages
 <section id="main" class="wrapper">
 	<div class="inner">
 		<div class="content">
+		<select id="what">
+							<option value = 1>Code</option>
+							<option value = 2>Room</option>
+							<option value = 3>Customer</option>
+							<option value = 4>Reserve Date</option>
+							<option value = 5>In Date</option>
+							<option value = 6>Out Date</option>
+						</select>
+			<span class='green_window'>
+						
+						
+			<input id="keyword" type="text10" class='input_text10' name="search" /></span>
+			<input type="button" class='sch_smit' value="검색" />
+					
+						
 			<h1 style='text-align:center;'>예약 목록</h1>
 
-			<table width='80%' border=0>
-
+			<table id="user-table" width='80%' border=0>
+				<tbody>
+				<thead>
 				<tr style='text-align:left; background-color:#333; color:#fff;'>
 					<td>Code</td>
 					<td>Room Number</td>
@@ -28,6 +44,7 @@ including header content which is common for all pages
 					<td>CheckOut</td>
 					<td>Edit</td>
 				</tr>
+				</thead>
 
 	<% if (data) { %>
 	<% data.forEach(function(reserve){ %>
@@ -50,13 +67,29 @@ including header content which is common for all pages
 				</tr>
 	<% }) %>
 	<% } %>
-
+<tbody>
 			</table>
 
 			<a href="/reservations/check" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
 		</div>
 	</div>
 </section>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#keyword").keyup(function() {
+		var n = document.getElementById("what");
+		var m = n.options[n.selectedIndex].value
+		
+		var k = $(this).val();
+		console.log(k)
+		$("#user-table > tbody > tr").hide();
+		var temp = $("#user-table > tbody > tr > td:nth-child(5n+"+m+"):contains('" + k + "')");
+
+
+		$(temp).parent().show();
+	})
+})
+</script>
 <p>views/reservations/list.ejs</p>
 <!--
 including footer content which is common for all pages
