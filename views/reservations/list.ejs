@@ -26,7 +26,7 @@ including header content which is common for all pages
 					<td>Out Date</td>
 					<td>CheckIn</td>
 					<td>CheckOut</td>
-					<td>Edit/Delete</td>
+					<td>Edit</td>
 				</tr>
 
 	<% if (data) { %>
@@ -44,10 +44,7 @@ including header content which is common for all pages
 					<td>
 						<div style="float:left">
 							<a href='/reservations/edit/<%= reserve.code %>'>Edit</a> &nbsp;
-							<form method="post" action="/reservations/delete/<%= reserve.code %>" style="float:right">
-								<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-								<input type="hidden" name="_method" value="DELETE" />
-							</form>
+							
 						</div>
 					</td>
 				</tr>

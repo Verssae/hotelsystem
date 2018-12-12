@@ -50,6 +50,11 @@ including header content which is common for all pages
 
 	<input type="submit" name="Submit" value="Edit" /></td>
 	<input type="hidden" name="_method" value="PUT" />
+	
+</form>
+<form method="post" action="/reservations/delete/<%= code %>" style="float:right">
+	<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+	<input type="hidden" name="_method" value="DELETE" />
 </form>
 <p>views/reservations/edit.ejs</p>
 <!--

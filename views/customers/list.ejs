@@ -23,7 +23,7 @@ including header content which is common for all pages
 					<td>Nation</td>
 					<td>Phone</td>
 					<td>Email</td>
-					<td>Edit/Delete</td>
+					<td>Edit</td>
 				</tr>
 
 	<!--
@@ -45,10 +45,7 @@ including header content which is common for all pages
 					<td>
 						<div style="float:left">
 							<a href='/customers/edit/<%= customer.id %>'>Edit</a> &nbsp;
-							<form method="post" action="/customers/delete/<%= customer.id %>" style="float:right">
-								<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-								<input type="hidden" name="_method" value="DELETE" />
-							</form>
+							
 						</div>
 					</td>
 				</tr>

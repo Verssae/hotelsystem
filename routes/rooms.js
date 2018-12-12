@@ -14,7 +14,7 @@ app.get('/',isAuthenticated, function(req, res, next) {
 			if (err) {
 				req.flash('error', err)
 				res.render('rooms/list', {
-					title: 'Room List', 
+					title: 'Room List',
 					data: ''
 				})
 			} else {
@@ -22,13 +22,13 @@ app.get('/',isAuthenticated, function(req, res, next) {
 				var indate = moment(now).format('YYYY-MM-DD');
 				var outdate = indate;
 				var sql = "select * from reservation natural join customer where indate <= '" +outdate+ "' and outdate >= '" + indate +"' ";
-				
+
 				conn.query(sql, function(err, reserved) {
 					if (err) {
 						req.flash('error', err)
 						console.log(err)
 						res.redirect('/')
-						
+
 					} else {
 						var sql = "select * from staff right join task on staff.id = task.id"
 						conn.query(sql, function(err, tasks) {
@@ -41,7 +41,7 @@ app.get('/',isAuthenticated, function(req, res, next) {
                                         res.redirect('/')
                                     } else {
                                         res.render('rooms/list', {
-                                            title: 'Room List', 
+                                            title: 'Room List',
                                             data: rows,
                                             reserved: reserved,
                                             staffs: staffs,
@@ -51,21 +51,21 @@ app.get('/',isAuthenticated, function(req, res, next) {
                                 })
 							}
 						})
-						
+
 					}
 
 				})
 			}
 		})
 	})
-	
 
-	
+
+
 })
 
 
-app.get('/add',isAuthenticated, function(req, res, next){	
-	
+app.get('/add',isAuthenticated, function(req, res, next){
+
 	req.getConnection(function(error, conn) {
 		conn.query('select * from room_type ',function(err, rows, fields) {
 			if (err) throw err;
@@ -77,12 +77,12 @@ app.get('/add',isAuthenticated, function(req, res, next){
 			})
 		})
 	})
-	
+
 })
 
 
-app.post('/add',isAuthenticated, function(req, res, next){	
-	
+app.post('/add',isAuthenticated, function(req, res, next){
+
 	// console.log(room)
 	req.getConnection(function(error, conn) {
 		var sql = "INSERT INTO ROOM (number, type, floor) values ";
@@ -99,21 +99,21 @@ app.post('/add',isAuthenticated, function(req, res, next){
 			for (j=7; j <= 8; j++) {
 				n = i*100+j;
 				if(i==7 && j ==8) {
-					sql += "("+ n + ", 'sweet', " + i + ")"
+					sql += "("+ n + ", 'suite', " + i + ")"
 				} else {
-					sql += "("+ n + ", 'sweet', " + i + "),"
+					sql += "("+ n + ", 'suite', " + i + "),"
 				}
-				
+
 			}
 		}
-		
+
 		conn.query(sql, function(err, result) {
 			if (err) {
 				req.flash('error', "이미 방이 추가된 상태입니다")
 				console.log(err)
 
 				res.redirect('/rooms')
-			} else {				
+			} else {
 				req.flash('success', '방 추가 완료')
 				res.redirect('/rooms')
 
@@ -137,12 +137,12 @@ app.get('/edit/(:number)',isAuthenticated, function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM room WHERE number = ' + req.params.number, function(err, rows, fields) {
 			if(err) throw err
-			
+
 			if (rows.length <= 0) {
 				req.flash('error', 'Room not found with number = ' + req.params.number)
 				res.redirect('/rooms')
 			}
-			else { 
+			else {
 				conn.query('select * from room_type ',function(err, roomtypes, fields) {
 					if (err) throw err;
 					res.render('rooms/edit', {
@@ -153,7 +153,7 @@ app.get('/edit/(:number)',isAuthenticated, function(req, res, next){
 						data: roomtypes
 					})
 				})
-			}			
+			}
 		})
 	})
 })
@@ -161,38 +161,38 @@ app.get('/edit/(:number)',isAuthenticated, function(req, res, next){
 
 app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 	req.assert('number', 'Room number is required').notEmpty()
-	// req.assert('type', 'Room type is required').notEmpty()  
+	// req.assert('type', 'Room type is required').notEmpty()
 
     var errors = req.validationErrors()
-    
+
     if( !errors ) {
 		var room = {
-			
+
 			clean: req.body.clean ? true: false,
 			linen: req.body.linen ? true: false,
 			amenity: req.body.amenity ? true: false,
 			order_take: req.body.order_take
 		}
-		
+
 		req.getConnection(function(error, conn) {
 			conn.query('UPDATE room SET ? WHERE number = ' + req.params.number, room, function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
 					console.log(err);
-					
+
 					res.redirect('/rooms')
 				} else {
 
-					
-					
-					var sql = "select id from task where number = " + req.params.number 
+
+
+					var sql = "select id from task where number = " + req.params.number
 					conn.query(sql, function(err, row) {
 						//if(err) throw err
 						if (err) {
 							console.log(err);
-							
-							
+
+
 						} else {
 							if (row.length <= 0) {
 								if (req.body.id == "No Staff") {
@@ -201,12 +201,12 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 								} else {
 									sql = "insert into task (number, id) values (" + req.params.number + ", '" + req.body.id +"')"
 								}
-								
+
 							} else {
 								if (req.body.id == "No Staff") {
 									sql = "delete from task where number = " + req.params.number
 								} else {
-									sql = "update task set id = '" + req.body.id + "' where number = " + req.params.number 
+									sql = "update task set id = '" + req.body.id + "' where number = " + req.params.number
 								}
 							}
 
@@ -220,17 +220,17 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 									res.redirect('/rooms')
 								}
 							})
-							
+
 						}
 					})
-					
-					
+
+
 				}
 			})
 		})
 
-		
-		
+
+
 	}
 	else {   //Display errors to user
 		var error_msg = ''
@@ -238,11 +238,11 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 			error_msg += error.msg + '<br>'
 		})
 		req.flash('error', error_msg)
-				
+
         // res.render('rooms/edit', {
 		// 	title: 'Edit Room',
 		// 	number: req.params.number, //or req.body.number
-		// 	type: req.body.type					
+		// 	type: req.body.type
 		// })
 		res.redirect('/rooms')
     }
@@ -251,7 +251,7 @@ app.put('/edit/(:number)',isAuthenticated, function(req, res, next) {
 
 app.delete('/delete/(:number)',isAuthenticated, function(req, res, next) {
 	var room = { number: req.params.number }
-	
+
 	req.getConnection(function(error, conn) {
 		conn.query('DELETE FROM room WHERE number = ' + req.params.number, room, function(err, result) {
 			//if(err) throw err

@@ -1,7 +1,7 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts_user/header.ejs %>	
+<%- include ../layouts_user/header.ejs %>
 
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
@@ -10,37 +10,46 @@ including header content which is common for all pages
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
+<section id="main" class="wrapper">
+	<div class="inner">
+		<div class="content">
+			<h1 style='text-align:center;'>객실 선택</h1>
+			<h4 style='text-align:center; color: #9c9c9c;'>예약하실 날짜를 확인한 후에 원하시는 객실을 선택해주세요.</h4>
+			<form action="/reservations/add" method="post" name="form2">
 
-<form action="/reservations/add" method="post" name="form2">
+				In Date
+				<input type="datetime" name="indate" value="<%= indate %>" />
+				<br/>
+				Out Date
+				<input type="datetime" name="outdate" value="<%= outdate %>" />
+				<br/>
+				Room Number
+				<select name="number">
+					<% if (numbers) { %>
+						<% numbers.forEach(function(room_number){ %>
 
-	In Date
-	<input type="datetime" name="indate" value="<%= indate %>" />
-	<br/>
-	Out Date
-	<input type="datetime" name="outdate" value="<%= outdate %>" />
-	<br/>
-	Room Number
-	<select name="number">
-			<% if (numbers) { %>
-				<% numbers.forEach(function(room_number){ %>
-				
-					<option value='<%= room_number.number %>'><%= room_number.number %>호/<%= room_number.type %>/<%= room_number.price %>$</option>
-				<% }) %>
-			<% } %>	
-	</select>
-	
-	<br/>
-	Customer Name
-	
-	<%=customers[0].name%>
-	<br/>
-	
-	<br/>
-	
-	
-	<input type="submit" name="Submit" value="Add" />
-		
-</form>
+							<option value='<%= room_number.number %>'><%= room_number.number %>호/<%= room_number.type %>/<%= room_number.price %>$</option>
+						<% }) %>
+					<% } %>
+				</select>
+
+				<br/>
+				Customer Name
+
+				<%=customers[0].name%>
+				<br/>
+
+				<br/>
+
+				<div style="overflow: hidden;">
+					<input type="button" name="BACK" onClick="history.go(-1)" value="Back" style="float: left;"/>
+					<input type="submit" name="Submit" value="Complete" style="float: right;"/>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</section>
 
 <p>views/reservations/add_users.ejs</p>
 

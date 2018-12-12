@@ -18,13 +18,60 @@ including header content which is common for all pages
 				<section>
 					<div>
 						<h1 style='text-align:center;'>회원가입</h1>
-						<p>이름:<input type="text" name="name"  value="<%= name %>" ></p>
-						<p>아이디:<input type="text" name="id" value="<%= id %>"></p>
-						<p>비밀번호:<input type="text" name="password" value="<%= password %>" ></p>
-						<p>자동차:<input type="checkbox" name="car" value="true"/></p>
-						<p>Phone:<input type="text" name="phone" value="<%= phone %>"></p>
-						<p>email:<input type="text" name="email" value="<%= email %>"></p>
-						<p>Nation:<input type="text" name="nation" value="<%= nation %>" ></p>
+						<style>
+							input[type=text], input[type=password]{
+								width: 300px;
+								height: 30px;
+								border: 2px solid #aaa;
+								border-radius: 4px;
+								margin: 3px 0;
+								outline: none;
+								padding: 8px;
+								box-sizing: border-box;
+							}
+							input[type=text]:focus, input[type=password]:focus{
+								border-color: dodgerBlue;
+								box-shadow: 0 0 8px 0 dodgerBlue;
+							}
+						</style>
+						<table>
+							<tr style="background: white; border:none;">
+								<td style="font-size: 1.2em; width: 150px;">이름</td>
+								<td style="width: 300px;"><input type="text" name="name"  value="<%= name %>" ></td>
+							</tr>
+							<tr style="background: white; border:none;">
+								<td style="font-size: 1.2em; width: 150px;">아이디</td>
+								<td style="width: 300px;"><input type="text" name="id" value="<%= id %>"></td>
+							</tr>
+							<tr style="background: white; border:none;">
+								<td style="font-size: 1.2em; width: 150px;">비밀번호</td>
+								<td style="width: 300px;"><input type="password" name="password" value="<%= password %>" ></td>
+							</tr>
+							<tr style="background: white; border:none;">
+								<td style="font-size: 1.2em; width: 150px;">Phone</td>
+								<td style="width: 300px;"><input type="text" name="phone" value="<%= phone %>"></td>
+								<td style="font-size: 1em; color: #9c9c9c;">ex)010-0000-0000</td>
+							</tr>
+							<tr style="background: white; border:none;">
+								<td style="font-size: 1.2em; width: 150px;">E-mail</td>
+								<td style="width: 300px;"><input type="text" name="email" value="<%= email %>"></td>
+							</tr>
+							<tr style="background: white; border:none;">
+								<td style="font-size: 1.2em; width: 150px;">Nation</td>
+								<td style="width: 300px;"><input type="text" name="nation" value="<%= nation %>" ></td>
+							</tr>
+							<tr style="background: white; border:none;">
+								<td style="font-size: 1.2em; width: 150px;">자가용 유무</td>
+								<td style="width: 300px;"><input type="checkbox" name="car" value="true"/></td>
+							</tr>
+						</table>
+						<!-- <p><span style="font-size: 1.2em; margin-right: 5px;">이름</span><input type="text" name="name"  value="<%= name %>" ></p>
+						<p><span style="font-size: 1.2em; margin-right: 5px;">아이디</span><input type="text" name="id" value="<%= id %>"></p>
+						<p><span style="font-size: 1.2em; margin-right: 5px;">비밀번호</span><input type="password" name="password" value="<%= password %>" ></p>
+						<p><span style="font-size: 1.2em; margin-right: 5px;">자가용 유무</span><input type="checkbox" name="car" value="true"/></p>
+						<p><span style="font-size: 1.2em; margin-right: 5px;">Phone</span><input type="text" name="phone" value="<%= phone %>"><span style="font-size: 1em; color: #9c9c9c;">ex)010-0000-0000</span></p>
+						<p><span style="font-size: 1.2em; margin-right: 5px;">E-mail</span><input type="text" name="email" value="<%= email %>"></p>
+						<p><span style="font-size: 1.2em; margin-right: 5px;">Nation</span><input type="text" name="nation" value="<%= nation %>" ></p> -->
 
 						<p><input type ="submit" value="회원가입"></p>
 					</div>
@@ -33,7 +80,7 @@ including header content which is common for all pages
 			</form>
 		</div>
 	</div>
-</section>	
+</section>
 <p>views/customers/add_user.ejs</p>
 <!--
 including footer content which is common for all pages

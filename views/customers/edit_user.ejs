@@ -1,8 +1,8 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts_user/header.ejs %>	
-		
+<%- include ../layouts_user/header.ejs %>
+
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
 <% } %>
@@ -17,7 +17,7 @@ including header content which is common for all pages
 		<h1>고객 정보 입력</h1>
 		<p>이름:<input type="text" name="name"  value="<%= name %>" ></p>
 		<p>아이디:<input type="text" name="id" value="<%= id %>"></p>
-		<p>비밀번호:<input type="text" name="password" value="<%= password %>" ></p>
+		<p>비밀번호:<input type="password" name="password" value="<%= password %>" ></p>
 		<p>자동차:<input type="checkbox" name="car" value="true" <%= car ? "checked" : "" %>/></p>
 		<p>Phone:<input type="text" name="phone" value="<%= phone %>"></p>
 		<p>email:<input type="text" name="email" value="<%= email %>"></p>
@@ -27,8 +27,8 @@ including header content which is common for all pages
 		<input type="hidden" name="_method" value="PUT" />
 	</div>
 	</section>
- 
-	
+
+
 </form>
 <p>views/customers/edit_user.ejs</p>
 <!--
