@@ -87,7 +87,7 @@ create table task (
 insert into staff (id, password, name, gender, birth) values ('id', 'password', 'name','2018-12-11');
 
 # 가격은 기억 안나서 대충 씀 룸 타입 입력
-insert into room_type (type, price) values ('executive', 260), ('standard', 160), ('sweet', 100);
+insert into room_type (type, price) values ('executive', 260), ('standard', 160), ('suite', 100);
 
 # 직원으로 로그인 후 /rooms/add 한 후 나오는 버튼 클릭하면 방이 모두 들어감
 ```
