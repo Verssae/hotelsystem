@@ -16,35 +16,35 @@ including header content which is common for all pages
 		<div class="content">
 			<h1 style='text-align:center;'>예약 목록</h1>
 
-			<table width='80%' border=0>
+			<table width='70%' border=0>
 
-				<tr style='text-align:left; background-color:#333; color:#fff;'>
+				<tr style='text-align:center; background-color:#333; color:#fff;'>
 					<td>Code</td>
-					<td>Room Number</td>
-					<td>Customer Name</td>
-					<td>Reserve Date</td>
+					<td>Room No.</td>
+					<!-- <td style="text-align: left;">Customer Name</td> -->
+					<td style="text-align: left;">Reserve Date</td>
 					<td>In Date</td>
 					<td>Out Date</td>
-					
+
 					<td>Delete</td>
 				</tr>
 
 	<% if (data) { %>
 	<% data.forEach(function(reserve){ %>
-				<tr>
-					<td><%=reserve.code %></td>
-					<td><%= reserve.number %></td>
-					<td><a href='/customers/edit/<%=reserve.id %>'><%= reserve.name %></a></td>
-					<td><%= reserve.reservedate %></td>
-					<td><%= reserve.indate %></td>
-					<td><%= reserve.outdate %></td>
-					
+				<tr style="background-color: white;">
+					<td style="width: 5%;"><%=reserve.code %></td>
+					<td style="width: 10%; text-align: center;"><%= reserve.number %></td>
+					<!-- <td ><a href='/customers/edit/<%=reserve.id %>' style="text-decoration:none; color: #C32AF9;"><%= reserve.name %></a></td> -->
+					<td style="width: 20%;"><%= reserve.reservedate %></td>
+					<td style="text-align: center;"><%= reserve.indate %></td>
+					<td style="text-align: center;"><%= reserve.outdate %></td>
 
-					<td>
-						<div style="float:left">
-							
-							<form method="post" action="/reservations/delete/<%= reserve.code %>" style="float:right">
-								<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+
+					<td style="width: 8%;">
+						<div>
+
+							<form method="post" action="/reservations/delete/<%= reserve.code %>" style="margin-bottom: 0px;margin-right: 0px;">
+								<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" style="padding-left: 10px; padding-right: 10px;"/>
 								<input type="hidden" name="_method" value="DELETE" />
 							</form>
 						</div>
@@ -54,7 +54,7 @@ including header content which is common for all pages
 	<% } %>
 
 			</table>
-			
+
 
 		</div>
 	</div>

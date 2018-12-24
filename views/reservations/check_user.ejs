@@ -1,29 +1,50 @@
 <%- include ../layouts_user/header.ejs %>
-
-<section id="main" class="wrapper">
+<h1 style='text-align:center; margin-top: 35px;margin-bottom:5;'>예약</h1>
+<style>
+	.pd{
+		width: 200px;
+		height: 30px;
+		border: 2px solid #aaa;
+		border-radius: 4px;
+		margin: 3px 0;
+		outline: none;
+		padding: 8px;
+		box-sizing: border-box;
+	}
+	input[type=date]:focus{
+		border-color: dodgerBlue;
+		box-shadow: 0 0 8px 0 dodgerBlue;
+	}
+</style>
+<section id="main" class="wrapper" style="padding-top: 20px;">
 	<div class="inner">
 		<div class="content">
             <div id="wrapper">
+				<h3 style='text-align:center;'>- 예약 기간 선택 -</h3>
 
                 <div id="multiple" class="article" style="overflow: hidden;">
                     <div class="title">
-		                <h1 style='text-align:center;'>예약 기간 선택</h1>
 
                     </div>
                     <div class="multi-select-calendar" style="float: left; width: 500px; margin-top: 45px; margin-bottom: 10px;"></div>
                     <div>
-                <span><p>날짜를 선택해 주세요</p></span>
+                <div><h3 style="float: right; margin-top: 8%; margin-right: 22%;">왼쪽 달력에서</h3></div>
+				<div><h3 style="float: right; margin-top: 5px;margin-right: 10%;">원하시는 체크인 & 체크아웃 날짜를 선택해 주세요</h3></div>
                 </div>
 			        <div class="box" style="display: table; margin-left: auto; margin-right: auto;padding-top: 50px;
   padding-right: 30px;
   padding-bottom: 50px;
   padding-left: 80px;">
-                
-				
-                <form>
-                    <input type='datetime' name='indate' placeholder = '---'/></br>
-                    <input type='datetime' name='outdate' placeholder = '---'/>
-                    
+
+
+                <form style="margin-left: -15%;">
+					<input type='datetime' class="pd" name='indate' placeholder = '---' />
+					<br>
+					</br>
+
+					<input type='datetime' class="pd" name='outdate' placeholder = '---' />
+
+
                 </form>
 			</div>
                 </div>
@@ -65,10 +86,10 @@
 
 
             // $box.text(text);
-			$box.html("<form action='/reservations/check' method='post' name='form1'>"+
-			"<input type='datetime' name='indate' value='"+indate+"'/></br>" +
-			"<input type='datetime' name='outdate' value='"+outdate+"'/></br>"+
-			"<input type='submit' name='Submit' value='check' /></form>" );
+			$box.html("<form action='/reservations/check' method='post' name='form1' style='margin-left: -15%;'>"+
+			"<input type='datetime' class='pd' name='indate' value='"+indate+"'/><br></br>" +
+			"<input type='datetime' class='pd' name='outdate' value='"+outdate+"'/><br></br>"+
+			"<input type='submit' name='Submit' value='check' style='margin-left: 27%;'/></form>" );
 
 
 

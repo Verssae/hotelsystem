@@ -10,26 +10,90 @@ including header content which is common for all pages
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
+<p>
+
+</p>
+<h1 style='text-align:center; margin-bottom:0;'>회원정보</h1>
+<style>
+	input[type=text], input[type=password]{
+		width: 200px;
+		height: 30px;
+		border: 2px solid #aaa;
+		border-radius: 4px;
+		margin: 3px 0;
+		outline: none;
+		padding: 8px;
+		box-sizing: border-box;
+	}
+	input[type=text]:focus, input[type=password]:focus{
+		border-color: dodgerBlue;
+		box-shadow: 0 0 8px 0 dodgerBlue;
+	}
+
+</style>
+<section id="main" class="wrapper" style="padding-top: 15px;">
+	<div class="inner">
+		<div class="content" style="width: 60%; margin-left: 20%;">
 
 <form action="/login/edit/<%= id %>" method="post" name="form1">
 	<section>
 		<div>
-		<h1>고객 정보 입력</h1>
-		<p>이름:<input type="text" name="name"  value="<%= name %>" ></p>
+		<h3 style="text-align: center;">- 회원 정보 수정 -</h3>
+		<table style="width:80%; margin-left: 20%;">
+			<tr style="background: white; border:none; margin: 0;">
+				<td style="font-size: 1.2em; width: 35%;">이름</td>
+				<td style="width: 65%;"><input type="text" name="name"  value="<%= name %>" style="background-color: #e7e7e7; color: gray;" ></td>
+			</tr>
+			<tr style="background: white; border:none; margin: 0;">
+				<td style="font-size: 1.2em; width: 35%;">아이디</td>
+				<td style="width: 65%;"><input type="text" name="id" value="<%= id %>" style="background-color: #e7e7e7; color: gray;" ></td>
+			</tr>
+			<tr style="background: white; border:none; margin: 0;">
+				<td style="font-size: 1.2em; width: 35%;">*비밀번호</td>
+				<td style="width: 65%;"><input type="password" name="password" value="<%= password %>" ></td>
+			</tr>
+			<tr style="background: white; border:none; margin: 0;">
+				<td style="font-size: 1.2em; width: 35%;">*Phone</td>
+				<td style="width: 65%;"><input type="text" name="phone" value="<%= phone %>" placeholder="010-0000-0000"></td>
+				<!-- <td style="font-size: 1em; color: #9c9c9c;">ex)010-0000-0000</td> -->
+			</tr>
+			<tr style="background: white; border:none; margin: 0;">
+				<td style="font-size: 1.2em; width: 35%;">E-mail</td>
+				<td style="width: 65%;"><input type="text" name="email" value="<%= email %>"></td>
+			</tr>
+			<tr style="background: white; border:none; margin: 0;">
+				<td style="font-size: 1.2em; width: 35%;">Nation</td>
+				<td style="width: 65%;"><input type="text" name="nation" value="<%= nation %>" ></td>
+			</tr>
+			<tr style="background: white; border:none; margin: 0;">
+				<td style="font-size: 1.2em; width: 35%;">자가용 유무</td>
+				<td style="width: 65%;"><input type="checkbox" name="car" value="true" <%= car ? "checked" : "" %>/></td>
+			</tr>
+		</table>
+
+		<!-- <p>이름:<input type="text" name="name"  value="<%= name %>" ></p>
 		<p>아이디:<input type="text" name="id" value="<%= id %>"></p>
 		<p>비밀번호:<input type="password" name="password" value="<%= password %>" ></p>
 		<p>자동차:<input type="checkbox" name="car" value="true" <%= car ? "checked" : "" %>/></p>
 		<p>Phone:<input type="text" name="phone" value="<%= phone %>"></p>
 		<p>email:<input type="text" name="email" value="<%= email %>"></p>
-		<p>Nation:<input type="text" name="nation" value="<%= nation %>" ></p>
+		<p>Nation:<input type="text" name="nation" value="<%= nation %>" ></p> -->
+		<% if (messages.error) { %>
+			<p style="padding-top:10px;">
 
-		<p><input type ="submit" value="edit"></p>
+			<span style="color:red">* 항목에 값을 채워주세요.</span>
+			</p>
+		<% } %>
+		<p><input type ="submit" value="edit" style="margin-left: 43%"></p>
 		<input type="hidden" name="_method" value="PUT" />
 	</div>
 	</section>
 
 
 </form>
+</div>
+</div>
+</section>
 <p>views/customers/edit_user.ejs</p>
 <!--
 including footer content which is common for all pages

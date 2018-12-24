@@ -10,40 +10,67 @@ including header content which is common for all pages
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
+<h1 style='text-align:center; margin-top: 15px;margin-bottom:0;'>직원정보</h1>
+<style>
+	input[type=text], input[type=password], input[type=date]{
+		width: 200px;
+		height: 30px;
+		border: 2px solid #aaa;
+		border-radius: 4px;
+		margin: 3px 0;
+		outline: none;
+		padding: 8px;
+		box-sizing: border-box;
+	}
+	input[type=text]:focus, input[type=password]:focus{
+		border-color: dodgerBlue;
+		box-shadow: 0 0 8px 0 dodgerBlue;
+	}
+
+</style>
+<section id="main" class="wrapper" style="padding-top: 15px;">
+	<div class="inner">
+		<div class="content" style="width: 60%; margin-left: 20%;">
 
 <form action="/staffs/edit/<%= id %>" method="post" name="form1">
-	<table width="25%" border="0">
-		<tr> 
+	<h3 style="text-align: center;">- 직원 정보 수정 -</h3>
+
+	<table style="width: 80%; margin-left: 20%; ">
+		<tr style="background-color: white; border: none;">
 			<td>ID</td>
 			<td><input type="text" name="id" value="<%= id %>" /></td>
 		</tr>
-		<tr> 
+		<tr style="background-color: white; border: none;">
 			<td>PASSWORD</td>
-			<td><input type="text" name="password" value="<%= password %>" /></td>
+			<td><input type="password" name="password" value="<%= password %>" /></td>
 		</tr>
-		<tr>
+		<tr style="background-color: white; border: none;">
 			<td>Name</td>
 			<td><input type="text" name="name" id="name" value="<%= name %>" /></td>
 		</tr>
-		<tr>
+		<tr style="background-color: white; border: none;">
 			<td>Gender</td>
-			<td><input type="text" name="gender" value="<%= gender %>" /></td>
+			<td><input type="text" name="gender" value="<%= gender %>"  placeholder="male/female"/></td>
 		</tr>
-		<tr>
+		<tr style="background-color: white; border: none;">
 			<td>Birth</td>
 			<td><input type="date" name="birth" value="<%= birth %>" /></td>
 		</tr>
-		<tr>
-			<td><input type="submit" name="Submit" value="Edit" /></td>
-		</tr>
+
 	</table>
+	<span style="float: right;"><input type="submit" name="Submit" value="Edit" /></span>
 	<input type="hidden" name="_method" value="PUT" />
 </form>
 
+	
+	
 <form method="post" action="/staffs/delete/<%= id %>" >
-						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" style="padding-left: 15px; padding-right: 15px;"/>
 						<input type="hidden" name="_method" value="DELETE" />
 </form>
+</div>
+</div>
+</section>
 <p>views/staffs/edit.ejs</p>
 <!--
 including footer content which is common for all pages

@@ -85,7 +85,15 @@ app.post('/add',isAuthenticated, function(req, res, next){
 					req.flash('success', 'Data added successfully!')
 
 					// render to views/user/add.ejs
-					res.redirect("/staffs")
+					res.render('staffs/add', {
+						title: 'Add New Staff',
+						id: '',
+						password: '',
+						name: '',
+						gender: '',
+						birth: ''
+
+					})
 				}
 			})
 		})

@@ -13,56 +13,110 @@ including header content which is common for all pages
 <section id="main" class="wrapper">
 	<div class="inner">
 		<div class="content">
-		<select id="what">
+			<h1 style='text-align:center;'>예약 조회 및 관리</h1>
+			<style>
+				.green_window {
+					display: inline-block;
+					width: 200px; height: 34px;
+					margin: 0;
+					border: 3px solid #200400;
+					background: white;
+				}
+				.input_text10 {
+					width: 180px; height: 21px;
+					margin: 3px 0 0 3px;
+					border: 0;
+					line-height: 21px;
+					font-weight: bold;
+					font-size: 16px;
+					outline: none;
+				}
+				.sch_smit {
+					width: 54px; height: 35px;
+					margin: 0; border: 0;
+					vertical-align: top;
+					background: #200400;
+					color: white;
+					font-weight: bold;
+					border-radius: 3px;
+					cursor: pointer;
+				}
+				.sch_smit2 {
+					width: 120px; height: 35px;
+					margin: 0; border: 0;
+					vertical-align: top;
+					background: #200400;
+					color: white;
+					font-weight: bold;
+					border-radius: 3px;
+					cursor: pointer;
+				}
+				.sch_smit:hover {
+					background: #ce1b28;
+					color: white;
+					border-width: 3px;
+				}
+				#what{
+					-webkit-appearance: none;
+					appearance: none;
+					width: 130px;
+					height: 32px;
+					padding: .3em .5em;
+					background-color: white;
+				}
+			</style>
+			<a href="/reservations/check" role="button" aria-pressed="true" style="float: left;padding: 5 10 5 10; margin-bottom: 10px">ADD</a>
+
+			<span style="float: right;">
+				<select id="what">
 							<option value = 1>Code</option>
 							<option value = 2>Room</option>
 							<option value = 3>Customer</option>
 							<option value = 4>Reserve Date</option>
 							<option value = 5>In Date</option>
 							<option value = 6>Out Date</option>
-						</select>
-			<span class='green_window'>
-						
-						
-			<input id="keyword" type="text10" class='input_text10' name="search" /></span>
-			<input type="button" class='sch_smit' value="검색" />
-					
-						
-			<h1 style='text-align:center;'>예약 목록</h1>
+				</select>
+
+				<span class='green_window' style="width: 200px;">
+					<input id="keyword" type="text10" class='input_text10' name="search" style="width: 180px;"/>
+				</span>
+				<input type="button" class='sch_smit' value="검색" />
+
+			</span>
 
 			<table id="user-table" width='80%' border=0>
 				<tbody>
 				<thead>
-				<tr style='text-align:left; background-color:#333; color:#fff;'>
+				<tr style='text-align:center; background-color:#333; color:#fff;'>
 					<td>Code</td>
-					<td>Room Number</td>
-					<td>Customer Name</td>
-					<td>Reserve Date</td>
+					<td>Room No.</td>
+					<td style='text-align:left;'>Customer Name</td>
+					<td style='text-align:left;'>Reserve Date</td>
 					<td>In Date</td>
 					<td>Out Date</td>
 					<td>CheckIn</td>
 					<td>CheckOut</td>
-					<td>Edit</td>
+					<td style="width: 7%; text-align:left;">Edit</td>
 				</tr>
 				</thead>
 
 	<% if (data) { %>
 	<% data.forEach(function(reserve){ %>
-				<tr>
+				<tr style="text-align:center; background-color: white;">
 					<td><%=reserve.code %></td>
 					<td><%= reserve.number %></td>
-					<td><a href='/customers/edit/<%=reserve.id %>'><%= reserve.name %></a></td>
-					<td><%= reserve.reservedate %></td>
+					<td style='text-align:left;'><a href='/customers/edit/<%=reserve.id %>' style="text-decoration:none; color: #C32AF9;"><%= reserve.name %></a></td>
+					<td style='text-align:left;'><%= reserve.reservedate %></td>
 					<td><%= reserve.indate %></td>
 					<td><%= reserve.outdate %></td>
 					<td><input id="opt1" type="checkbox" name="check1" <%= reserve.checkIn ? "checked" : "" %> /></td>
 					<td><input id="opt1" type="checkbox" name="check2" <%= reserve.checkOut ? "checked" : "" %> /></td>
 
-					<td>
-						<div style="float:left">
-							<a href='/reservations/edit/<%= reserve.code %>'>Edit</a> &nbsp;
-							
-						</div>
+					<td style="width: 7%; text-align: left;">
+
+							<a href='/reservations/edit/<%= reserve.code %>' style="text-decoration:none;">Edit</a> &nbsp;
+
+
 					</td>
 				</tr>
 	<% }) %>
@@ -70,8 +124,7 @@ including header content which is common for all pages
 <tbody>
 			</table>
 
-			<a href="/reservations/check" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">ADD</a>
-		</div>
+			</div>
 	</div>
 </section>
 <script type="text/javascript">
@@ -79,7 +132,7 @@ $(document).ready(function() {
 	$("#keyword").keyup(function() {
 		var n = document.getElementById("what");
 		var m = n.options[n.selectedIndex].value
-		
+
 		var k = $(this).val();
 		console.log(k)
 		$("#user-table > tbody > tr").hide();

@@ -13,8 +13,20 @@ including header content which is common for all pages
 <section id="main" class="wrapper">
 	<div class="inner">
 		<div class="content">
-			<h1 style='text-align:center;'>고객 목록</h1>
-			
+			<h1 style='text-align:center;'>고객 정보 조회</h1>
+			<style>
+
+				#what{
+					-webkit-appearance: none;
+					appearance: none;
+					width: 85px;
+					height: 32px;
+					padding: .3em .5em;
+					background-color: white;
+					margin-bottom: 5px;
+				}
+			</style>
+			<div style="margin-left: 25%;">
 			<select id="what">
 							<option value = 1>ID</option>
 							<option value = 2>Name</option>
@@ -23,8 +35,8 @@ including header content which is common for all pages
 							<option value = 6>Email</option>
 						</select>
 			<span class='green_window'>
-						
-						
+
+
 			<input id="keyword" type="text10" class='input_text10' name="search" onkeydown="enterSearch()"/></span>
 			<input type="button" class='sch_smit' value="검색" onclick="myFunction()"/>
 						<!-- JAVASCRIPT -->
@@ -42,7 +54,8 @@ including header content which is common for all pages
 
 							}
 						</script>
-			
+			</div>
+
 			<table id="user-table" width='80%' border=0>
 			<tbody>
 			<thead>
@@ -53,7 +66,6 @@ including header content which is common for all pages
 					<td>Nation</td>
 					<td>Phone</td>
 					<td>Email</td>
-					<td>Edit</td>
 				</tr>
 				</thead>
 
@@ -73,18 +85,13 @@ including header content which is common for all pages
 					<td><%= customer.nation %></td>
 					<td><%= customer.phone %></td>
 					<td><%= customer.email %></td>
-					<td>
-						<div style="float:left">
-							<a href='/customers/edit/<%= customer.id %>'>Edit</a> &nbsp;
-							
-						</div>
-					</td>
+
 				</tr>
 	<% }) %>
 	<% } %>
 </tbody>
 			</table>
-			
+
 
 		</div>
 	</div>

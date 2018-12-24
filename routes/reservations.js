@@ -34,37 +34,13 @@ app.get('/',isAuthenticated, function(req, res, next) {
 						data: rows
 					})
 				}
-				
+
 			}
 		})
 	})
 })
 
 
-app.get('/add', isAuthenticated,function(req, res, next){
-
-	req.getConnection(function(error, conn) {
-		conn.query('select * from room natural join room_type order by number',function(err, numbers, fields) {
-			if (err) throw err;
-			var user = req.session.passport.user.id;
-			var sql = "select * from customer"
-			if(req.session.passport.user.tag == "customer") {
-				sql = "select * from customer where id = ?"
-			}
-			conn.query(sql,[user],function(err, customers, fields) {
-				if (err) throw err;
-				var now = new Date();
-				res.render('reservations/add', {
-					title: 'New Reservation',
-					numbers: numbers,
-					customers: customers,
-					indate: datetime.format(now, 'YYYY-MM-DD'),
-					outdate: datetime.format(datetime.addDays(now, 1), 'YYYY-MM-DD')
-				})
-			})
-		})
-	})
-})
 
 app.get('/check',isAuthenticated, function(req, res, next){
 
@@ -78,19 +54,17 @@ app.get('/check',isAuthenticated, function(req, res, next){
 			}
 			conn.query(sql,[user],function(err, customers, fields) {
 				if (err) throw err;
-				var now = new Date();
-				
+
+
 				if(req.session.passport.user.tag == "customer") {
 					res.render('reservations/check_user', {
-						title: 'New Reservation',
-						indate: datetime.format(now, 'YYYY-MM-DD'),
-						outdate: datetime.format(datetime.addDays(now, 1), 'YYYY-MM-DD')
+						title: 'New Reservation'
+
 					})
 				} else {
 					res.render('reservations/check', {
-						title: 'New Reservation',
-						indate: datetime.format(now, 'YYYY-MM-DD'),
-						outdate: datetime.format(datetime.addDays(now, 1), 'YYYY-MM-DD')
+						title: 'New Reservation'
+
 					})
 				}
 			})
@@ -141,7 +115,7 @@ app.post('/check',isAuthenticated, function(req, res, next) {
 								outdate: req.body.outdate
 							})
 						}
-						
+
 					})
 			})
 		})
@@ -169,14 +143,15 @@ app.post('/add',isAuthenticated, function(req, res, next){
 
 
 	var errors = req.validationErrors()
-	
+
 
     if( !errors ) {
 
-		var now = new Date();
+		var now = new Date().toLocaleString()
 		var sql = "insert into reservation set ?";
+		console.log(req.body.outdate);
 		var params = {
-			
+
 			number: req.body.number,
 			indate: moment(req.body.indate).format('YYYY-MM-DD'),
 			outdate: moment(req.body.outdate).format('YYYY-MM-DD'),
@@ -184,7 +159,7 @@ app.post('/add',isAuthenticated, function(req, res, next){
 			checkOut: req.body.checkOut ? true : false,
 			reservedate: now
 		};
-		
+
 		if(req.session.passport.user.tag == "customer") {
 			params.id = req.session.passport.user.id;
 		} else {
@@ -197,30 +172,18 @@ app.post('/add',isAuthenticated, function(req, res, next){
 
 		req.getConnection(function(error, conn) {
 			conn.query(sql, params, function(err, result) {
-				
+
 				if (err) {
 					req.flash('error', err)
 					console.log(err);
 					res.redirect('/reservations');
-					
+
 
 				} else {
 
 					req.flash('success', 'Data added successfully!')
 
-					// conn.query('select * from room order by number',function(err, numbers, fields) {
-					// 	if (err) throw err;
-					// 	conn.query('select * from customer ',function(err, customers, fields) {
-					// 		if (err) throw err;
-					// 		res.render('reservations/add', {
-					// 			title: 'New Reservation',
-					// 			numbers: numbers,
-					// 			customers: customers,
-					// 			indate: datetime.format(now, 'YYYY-MM-DDTHH:mm:ss'),
-					// 			outdate: datetime.format(datetime.addDays(now, 1), 'YYYY-MM-DDTHH:mm:ss')
-					// 		})
-					// 	})
-					// })
+
 					res.redirect("/reservations")
 				}
 			})
@@ -287,7 +250,7 @@ app.get('/edit/(:code)',isAuthenticated, function(req, res, next){
 									checkOuted: rows[0].checkOut
 								})
 							}
-							
+
 						})
 					})
 				})
@@ -356,7 +319,7 @@ app.put('/edit/(:code)',isAuthenticated, function(req, res, next) {
 									checkOuted: req.body.checkOut
 								})
 							}
-							
+
 						})
 					})
 				}

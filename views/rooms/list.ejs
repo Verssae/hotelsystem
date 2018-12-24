@@ -10,14 +10,39 @@ including header content which is common for all pages
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
+<h1 style='text-align:center; margin-top: 35px;margin-bottom:5;'>실시간 객실 정보</h1>
 
 <!-- Main -->
-<section id="main" class="wrapper">
+<section id="main" class="wrapper" style="padding-top: 20px;">
 	<div class="inner">
 		<div class="content">
 			<div class="current_room">
-				<h1 style='text-align:center;'>실시간 객실 정보</h1>
 				<div role="application" aria-label="호텔룸현황" class="hotel_room">
+					<style>
+						input[type=text], input[type=password]{
+							width: 200px;
+							height: 30px;
+							border: 2px solid #aaa;
+							border-radius: 4px;
+							margin: 3px 0;
+							outline: none;
+							padding: 8px;
+							box-sizing: border-box;
+						}
+						input[type=text]:focus, input[type=password]:focus{
+							border-color: dodgerBlue;
+							box-shadow: 0 0 8px 0 dodgerBlue;
+						}
+						#what{
+							-webkit-appearance: none;
+							appearance: none;
+							width: 240px;
+							height: 32px;
+							padding: .3em .5em;
+							background-color: white;
+							margin-bottom: 5px;
+						}
+					</style>
 					<div>
 						<div class="room_info" style="padding:0px 13px;">
 							<table class="room_type">
@@ -69,25 +94,21 @@ including header content which is common for all pages
 													<%} %>
 												<%}) %>
 												<td class="<%=color%>" id="<%=room.number%>" role="button" tabindex="0" style="width:70px;height:70px;" >
-												<%=room.number%>호</br><%=matched_staff%></td>
+												<%=room.number%>호<br></br><%=matched_staff%><br></br><%=room.order_take%></td>
 
 									<div id="<%= room.number %>" class="modal">
 										<div class="modal-content">
 											<div class="modal-title">
 
-												<span class="close">&times;</span>
+												<!-- <span class="close">&times;</span> -->
 												<h2><%= room.number %>호</h2>
 											</div>
 											<div class="checklist">
 												<form action="/rooms/edit/<%= room.number %>" method="post" name="form1" >
-													<!-- Room Number
-													<input type="text" name="number" value="<%= room.number %>" />
-													</br>
-													floor
-													<input type="text" name="floor" value="<%= room.floor %>" /> -->
-													</br>
+													<!-- <table> -->
+													<p style="font-size: 18px;">
 													STAFF
-													<select name="id">
+															<select id="what" name="id" style="margin-left: 50px; font-size: 15px;">
 														<option value="No Staff" selected>No Staff</option>
 														<% if (staffs) { %>
 															<% staffs.forEach(function(staff){ %>
@@ -96,23 +117,29 @@ including header content which is common for all pages
 															<% }) %>
 														<% } %>
 													</select>
-													</br>
-													Customer Info
-													<a href="/customers/edit/<%=customer_id%>"><%=customer_name%></a>
-													</br>
+													</p>
+													<p style="font-size: 18px;">
+															Customer
+													<a href="/customers/edit/<%=customer_id%>"style="text-decoration: none;color:#C32AF9; margin-left: 30px;"><%=customer_name%></a>
+													</p>
+													<p>
 													Clean
 													<input type="checkbox" name="clean" value="true"  <%= room.clean ? "checked" : "" %> />
-													linen
+													</p>
+													<p>
+													Bedding
 													<input type="checkbox" name="linen" value="true"  <%= room.linen ? "checked" : "" %> />
-													amenity
+												</p>
+												<p>
+												Amenity
 													<input type="checkbox" name="amenity" value="true"  <%= room.amenity ? "checked" : "" %> />
-													</br>
-													order_take
-													<input type="text" name="order_take" value="<%= room.order_take %>" />
-													</br>
-
+												</p>
+												<p>
+													Order
+													<input type="text" name="order_take" value="<%= room.order_take %>" style="margin-left: 60px;"/>
+												</p>	<!-- </table> -->
 													<input type="hidden" name="_method" value="PUT" />
-													<span><button id="confirm">확인</button></span>
+													<span style="float: right;"><button id="confirm">확인</button></span>
 												</form>
 
 

@@ -3,65 +3,74 @@ including header content which is common for all pages
 -->
 <%- include ../layouts_user/header.ejs %>
 
+<p>
 
+</p>
+<h1 style='text-align:center; margin-bottom:0;'>회원가입</h1>
+<style>
+	input[type=text], input[type=password]{
+		width: 200px;
+		height: 30px;
+		border: 2px solid #aaa;
+		border-radius: 4px;
+		margin: 3px 0;
+		outline: none;
+		padding: 8px;
+		box-sizing: border-box;
+	}
+	input[type=text]:focus, input[type=password]:focus{
+		border-color: dodgerBlue;
+		box-shadow: 0 0 8px 0 dodgerBlue;
+	}
 
-<section id="main" class="wrapper">
+</style>
+<section id="main" class="wrapper" style="padding-top: 15px;">
 	<div class="inner">
-		<div class="content">
-			<form action="/signin" method="post" name="form1">
-				<section>
-					<div>
-						<h1 style='text-align:center;'>회원가입</h1>
-						<style>
-							input[type=text], input[type=password]{
-								width: 200px;
-								height: 30px;
-								border: 2px solid #aaa;
-								border-radius: 4px;
-								margin: 3px 0;
-								outline: none;
-								padding: 8px;
-								box-sizing: border-box;
-							}
-							input[type=text]:focus, input[type=password]:focus{
-								border-color: dodgerBlue;
-								box-shadow: 0 0 8px 0 dodgerBlue;
-							}
-						</style>
-						<table style="width:800px; margin-left: 300px;">
+		<div class="content" style="width: 60%; margin-left: 20%;">
+			<form action="/signin" method="post" name="form1"">
+				<section style="width: 100%">
+					<div style="width: 80%; margin-left: 20%">
+
+						<table style="width:80%;">
 							<tr style="background: white; border:none; margin: 0;">
-								<td style="font-size: 1.2em; width: 70px;">*이름</td>
-								<td style="width: 200px;"><input type="text" name="name"  value="<%= name %>" ></td>
+								<td style="font-size: 1.2em; width: 35%;">*이름</td>
+								<td style="width: 65%;"><input type="text" name="name"  value="<%= name %>" ></td>
 							</tr>
 							<tr style="background: white; border:none; margin: 0;">
-								<td style="font-size: 1.2em; width: 70px;">*아이디</td>
-								<td style="width: 200px;"><input type="text" name="id" value="<%= id %>"></td>
+								<td style="font-size: 1.2em; width: 35%;">*아이디</td>
+								<td style="width: 65%;"><input type="text" name="id" value="<%= id %>"></td>
 							</tr>
 							<tr style="background: white; border:none; margin: 0;">
-								<td style="font-size: 1.2em; width: 70px;">*비밀번호</td>
-								<td style="width: 200px;"><input type="password" name="password" value="<%= password %>" ></td>
+								<td style="font-size: 1.2em; width: 35%;">*비밀번호</td>
+								<td style="width: 65%;"><input type="password" name="password" value="<%= password %>" ></td>
 							</tr>
 							<tr style="background: white; border:none; margin: 0;">
-								<td style="font-size: 1.2em; width: 70px;">*Phone</td>
-								<td style="width: 200px;"><input type="text" name="phone" value="<%= phone %>" placeholder="010-0000-0000"></td>
+								<td style="font-size: 1.2em; width: 35%;">*Phone</td>
+								<td style="width: 65%;"><input type="text" name="phone" value="<%= phone %>" placeholder="010-0000-0000"></td>
 								<!-- <td style="font-size: 1em; color: #9c9c9c;">ex)010-0000-0000</td> -->
 							</tr>
 							<tr style="background: white; border:none; margin: 0;">
-								<td style="font-size: 1.2em; width: 70px;">E-mail</td>
-								<td style="width: 200px;"><input type="text" name="email" value="<%= email %>"></td>
+								<td style="font-size: 1.2em; width: 35%;">E-mail</td>
+								<td style="width: 65%;"><input type="text" name="email" value="<%= email %>"></td>
 							</tr>
 							<tr style="background: white; border:none; margin: 0;">
-								<td style="font-size: 1.2em; width: 70px;">Nation</td>
-								<td style="width: 200px;"><input type="text" name="nation" value="<%= nation %>" ></td>
+								<td style="font-size: 1.2em; width: 35%;">Nation</td>
+								<td style="width: 65%;"><input type="text" name="nation" value="<%= nation %>" ></td>
 							</tr>
 							<tr style="background: white; border:none; margin: 0;">
-								<td style="font-size: 1.2em; width: 70px;">자가용 유무</td>
-								<td style="width: 200px;"><input type="checkbox" name="car" value="true"/></td>
+								<td style="font-size: 1.2em; width: 35%;">자가용 유무</td>
+								<td style="width: 65%;"><input type="checkbox" name="car" value="true"/></td>
 							</tr>
 						</table>
-						<p>*항목은 필수 입니다.</p>
+						<div>
+						<span>*항목은 필수 입니다.</span>
+						<span style="float: right; margin-top: -5px;margin-right: 3%;"><input type ="submit" value="회원가입"></span>
+
 						<% if (messages.error) { %>
-							<p style="color:red">* 항목에 값을 채워주세요.</p>
+							<p style="padding-top:10px;">
+
+							<span style="color:red">* 항목에 값을 채워주세요.</span>
+							</p>
 						<% } %>
 						<!-- <p><span style="font-size: 1.2em; margin-right: 5px;">이름</span><input type="text" name="name"  value="<%= name %>" ></p>
 						<p><span style="font-size: 1.2em; margin-right: 5px;">아이디</span><input type="text" name="id" value="<%= id %>"></p>
@@ -71,7 +80,7 @@ including header content which is common for all pages
 						<p><span style="font-size: 1.2em; margin-right: 5px;">E-mail</span><input type="text" name="email" value="<%= email %>"></p>
 						<p><span style="font-size: 1.2em; margin-right: 5px;">Nation</span><input type="text" name="nation" value="<%= nation %>" ></p> -->
 
-						<p style="float: right;"><input type ="submit" value="회원가입"></p>
+						</div>
 					</div>
 				</section>
 

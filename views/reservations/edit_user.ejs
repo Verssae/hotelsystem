@@ -1,8 +1,8 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts_user/header.ejs %>	
-		
+<%- include ../layouts_user/header.ejs %>
+
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
 <% } %>
@@ -22,18 +22,18 @@ including header content which is common for all pages
 						<option value='<%= room_number.number %>' <% if (room_number.number == numbered) { %>selected
 							<% } %> ><%= room_number.number %></option>
 					<% }) %>
-				<% } %>	
+				<% } %>
 		</select>
-		
+
 		<br/>
 	Customer Name
 	<select name="customer">
 		<% if (customers) { %>
 			<% customers.forEach(function(customer){ %>
-				<option value='<%= customer.id %>' <% if (customer.id == ided) { %>selected 
+				<option value='<%= customer.id %>' <% if (customer.id == ided) { %>selected
 				<% } %>> id:<%= customer.id%> name: <%= customer.name %></option>
 			<% }) %>
-		<% } %>	
+		<% } %>
 	</select>
 	<br/>
 

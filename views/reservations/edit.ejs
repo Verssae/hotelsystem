@@ -1,8 +1,8 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts/header.ejs %>	
-		
+<%- include ../layouts/header.ejs %>
+
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
 <% } %>
@@ -10,30 +10,107 @@ including header content which is common for all pages
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
+<h1 style='text-align:center; margin-bottom:0; margin-top: 15px;'>예약 정보 변경</h1>
+<style>
+	input[type=text], input[type=password]{
+		width: 200px;
+		height: 30px;
+		border: 2px solid #aaa;
+		border-radius: 4px;
+		margin: 3px 0;
+		outline: none;
+		padding: 8px;
+		box-sizing: border-box;
+	}
+	input[type=text]:focus, input[type=password]:focus{
+		border-color: dodgerBlue;
+		box-shadow: 0 0 8px 0 dodgerBlue;
+	}
+	.what{
+		-webkit-appearance: none;
+		appearance: none;
+		height: 32px;
+		padding: .3em .5em;
+		background-color: white;
+	}
+</style>
+<section id="main" class="wrapper" style="padding-top: 15px;">
+	<div class="inner">
+		<div class="content" style="width: 60%; margin-left: 20%;">
 
 <form action="/reservations/edit/<%= code %>" method="post" name="form1">
-	Reservation code
+	<table style="width:80%; margin-left: 20%;">
+		<tr style="background: white; border:none; margin: 0;">
+			<td style="font-size: 1.2em; width: 35%;">Reservation Code</td>
+			<td style="width: 65%;"><input type="text" name="code" value="<%= code %>" /></td>
+		</tr>
+		<tr style="background: white; border:none; margin: 0;">
+			<td style="font-size: 1.2em; width: 35%;">Room Number</td>
+			<td style="width: 65%;">
+				<select class="what" name="number" style="width: 80px;">
+					<% if (numbers) { %>
+						<% numbers.forEach(function(room_number){ %>
+							<option value='<%= room_number.number %>' <% if (room_number.number == numbered) { %>selected
+								<% } %> ><%= room_number.number %></option>
+						<% }) %>
+					<% } %>
+				</select>
+			</td>
+		</tr>
+		<tr style="background: white; border:none; margin: 0;">
+			<td style="font-size: 1.2em; width: 35%;">Customer</td>
+			<td style="width: 65%;">
+				<select class="what" name="customer" style="width: 230px;">
+					<% if (customers) { %>
+						<% customers.forEach(function(customer){ %>
+							<option value='<%= customer.id %>' <% if (customer.id == ided) { %>selected
+							<% } %>> id:<%= customer.id%> name: <%= customer.name %></option>
+						<% }) %>
+					<% } %>
+				</select>
+			</td>
+		</tr>
+		<tr style="background: white; border:none; margin: 0;">
+			<td style="font-size: 1.2em; width: 35%;">Check-In Date</td>
+			<td style="width: 65%;"><input type="datetime" name="indate" value="<%= indate %>" /></td>
+		</tr>
+		<tr style="background: white; border:none; margin: 0;">
+			<td style="font-size: 1.2em; width: 35%;">Check-Out Date</td>
+			<td style="width: 65%;"><input type="datetime" name="outdate" value="<%= outdate %>" /></td>
+		</tr>
+		<tr style="background: white; border:none; margin: 0;">
+			<td style="font-size: 1.2em; width: 35%;">Check-In</td>
+			<td style="width: 65%;"><input type="checkbox" name="checkIn" value="true" <%= checkIned ? "checked" : "" %>/></td>
+		</tr>
+		<tr style="background: white; border:none; margin: 0;">
+			<td style="font-size: 1.2em; width: 35%;">Check-Out</td>
+			<td style="width: 65%;"><input type="checkbox" name="checkOut" value="true" <%= checkOuted ? "checked" : "" %>/></td>
+		</tr>
+	</table>
+
+
+	<!-- Reservation code
 	<input type="text" name="code" value="<%= code %>" />
 	<br/>
 	Room Number
-		<select name="number">
+		<select class="what" name="number">
 				<% if (numbers) { %>
 					<% numbers.forEach(function(room_number){ %>
 						<option value='<%= room_number.number %>' <% if (room_number.number == numbered) { %>selected
 							<% } %> ><%= room_number.number %></option>
 					<% }) %>
-				<% } %>	
+				<% } %>
 		</select>
-		
+
 		<br/>
 	Customer Name
-	<select name="customer">
+	<select class="what" name="customer">
 		<% if (customers) { %>
 			<% customers.forEach(function(customer){ %>
-				<option value='<%= customer.id %>' <% if (customer.id == ided) { %>selected 
+				<option value='<%= customer.id %>' <% if (customer.id == ided) { %>selected
 				<% } %>> id:<%= customer.id%> name: <%= customer.name %></option>
 			<% }) %>
-		<% } %>	
+		<% } %>
 	</select>
 	<br/>
 
@@ -46,16 +123,21 @@ including header content which is common for all pages
 	Check In
 	<input type="checkbox" name="checkIn" value="true" <%= checkIned ? "checked" : "" %>/>
 	Check Out
-	<input type="checkbox" name="checkOut" value="true" <%= checkOuted ? "checked" : "" %>/>
-
-	<input type="submit" name="Submit" value="Edit" /></td>
+	<input type="checkbox" name="checkOut" value="true" <%= checkOuted ? "checked" : "" %>/> -->
+<div style="float: right;">
+	<input type="submit" name="Submit" value="Edit" />
 	<input type="hidden" name="_method" value="PUT" />
-	
+</div>
 </form>
+<div style="float: left;">
 <form method="post" action="/reservations/delete/<%= code %>" style="float:right">
 	<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
 	<input type="hidden" name="_method" value="DELETE" />
 </form>
+</div>
+</div>
+</div>
+</section>
 <p>views/reservations/edit.ejs</p>
 <!--
 including footer content which is common for all pages

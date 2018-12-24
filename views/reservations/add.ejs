@@ -1,7 +1,7 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts/header.ejs %>	
+<%- include ../layouts/header.ejs %>
 
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
@@ -10,10 +10,74 @@ including header content which is common for all pages
 <% if (messages.success) { %>
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
+<h1 style='text-align:center; margin-top: 35px;margin-bottom:5;'>예약</h1>
+<style>
+	input[type=text], input[type=password]{
+		width: 200px;
+		height: 30px;
+		border: 2px solid #aaa;
+		border-radius: 4px;
+		margin: 3px 0;
+		outline: none;
+		padding: 8px;
+		box-sizing: border-box;
+	}
+	input[type=text]:focus, input[type=password]:focus{
+		border-color: dodgerBlue;
+		box-shadow: 0 0 8px 0 dodgerBlue;
+	}
+	.what{
+		-webkit-appearance: none;
+		appearance: none;
+		height: 32px;
+		padding: .3em .5em;
+		background-color: white;
+		margin-bottom: 5px;
+	}
+</style>
+<section id="main" class="wrapper" style="padding-top: 20px;">
+	<div class="inner">
+		<div class="content">
+			<h3 style='text-align:center;'>- 객실 선택 -</h3>
+			<h4 style='text-align:center; color: #9c9c9c;'>예약하실 날짜를 확인한 후에 원하시는 객실과 고객을 선택해주세요.</h4>
 
-<form action="/reservations/add" method="post" name="form2">
+			<form action="/reservations/add" method="post" name="form2">
+				<table style="width: 80%; margin-left: 10%;">
+					<tr style="background-color: white; border:none; margin:0;">
+						<td style="font-size: 1.2em; width: 20%;">Check In Date</td>
+			<td style="font-size: 1.2em; width: 30%;"><input type="datetime" name="indate" value="<%= indate %>" /></td>
 
-	In Date
+			<td style="font-size: 1.2em; width: 20%;">Check Out Date</td>
+			<td style="font-size: 1.2em; width: 30%;"><input type="datetime" name="outdate" value="<%= outdate %>" /></td>
+		</tr>
+		<tr style="background-color: white; border:none; margin:0;">
+			<td style="font-size: 1.2em; width: 20%; margin:0;">Room Number</td>
+			<td style="font-size: 1.2em; width: 30%;margin:0;">
+				<select class="what" name="number" style="width: 210px;">
+					<% if (numbers) { %>
+						<% numbers.forEach(function(room_number){ %>
+
+							<option value='<%= room_number.number %>'><%= room_number.number %>호/<%= room_number.type %>/<%= room_number.price %>$</option>
+						<% }) %>
+					<% } %>
+				</select>
+			</td>
+			<td style="font-size: 1.2em; width: 20%;margin:0;">Customer</td>
+			<td style="font-size: 1.2em; width: 30%;margin:0;">
+				<select class="what" name="customer" style="width: 250px;">
+						<% if (customers) { %>
+							<% customers.forEach(function(customer){ %>
+									<option value='<%= customer.id %>'>id:<%= customer.id%> name: <%= customer.name %></option>
+
+							<% }) %>
+						<% } %>
+				</select>
+			</td>
+		</tr>
+	</table>
+
+
+	<!-- In Date
 	<input type="datetime" name="indate" value="<%= indate %>" />
 	<br/>
 	Out Date
@@ -25,29 +89,31 @@ including header content which is common for all pages
 				<% numbers.forEach(function(room_number){ %>
 					<option value='<%= room_number.number %>'><%= room_number.number %>호/<%=room_number.type%>/<%=room_number.price%>$</option>
 				<% }) %>
-			<% } %>	
+			<% } %>
 	</select>
-	
+
 	<br/>
 	Customer Name
-	
+
 	<select name="customer" >
 			<% if (customers) { %>
 				<% customers.forEach(function(customer){ %>
 					<option value='<%= customer.id %>'>id:<%= customer.id%> name: <%= customer.name %></option>
-					
+
 				<% }) %>
-			<% } %>	
+			<% } %>
 	</select>
 	<br/>
-	
-	<br/>
-	
-	
-	<input type="submit" name="Submit" value="Add" />
-		
-</form>
 
+	<br/> -->
+
+
+	<input type="submit" name="Submit" value="Add" style="margin-left: 46%;"/>
+
+</form>
+</div>
+</div>
+</section>
 
 <p>views/reservations/add.ejs</p>
 <!--
